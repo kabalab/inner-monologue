@@ -75,17 +75,17 @@
 
       results.push(await timed('GET health check', async () => {
         const reply = await (await fetch(BACKEND_URL)).json();
-        return { pass: reply.ok === true && reply.sheetReachable === true, note: JSON.stringify(reply) };
+        return { pass: reply.ok === true && reply.stage === 'backend', note: JSON.stringify(reply) };
       }));
 
       results.push(await timed('POST as text/plain (the method the site will use)', async () => {
         const response = await fetch(BACKEND_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body: JSON.stringify({ ping: 'hello' })
+          body: JSON.stringify({ action: 'publicStats' })
         });
         const reply = await response.json();
-        return { pass: reply.ok === true && reply.ping === 'hello', note: JSON.stringify(reply) };
+        return { pass: reply.ok === true && typeof reply.n === 'number', note: 'public figures reply: available=' + reply.available + ', n=' + reply.n };
       }));
 
       results.push(await timed('POST as application/json (browsers should block this)', async () => {
