@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Inner Monologue (under construction)</title>
+  <style>
+    :root { color-scheme: dark; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      padding: 24px;
+      display: grid;
+      place-items: center;
+      font: 16px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif;
+      color: #e9eaf5;
+      background: radial-gradient(1200px 600px at 20% -10%, #262a63 0%, #0d0f1f 60%);
+    }
+    main { width: 100%; max-width: 680px; }
+    h1 { margin: 0 0 4px; font-size: clamp(1.8rem, 5vw, 2.6rem); line-height: 1.15; }
+    h2 { margin: 36px 0 4px; font-size: 1.1rem; }
+    p { margin: 8px 0; color: #b8bad3; }
+    button {
+      margin-top: 8px;
+      padding: 10px 18px;
+      font: inherit;
+      color: inherit;
+      background: #1c2050;
+      border: 1px solid #7b82ff;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    button:hover:not(:disabled) { background: #272c6b; }
+    button:focus-visible { outline: 3px solid #ffd479; outline-offset: 3px; }
+    button:disabled { opacity: 0.6; cursor: progress; }
+    ol { padding-left: 1.3rem; }
+    li { margin: 10px 0; }
+    code { padding: 1px 6px; font-size: 0.85em; background: #1c2050; border-radius: 5px; overflow-wrap: anywhere; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Inner Monologue</h1>
+    <p>This site is under construction. Articles about how people think, and a questionnaire, are coming soon.</p>
+
+    <h2>Connection test</h2>
+    <p>A developer check that this page can talk to the backend. It sends no personal data.</p>
+    <p>This page was loaded from <code id="origin"></code></p>
+    <button id="run" type="button">Run connection test</button>
+    <p id="status" role="status"></p>
+    <ol id="results"></ol>
+    <noscript><p>This page needs JavaScript to run the test.</p></noscript>
+  </main>
+
+  <script>
+    // Public address of the backend (a Google Apps Script web app). It is not a secret:
+    // every visitor's browser has to know it.
+    const BACKEND_URL = 'https://script.google.com/macros/s/AKfycbz2c1RQezz7TVqOln7dGVrsPB9qDX3yhTT4zZDBjXFLwbZsZbPA-TRTCPtA42xz6tgXmg/exec';
+
+    // Runs one check and records whether it passed and how long it took.
+    async function timed(label, run) {
+      const started = performance.now();
+      let outcome;
+      try {
+        outcome = await run();
+      } catch (err) {
+        outcome = { pass: false, note: (err && err.name ? err.name + ': ' : '') + (err && err.message ? err.message : String(err)) };
+      }
+      return { label: label, pass: outcome.pass, note: outcome.note, ms: Math.round(performance.now() - started) };
+    }
+
+    async function runConnectionTest() {
+      const results = [];
+
+      results.push(await timed('GET health check', async () => {
+        const reply = await (await fetch(BACKEND_URL)).json();
+        return { pass: reply.ok === true && reply.sheetReachable === true, note: JSON.stringify(reply) };
+      }));
+
+      results.push(await timed('POST as text/plain (the method the site will use)', async () => {
+        const response = await fetch(BACKEND_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({ ping: 'hello' })
+        });
+        const reply = await response.json();
+        return { pass: reply.ok === true && reply.ping === 'hello', note: JSON.stringify(reply) };
+      }));
+
+      results.push(await timed('POST as application/json (browsers should block this)', async () => {
+        try {
+          await fetch(BACKEND_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}' });
+          return { pass: false, note: 'Not blocked. Unexpected, but harmless.' };
+        } catch (err) {
+          return { pass: true, note: 'Blocked as expected (' + err.name + ').' };
+        }
+      }));
+
+      return results;
+    }
+
+    function renderResults(results) {
+      document.getElementById('results').replaceChildren(...results.map((r) => {
+        const item = document.createElement('li');
+        const verdict = document.createElement('strong');
+        verdict.textContent = (r.pass ? 'PASS' : 'FAIL') + ': ';
+        const detail = document.createElement('code');
+        detail.textContent = r.note;
+        item.append(verdict, r.label + ' (' + r.ms + ' ms) ', detail);
+        return item;
+      }));
+    }
+
+    document.getElementById('origin').textContent = location.origin;
+
+    const runButton = document.getElementById('run');
+    const statusLine = document.getElementById('status');
+    runButton.addEventListener('click', async () => {
+      runButton.disabled = true;
+      runButton.setAttribute('aria-busy', 'true');
+      statusLine.textContent = 'Running. The first call can take a few seconds.';
+      try {
+        renderResults(await runConnectionTest());
+        statusLine.textContent = 'Finished.';
+      } catch (err) {
+        statusLine.textContent = 'The test could not finish. Please try again.';
+      } finally {
+        runButton.disabled = false;
+        runButton.removeAttribute('aria-busy');
+      }
+    });
+  </script>
+</body>
+</html>
