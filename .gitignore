@@ -1,0 +1,4 @@
+# The backend code and the tests stay on this PC (and in the Apps Script project).
+# They are not published with the website.
+apps-script/
+tests/
