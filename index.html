@@ -2511,7 +2511,6 @@ function isValidEmail_(email) {
       withOptional: 'Answered the optional part',
       skippedOptional: 'Skipped it',
       perDay: 'Finished per day',
-      showEveryDay: 'Show every day',
       splits: 'Two simple splits',
       byQuestion: 'Answers by question',
       byQuestionNote: 'Real counts straight from the sheet. Nothing is hidden or rounded here, unlike the public comparison. On the tick-box questions people can choose several answers, so those counts can add up to more than the number of people.',
@@ -3829,7 +3828,7 @@ function isValidEmail_(email) {
     }
 
     function buildAdminDashboard(token) {
-      const state = { view: 'overview', stats: null, list: null, loaded: false, query: '', shown: 50, allDays: false, notice: '', detail: null, confirming: false, working: false, problem: '' };
+      const state = { view: 'overview', stats: null, list: null, loaded: false, query: '', shown: 50, notice: '', detail: null, confirming: false, working: false, problem: '' };
       const content = h('div', { class: 'admin-content' });
       const refreshButton = h('button', { type: 'button', class: 'btn btn-secondary' }, ADMIN_TEXT.refresh);
       const signOutButton = h('button', { type: 'button', class: 'btn btn-ghost' }, ADMIN_TEXT.signOut);
@@ -3854,22 +3853,15 @@ function isValidEmail_(email) {
         const stats = state.stats;
         if (stats.total === 0) return h('section', null, heading(ADMIN_TEXT.overview), h('p', null, ADMIN_TEXT.nobody));
         const days = state.list === null ? [] : daysOf(state.list);
-        const shownDays = state.allDays ? days : days.slice(0, 14);
-        const everyDay = h('button', { type: 'button', class: 'btn btn-ghost' }, ADMIN_TEXT.showEveryDay);
-        everyDay.addEventListener('click', () => {
-          state.allDays = true;
-          render(false);
-        });
         return h('section', null,
           heading(ADMIN_TEXT.overview),
           h('div', { class: 'admin-stats' }, statCard(stats.total, ADMIN_TEXT.finished), statCard(stats.optionalCompleted, ADMIN_TEXT.withOptional), statCard(stats.optionalSkipped, ADMIN_TEXT.skippedOptional)),
           days.length === 0 ? null : h('div', null,
             h('h3', { class: 'results-sub' }, ADMIN_TEXT.perDay),
-            adminTable(['Date', 'People'], shownDays.map((day) => {
+            adminTable(['Date', 'People'], days.map((day) => {
               const [y, m, d] = day.key.split('-').map(Number);
               return h('tr', null, h('td', null, new Date(y, m - 1, d).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })), h('td', { class: 'num' }, String(day.count)));
-            })),
-            days.length > shownDays.length ? h('div', { class: 'cta-row' }, everyDay) : null),
+            }))),
           h('h3', { class: 'results-sub' }, ADMIN_TEXT.splits),
           adminTable(['Split', 'Group', 'People'], splitRows(stats).map((row) => h('tr', null, h('td', null, row.split), h('td', null, row.group), h('td', { class: 'num' }, String(row.count))))),
           h('h3', { class: 'results-sub' }, ADMIN_TEXT.byQuestion),
