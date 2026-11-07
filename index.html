@@ -80,6 +80,7 @@
       position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
       overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
     }
+    [hidden] { display: none !important; }
     .skip-link {
       position: fixed; left: 12px; top: 12px; z-index: 100;
       padding: 10px 16px; border-radius: 10px;
@@ -203,6 +204,7 @@
 
     .page-narrow { max-width: 760px; }
     .page-head { margin-bottom: 28px; }
+    .page-head h1 { margin-bottom: 20px; }
     .eyebrow {
       margin: 0 0 12px; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.14em;
       text-transform: uppercase; color: var(--cyan-soft);
@@ -333,6 +335,146 @@
     .points .card-icon { width: 42px; height: 42px; margin: 0; }
     .points h3 { font-size: 1.05rem; }
     .points p { margin: 4px 0 0; color: var(--text-2); font-size: 0.98rem; }
+
+    /* =====================================================================
+       4b. LEARN PAGE, SEARCH AND ARTICLES
+       ===================================================================== */
+    .ev-established { --ev-color: var(--ok); }
+    .ev-supported { --ev-color: var(--cyan); }
+    .ev-proposed { --ev-color: var(--warn); }
+    .ev-unknown { --ev-color: var(--violet); }
+
+    .page-learn .page-head { max-width: 46em; }
+    .search { max-width: 640px; margin-top: 8px; }
+    .search label { display: block; margin-bottom: 8px; font-weight: 700; }
+    .search-field { position: relative; }
+    .search-field > .icon { position: absolute; left: 16px; top: 50%; width: 20px; height: 20px; margin-top: -10px; color: var(--text-3); pointer-events: none; }
+    .search-input {
+      width: 100%; min-height: 54px; padding: 12px 56px 12px 48px;
+      font: inherit; color: var(--text); background: var(--surface);
+      border: 1px solid var(--line-input); border-radius: 14px;
+      -webkit-appearance: none; appearance: none;
+    }
+    .search-input::placeholder { color: var(--text-3); opacity: 1; }
+    .search-input::-webkit-search-cancel-button { display: none; }
+    .search-input:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; border-radius: 14px; }
+    .search-clear {
+      position: absolute; right: 5px; top: 50%; display: grid; place-items: center;
+      width: 44px; height: 44px; margin-top: -22px; padding: 0; cursor: pointer;
+      color: var(--text-2); background: transparent; border: 0; border-radius: 12px;
+    }
+    .search-clear:hover { color: var(--text); background: rgba(255, 255, 255, 0.08); }
+    .search-clear .icon { width: 20px; height: 20px; }
+    .search-status { min-height: 1.6em; margin: 10px 0 0; color: var(--text-3); font-size: 0.93rem; }
+
+    .results { margin-top: 28px; }
+    .results .grid { margin-top: 0; }
+    .results .notice { flex-direction: column; align-items: flex-start; gap: 12px; }
+    .results .notice p { margin: 0; overflow-wrap: anywhere; }
+    .group { margin-top: 64px; }
+    .group-head { display: flex; gap: 18px; align-items: flex-start; }
+    .group-head .card-icon { margin: 4px 0 0; }
+    .group-head h2 { font-size: clamp(1.45rem, 1.2vw + 1.1rem, 1.9rem); }
+    .group-head p { max-width: 44em; margin: 8px 0 0; color: var(--text-2); }
+    .group .grid { margin-top: 24px; }
+    .card .card-meta { margin: 0 0 10px; color: var(--text-3); font-size: 0.85rem; font-weight: 600; letter-spacing: 0.02em; }
+    .article-card h2, .article-card h3 { font-size: 1.2rem; }
+
+    .key { margin-top: 84px; }
+    .key > h2, .key > p { max-width: 46em; }
+    .key > p { margin-top: 14px; color: var(--text-2); }
+    .legend { display: grid; gap: 14px; margin: 24px 0 0; padding: 0; list-style: none; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); }
+    .legend li {
+      padding: 16px 18px; color: var(--text-2); font-size: 0.95rem; line-height: 1.55;
+      background: var(--surface); border: 1px solid var(--line); border-top: 4px solid var(--ev-color); border-radius: var(--radius-sm);
+    }
+    .legend strong { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; color: var(--text); font-size: 1rem; }
+    .legend strong .icon { width: 20px; height: 20px; color: var(--ev-color); }
+
+    /* One article */
+    .article-wrap { max-width: 760px; }
+    .breadcrumb ol { display: flex; flex-wrap: wrap; gap: 4px 8px; margin: 0 0 24px; padding: 0; list-style: none; color: var(--text-3); font-size: 0.93rem; }
+    .breadcrumb li + li::before { content: "\203A"; margin-right: 8px; }
+    .article-head h1 { font-size: clamp(2rem, 3.4vw + 0.9rem, 3.2rem); }
+    .article-head .lead { margin-top: 20px; max-width: none; }
+    .article-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 18px; margin: 18px 0 0; color: var(--text-3); font-size: 0.93rem; }
+    .article-meta span { display: inline-flex; align-items: center; gap: 8px; }
+    .article-meta .icon { width: 18px; height: 18px; }
+
+    .takeaways {
+      margin-top: 32px; padding: 22px 24px; border: 1px solid var(--line-strong); border-radius: var(--radius);
+      background: linear-gradient(135deg, rgba(143, 130, 255, 0.14), rgba(111, 220, 255, 0.06));
+    }
+    .takeaways h2 { margin-bottom: 12px; font-size: 1.1rem; letter-spacing: 0; }
+    .takeaways ul { margin: 0; padding-left: 1.2em; color: var(--text-2); }
+    .takeaways li + li { margin-top: 8px; }
+    .toc { margin-top: 28px; }
+    .toc-title { margin: 0 0 8px; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--cyan-soft); }
+    .toc ol { margin: 0; padding-left: 1.4em; color: var(--text-3); }
+    .toc li { padding: 1px 0; }
+    .linklike { padding: 4px 0; font: inherit; color: var(--violet-soft); text-align: left; text-decoration: underline; text-underline-offset: 0.22em; background: none; border: 0; cursor: pointer; }
+    .linklike:hover { color: var(--cyan-soft); }
+
+    .prose { margin-top: 40px; font-size: 1.125rem; line-height: 1.8; color: var(--text-2); }
+    .prose h2 { margin: 2.1em 0 0.6em; font-size: clamp(1.45rem, 1.2vw + 1.1rem, 1.9rem); color: var(--text); }
+    .prose h2:first-child { margin-top: 0; }
+    .prose p { margin: 0 0 1.2em; }
+    .prose ul { margin: 0 0 1.3em; padding-left: 1.3em; }
+    .prose li + li { margin-top: 0.5em; }
+    .prose strong { color: var(--text); }
+    .callout {
+      margin: 1.8em 0; padding: 18px 22px; font-size: 1.02rem; line-height: 1.7;
+      background: rgba(255, 255, 255, 0.04); border: 1px solid var(--line);
+      border-left: 4px solid var(--callout, var(--cyan)); border-radius: var(--radius-sm);
+    }
+    .callout-distinction { --callout: var(--violet); }
+    .callout .callout-label { display: flex; align-items: center; gap: 8px; margin: 0 0 8px; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-2); }
+    .callout .callout-label .icon { width: 18px; height: 18px; color: var(--callout, var(--cyan)); }
+    .callout .callout-title { margin: 0 0 6px; font-weight: 700; color: var(--text); }
+    .callout p:last-child { margin-bottom: 0; }
+
+    .cites { margin-left: 0.1em; font-size: 0.78em; line-height: 0; vertical-align: super; white-space: nowrap; color: var(--text-3); }
+    .cite { padding: 0 1px; font: inherit; color: var(--cyan-soft); text-decoration: underline; text-underline-offset: 0.18em; background: none; border: 0; cursor: pointer; }
+    .cite:hover { color: var(--text); }
+
+    .evidence { margin-top: 64px; }
+    .evidence-lead { margin-top: 14px; color: var(--text-2); }
+    .evidence-grid { display: grid; gap: 16px; margin-top: 24px; }
+    .ev { padding: 20px 22px; background: var(--surface); border: 1px solid var(--line); border-top: 4px solid var(--ev-color); border-radius: var(--radius-sm); }
+    .ev .ev-label { display: flex; align-items: center; gap: 10px; font-size: 1.1rem; letter-spacing: 0; }
+    .ev .ev-label .icon { width: 22px; height: 22px; color: var(--ev-color); }
+    .ev .ev-note { margin: 6px 0 14px; color: var(--text-3); font-size: 0.9rem; }
+    .ev ul { margin: 0; padding-left: 1.2em; color: var(--text-2); font-size: 1rem; line-height: 1.65; }
+    .ev li + li { margin-top: 10px; }
+
+    .refs { margin-top: 64px; }
+    .refs-note { margin-top: 14px; color: var(--text-3); font-size: 0.95rem; }
+    .ref-list { margin: 20px 0 0; padding-left: 1.7em; color: var(--text-2); font-size: 0.97rem; line-height: 1.6; }
+    .ref-list li { margin-bottom: 16px; padding-left: 4px; overflow-wrap: anywhere; }
+    .ref-list a { font-weight: 600; }
+    .ref-back { display: block; margin-top: 2px; font-size: 0.9rem; }
+    .disclaimer { margin-top: 48px; padding-top: 22px; border-top: 1px solid var(--line); color: var(--text-3); font-size: 0.93rem; }
+
+    .related { margin-top: 72px; }
+    .related .grid { margin-top: 24px; }
+    .pager { display: grid; gap: 14px; margin-top: 48px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); }
+    .pager-link {
+      display: flex; flex-direction: column; gap: 4px; padding: 16px 20px; color: var(--text); text-decoration: none;
+      background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm);
+      transition: transform 0.25s var(--ease), border-color 0.25s;
+    }
+    .pager-link:hover { color: var(--text); border-color: var(--line-strong); transform: translateY(-3px); }
+    .pager-dir { display: inline-flex; align-items: center; gap: 8px; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3); }
+    .pager-dir .icon { width: 16px; height: 16px; }
+    .pager-prev .pager-dir .icon { transform: scaleX(-1); }
+    .pager-title { font-weight: 650; }
+    @media (min-width: 640px) { .pager-next { align-items: flex-end; text-align: right; } }
+    @media (max-width: 560px) {
+      .takeaways { padding: 18px; }
+      .prose { font-size: 1.06rem; }
+      .group-head { flex-direction: column; gap: 12px; }
+      .group-head .card-icon { margin: 0; }
+    }
 
     /* =====================================================================
        5. FOOTER
@@ -468,7 +610,14 @@
       compare: '<circle cx="9" cy="12" r="6"/><circle cx="15" cy="12" r="6"/>',
       arrow: '<path d="M5 12h14M13.5 6l6 6-6 6"/>',
       shield: '<path d="M12 3l8 3v6c0 4.4-3.1 7.7-8 9-4.9-1.3-8-4.6-8-9V6l8-3z"/>',
-      spark: '<path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3z"/>'
+      spark: '<path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3z"/>',
+      check: '<circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.7 2.7L16 9.5"/>',
+      flask: '<path d="M9 3h6M10 3v6.2L4.8 18.3A2 2 0 0 0 6.5 21h11a2 2 0 0 0 1.7-2.7L14 9.2V3"/><path d="M7.5 15h9"/>',
+      bulb: '<path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.6 10.8c.6.5 1.1 1.2 1.1 2V16h5v-.2c0-.8.5-1.5 1.1-2A6 6 0 0 0 12 3z"/>',
+      question: '<circle cx="12" cy="12" r="9"/><path d="M9.6 9.4a2.5 2.5 0 1 1 3.6 2.2c-.8.4-1.2 1-1.2 1.9"/><path d="M12 17h.01"/>',
+      search: '<circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/>',
+      clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+      close: '<path d="M6 6l12 12M18 6L6 18"/>'
     };
     function icon(name) {
       const span = h('span', { class: 'icon', 'aria-hidden': 'true' });
@@ -486,19 +635,932 @@
     // =====================================================================
     // 3. CONTENT
     // =====================================================================
-    const TOPICS = [
-      { icon: 'chat', title: 'Inner monologues', text: 'What it means to hear your own thoughts, and why some people report a lot of inner speech and others very little.' },
-      { icon: 'layers', title: 'Types of thinking', text: 'Words, pictures, spatial layouts, feelings and abstract ideas: different ways thought can show up, often mixed together.' },
-      { icon: 'image', title: 'Visual thinking', text: 'Mental imagery from vivid to absent, including what researchers call aphantasia and hyperphantasia.' },
-      { icon: 'voice', title: 'Internal speech', text: 'Is it a voice, a sense of words, or something else? Whose voice is it, and can it hold a conversation?' },
-      { icon: 'moon', title: 'Memory and dreams', text: 'How people replay the past and experience dreams: through images, words, feelings and other sensations.' },
-      { icon: 'compare', title: 'Why we differ', text: 'What researchers know about differences in conscious experience, and what is still uncertain.' }
+    // BEGIN CONTENT DATA
+    // The six topic areas, in reading order. They appear on the home page and on the Learn page.
+    const TOPIC_GROUPS = [
+      { id: 'inner-monologues', icon: 'chat', title: 'Inner monologues', text: 'What it means to hear your own thoughts, and why some people report a lot of inner speech and others very little.' },
+      { id: 'types-of-thinking', icon: 'layers', title: 'Types of thinking', text: 'Words, pictures, spatial layouts, feelings and abstract ideas: different ways thought can show up, often mixed together.' },
+      { id: 'visual-thinking', icon: 'image', title: 'Visual thinking', text: 'Mental imagery from vivid to absent, including what researchers call aphantasia and hyperphantasia.' },
+      { id: 'internal-speech', icon: 'voice', title: 'Internal speech', text: 'Is it a voice, a sense of words, or something else? Whose voice is it, and can it hold a conversation?' },
+      { id: 'memory-and-dreams', icon: 'moon', title: 'Memory and dreams', text: 'How people replay the past and experience dreams: through images, words, feelings and other sensations.' },
+      { id: 'why-we-differ', icon: 'compare', title: 'Why we differ', text: 'What researchers know about differences in conscious experience, and what is still uncertain.' }
     ];
 
-    // Articles are added here in the next stage. Each one will have a slug (its web address),
-    // a title and its content, and will be reachable at  #/learn/<slug>.
-    const ARTICLES = [];
-    // @@ARTICLES-END@@
+    // How each article labels how firm its claims are. The label is always written out in words.
+    const EVIDENCE_LEVELS = [
+      { id: 'established', icon: 'check', label: 'Well established', text: 'Supported by many studies and widely accepted by researchers.' },
+      { id: 'supported', icon: 'flask', label: 'Supported, still being investigated', text: 'Backed by good studies, but not settled. Often based on small or specific groups of people.' },
+      { id: 'proposed', icon: 'bulb', label: 'Proposed explanation', text: 'An idea researchers put forward to explain what they have seen. It has not been proven.' },
+      { id: 'unknown', icon: 'question', label: 'Not yet understood', text: 'A question researchers have not been able to answer yet.' }
+    ];
+
+    // Every source cited by an article. Each one was looked up in Crossref and its DOI link checked.
+    const REFERENCES = {
+      'alderson-day-2015': { short: 'Alderson-Day & Fernyhough, 2015', authors: 'Alderson-Day, B., & Fernyhough, C.', year: 2015, title: 'Inner speech: Development, cognitive functions, phenomenology, and neurobiology', source: 'Psychological Bulletin', detail: '141(5), 931–965', doi: '10.1037/bul0000021' },
+      'heavey-2008': { short: 'Heavey & Hurlburt, 2008', authors: 'Heavey, C. L., & Hurlburt, R. T.', year: 2008, title: 'The phenomena of inner experience', source: 'Consciousness and Cognition', detail: '17(3), 798–810', doi: '10.1016/j.concog.2007.12.006' },
+      'hurlburt-2013': { short: 'Hurlburt et al., 2013', authors: 'Hurlburt, R. T., Heavey, C. L., & Kelsey, J. M.', year: 2013, title: 'Toward a phenomenology of inner speaking', source: 'Consciousness and Cognition', detail: '22(4), 1477–1494', doi: '10.1016/j.concog.2013.10.003' },
+      'hurlburt-akhter-2008': { short: 'Hurlburt & Akhter, 2008', authors: 'Hurlburt, R. T., & Akhter, S. A.', year: 2008, title: 'Unsymbolized thinking', source: 'Consciousness and Cognition', detail: '17(4), 1364–1374', doi: '10.1016/j.concog.2008.03.021' },
+      'hurlburt-heavey-2001': { short: 'Hurlburt & Heavey, 2001', authors: 'Hurlburt, R. T., & Heavey, C. L.', year: 2001, title: 'Telling what we know: Describing inner experience', source: 'Trends in Cognitive Sciences', detail: '5(9), 400–403', doi: '10.1016/s1364-6613(00)01724-1' },
+      'nedergaard-2024': { short: 'Nedergaard & Lupyan, 2024', authors: 'Nedergaard, J. S. K., & Lupyan, G.', year: 2024, title: 'Not everybody has an inner voice: Behavioral consequences of anendophasia', source: 'Psychological Science', detail: '35(7), 780–797', doi: '10.1177/09567976241243004' },
+      'lupyan-2023': { short: 'Lupyan et al., 2023', authors: 'Lupyan, G., Uchiyama, R., Thompson, B., & Casasanto, D.', year: 2023, title: 'Hidden differences in phenomenal experience', source: 'Cognitive Science', detail: '47(1), Article e13239', doi: '10.1111/cogs.13239' },
+      'lupyan-2020': { short: 'Lupyan et al., 2020', authors: 'Lupyan, G., Abdel Rahman, R., Boroditsky, L., & Clark, A.', year: 2020, title: 'Effects of language on visual perception', source: 'Trends in Cognitive Sciences', detail: '24(11), 930–944', doi: '10.1016/j.tics.2020.08.005' },
+      'mccarthy-jones-2011': { short: 'McCarthy-Jones & Fernyhough, 2011', authors: 'McCarthy-Jones, S., & Fernyhough, C.', year: 2011, title: 'The varieties of inner speech: Links between quality of inner speech and psychopathological variables in a sample of young adults', source: 'Consciousness and Cognition', detail: '20(4), 1586–1593', doi: '10.1016/j.concog.2011.08.005' },
+      'perrone-2014': { short: 'Perrone-Bertolotti et al., 2014', authors: 'Perrone-Bertolotti, M., Rapin, L., Lachaux, J.-P., Baciu, M., & Lœvenbruck, H.', year: 2014, title: 'What is that little voice inside my head? Inner speech phenomenology, its role in cognitive performance, and its relation to self-monitoring', source: 'Behavioural Brain Research', detail: '261, 220–239', doi: '10.1016/j.bbr.2013.12.034' },
+      'alexander-2008': { short: 'Alexander & Nygaard, 2008', authors: 'Alexander, J. D., & Nygaard, L. C.', year: 2008, title: 'Reading voices and hearing text: Talker-specific auditory imagery in reading', source: 'Journal of Experimental Psychology: Human Perception and Performance', detail: '34(2), 446–459', doi: '10.1037/0096-1523.34.2.446' },
+      'kurby-2009': { short: 'Kurby et al., 2009', authors: 'Kurby, C. A., Magliano, J. P., & Rapp, D. N.', year: 2009, title: 'Those voices in your head: Activation of auditory images during reading', source: 'Cognition', detail: '112(3), 457–461', doi: '10.1016/j.cognition.2009.05.007' },
+      'kross-2014': { short: 'Kross et al., 2014', authors: 'Kross, E., Bruehlman-Senecal, E., Park, J., Burson, A., Dougherty, A., Shablack, H., et al.', year: 2014, title: 'Self-talk as a regulatory mechanism: How you do it matters', source: 'Journal of Personality and Social Psychology', detail: '106(2), 304–324', doi: '10.1037/a0035173' },
+      'baddeley-2003': { short: 'Baddeley, 2003', authors: 'Baddeley, A.', year: 2003, title: 'Working memory: Looking back and looking forward', source: 'Nature Reviews Neuroscience', detail: '4(10), 829–839', doi: '10.1038/nrn1201' },
+      'pearson-2019': { short: 'Pearson, 2019', authors: 'Pearson, J.', year: 2019, title: 'The human imagination: The cognitive neuroscience of visual mental imagery', source: 'Nature Reviews Neuroscience', detail: '20(10), 624–634', doi: '10.1038/s41583-019-0202-9' },
+      'zeman-2010': { short: 'Zeman et al., 2010', authors: 'Zeman, A. Z. J., Della Sala, S., Torrens, L. A., Gountouna, V.-E., McGonigle, D. J., & Logie, R. H.', year: 2010, title: 'Loss of imagery phenomenology with intact visuo-spatial task performance: A case of ‘blind imagination’', source: 'Neuropsychologia', detail: '48(1), 145–155', doi: '10.1016/j.neuropsychologia.2009.08.024' },
+      'zeman-2020': { short: 'Zeman et al., 2020', authors: 'Zeman, A., Milton, F., Della Sala, S., Dewar, M., Frayling, T., Gaddum, J., et al.', year: 2020, title: 'Phantasia—The psychological significance of lifelong visual imagery vividness extremes', source: 'Cortex', detail: '130, 426–440', doi: '10.1016/j.cortex.2020.04.003' },
+      'zeman-2024': { short: 'Zeman, 2024', authors: 'Zeman, A.', year: 2024, title: 'Aphantasia and hyperphantasia: Exploring imagery vividness extremes', source: 'Trends in Cognitive Sciences', detail: '28(5), 467–480', doi: '10.1016/j.tics.2024.02.007' },
+      'keogh-2018': { short: 'Keogh & Pearson, 2018', authors: 'Keogh, R., & Pearson, J.', year: 2018, title: 'The blind mind: No sensory visual imagery in aphantasia', source: 'Cortex', detail: '105, 53–60', doi: '10.1016/j.cortex.2017.10.012' },
+      'keogh-2020': { short: 'Keogh et al., 2020', authors: 'Keogh, R., Bergmann, J., & Pearson, J.', year: 2020, title: 'Cortical excitability controls the strength of mental imagery', source: 'eLife', detail: '9, Article e50232', doi: '10.7554/elife.50232' },
+      'dawes-2020': { short: 'Dawes et al., 2020', authors: 'Dawes, A. J., Keogh, R., Andrillon, T., & Pearson, J.', year: 2020, title: 'A cognitive profile of multi-sensory imagery, memory and dreaming in aphantasia', source: 'Scientific Reports', detail: '10(1), Article 10022', doi: '10.1038/s41598-020-65705-7' },
+      'bainbridge-2021': { short: 'Bainbridge et al., 2021', authors: 'Bainbridge, W. A., Pounder, Z., Eardley, A. F., & Baker, C. I.', year: 2021, title: 'Quantifying aphantasia through drawing: Those without visual imagery show deficits in object but not spatial memory', source: 'Cortex', detail: '135, 159–172', doi: '10.1016/j.cortex.2020.11.014' },
+      'kay-2022': { short: 'Kay et al., 2022', authors: 'Kay, L., Keogh, R., Andrillon, T., & Pearson, J.', year: 2022, title: 'The pupillary light response as a physiological index of aphantasia, sensory and phenomenological imagery strength', source: 'eLife', detail: '11, Article e72484', doi: '10.7554/elife.72484' },
+      'milton-2021': { short: 'Milton et al., 2021', authors: 'Milton, F., Fulford, J., Dance, C., Gaddum, J., Heuerman-Williamson, B., Jones, K., et al.', year: 2021, title: 'Behavioral and neural signatures of visual imagery vividness extremes: Aphantasia versus hyperphantasia', source: 'Cerebral Cortex Communications', detail: '2(2), Article tgab035', doi: '10.1093/texcom/tgab035' },
+      'dijkstra-2019': { short: 'Dijkstra et al., 2019', authors: 'Dijkstra, N., Bosch, S. E., & van Gerven, M. A. J.', year: 2019, title: 'Shared neural mechanisms of visual perception and imagery', source: 'Trends in Cognitive Sciences', detail: '23(5), 423–434', doi: '10.1016/j.tics.2019.02.004' },
+      'pylyshyn-2002': { short: 'Pylyshyn, 2002', authors: 'Pylyshyn, Z. W.', year: 2002, title: 'Mental imagery: In search of a theory', source: 'Behavioral and Brain Sciences', detail: '25(2), 157–182', doi: '10.1017/s0140525x02000043' },
+      'pearson-2011': { short: 'Pearson et al., 2011', authors: 'Pearson, J., Rademaker, R. L., & Tong, F.', year: 2011, title: 'Evaluating the mind’s eye: The metacognition of visual imagery', source: 'Psychological Science', detail: '22(12), 1535–1542', doi: '10.1177/0956797611417134' },
+      'marks-1973': { short: 'Marks, 1973', authors: 'Marks, D. F.', year: 1973, title: 'Visual imagery differences in the recall of pictures', source: 'British Journal of Psychology', detail: '64(1), 17–24', doi: '10.1111/j.2044-8295.1973.tb01322.x' },
+      'galton-1880': { short: 'Galton, 1880', authors: 'Galton, F.', year: 1880, title: 'Statistics of mental imagery', source: 'Mind', detail: 'os-V(19), 301–318', doi: '10.1093/mind/os-v.19.301' },
+      'kozhevnikov-2005': { short: 'Kozhevnikov et al., 2005', authors: 'Kozhevnikov, M., Kosslyn, S., & Shephard, J.', year: 2005, title: 'Spatial versus object visualizers: A new characterization of visual cognitive style', source: 'Memory & Cognition', detail: '33(4), 710–726', doi: '10.3758/bf03195337' },
+      'hubbard-2010': { short: 'Hubbard, 2010', authors: 'Hubbard, T. L.', year: 2010, title: 'Auditory imagery: Empirical findings', source: 'Psychological Bulletin', detail: '136(2), 302–329', doi: '10.1037/a0018436' },
+      'pashler-2008': { short: 'Pashler et al., 2008', authors: 'Pashler, H., McDaniel, M., Rohrer, D., & Bjork, R.', year: 2008, title: 'Learning styles: Concepts and evidence', source: 'Psychological Science in the Public Interest', detail: '9(3), 105–119', doi: '10.1111/j.1539-6053.2009.01038.x' },
+      'nisbett-1977': { short: 'Nisbett & Wilson, 1977', authors: 'Nisbett, R. E., & Wilson, T. D.', year: 1977, title: 'Telling more than we can know: Verbal reports on mental processes', source: 'Psychological Review', detail: '84(3), 231–259', doi: '10.1037/0033-295x.84.3.231' },
+      'schwitzgebel-2008': { short: 'Schwitzgebel, 2008', authors: 'Schwitzgebel, E.', year: 2008, title: 'The unreliability of naive introspection', source: 'The Philosophical Review', detail: '117(2), 245–273', doi: '10.1215/00318108-2007-037' },
+      'evans-stanovich-2013': { short: 'Evans & Stanovich, 2013', authors: 'Evans, J. St. B. T., & Stanovich, K. E.', year: 2013, title: 'Dual-process theories of higher cognition: Advancing the debate', source: 'Perspectives on Psychological Science', detail: '8(3), 223–241', doi: '10.1177/1745691612460685' },
+      'brown-mcneill-1966': { short: 'Brown & McNeill, 1966', authors: 'Brown, R., & McNeill, D.', year: 1966, title: 'The ‘tip of the tongue’ phenomenon', source: 'Journal of Verbal Learning and Verbal Behavior', detail: '5(4), 325–337', doi: '10.1016/s0022-5371(66)80040-3' },
+      'tulving-2002': { short: 'Tulving, 2002', authors: 'Tulving, E.', year: 2002, title: 'Episodic memory: From mind to brain', source: 'Annual Review of Psychology', detail: '53(1), 1–25', doi: '10.1146/annurev.psych.53.100901.135114' },
+      'conway-2000': { short: 'Conway & Pleydell-Pearce, 2000', authors: 'Conway, M. A., & Pleydell-Pearce, C. W.', year: 2000, title: 'The construction of autobiographical memories in the self-memory system', source: 'Psychological Review', detail: '107(2), 261–288', doi: '10.1037/0033-295x.107.2.261' },
+      'palombo-2015': { short: 'Palombo et al., 2015', authors: 'Palombo, D. J., Alain, C., Söderlund, H., Khuu, W., & Levine, B.', year: 2015, title: 'Severely deficient autobiographical memory (SDAM) in healthy adults: A new mnemonic syndrome', source: 'Neuropsychologia', detail: '72, 105–118', doi: '10.1016/j.neuropsychologia.2015.04.012' },
+      'rubin-2006': { short: 'Rubin, 2006', authors: 'Rubin, D. C.', year: 2006, title: 'The basic-systems model of episodic memory', source: 'Perspectives on Psychological Science', detail: '1(4), 277–311', doi: '10.1111/j.1745-6916.2006.00017.x' },
+      'greenberg-2014': { short: 'Greenberg & Knowlton, 2014', authors: 'Greenberg, D. L., & Knowlton, B. J.', year: 2014, title: 'The role of visual imagery in autobiographical memory', source: 'Memory & Cognition', detail: '42(6), 922–934', doi: '10.3758/s13421-014-0402-5' },
+      'schacter-addis-2007': { short: 'Schacter & Addis, 2007', authors: 'Schacter, D. L., & Addis, D. R.', year: 2007, title: 'The cognitive neuroscience of constructive memory: Remembering the past and imagining the future', source: 'Philosophical Transactions of the Royal Society B: Biological Sciences', detail: '362(1481), 773–786', doi: '10.1098/rstb.2007.2087' },
+      'nir-tononi-2010': { short: 'Nir & Tononi, 2010', authors: 'Nir, Y., & Tononi, G.', year: 2010, title: 'Dreaming and the brain: From phenomenology to neurophysiology', source: 'Trends in Cognitive Sciences', detail: '14(2), 88–100', doi: '10.1016/j.tics.2009.12.001' },
+      'siclari-2017': { short: 'Siclari et al., 2017', authors: 'Siclari, F., Baird, B., Perogamvros, L., Bernardi, G., LaRocque, J. J., Riedner, B., et al.', year: 2017, title: 'The neural correlates of dreaming', source: 'Nature Neuroscience', detail: '20(6), 872–878', doi: '10.1038/nn.4545' },
+      'meaidi-2014': { short: 'Meaidi et al., 2014', authors: 'Meaidi, A., Jennum, P., Ptito, M., & Kupers, R.', year: 2014, title: 'The sensory construction of dreams and nightmare frequency in congenitally blind and late blind individuals', source: 'Sleep Medicine', detail: '15(5), 586–595', doi: '10.1016/j.sleep.2013.12.008' },
+      'blagrove-2010': { short: 'Blagrove & Pace-Schott, 2010', authors: 'Blagrove, M., & Pace-Schott, E. F.', year: 2010, title: 'Trait and neurobiological correlates of individual differences in dream recall and dream content', source: 'International Review of Neurobiology', detail: '92, 155–180', doi: '10.1016/s0074-7742(10)92008-4' },
+      'schredl-2003': { short: 'Schredl & Hofmann, 2003', authors: 'Schredl, M., & Hofmann, F.', year: 2003, title: 'Continuity between waking activities and dream activities', source: 'Consciousness and Cognition', detail: '12(2), 298–308', doi: '10.1016/s1053-8100(02)00072-7' },
+      'henrich-2010': { short: 'Henrich et al., 2010', authors: 'Henrich, J., Heine, S. J., & Norenzayan, A.', year: 2010, title: 'The weirdest people in the world?', source: 'Behavioral and Brain Sciences', detail: '33(2–3), 61–83', doi: '10.1017/s0140525x0999152x' },
+      'ross-1977': { short: 'Ross et al., 1977', authors: 'Ross, L., Greene, D., & House, P.', year: 1977, title: 'The “false consensus effect”: An egocentric bias in social perception and attribution processes', source: 'Journal of Experimental Social Psychology', detail: '13(3), 279–301', doi: '10.1016/0022-1031(77)90049-x' },
+      'csikszentmihalyi-1987': { short: 'Csikszentmihalyi & Larson, 1987', authors: 'Csikszentmihalyi, M., & Larson, R.', year: 1987, title: 'Validity and reliability of the Experience-Sampling Method', source: 'The Journal of Nervous and Mental Disease', detail: '175(9), 526–536', doi: '10.1097/00005053-198709000-00004' },
+      'langland-hassan-2018': { short: 'Langland-Hassan & Vicente, 2018', authors: 'Langland-Hassan, P., & Vicente, A. (Eds.).', year: 2018, title: 'Inner speech: New voices', kind: 'book', source: 'Oxford University Press', doi: '10.1093/oso/9780198796640.001.0001' },
+      'winsler-2009': { short: 'Winsler et al., 2009', authors: 'Winsler, A., Fernyhough, C., & Montero, I. (Eds.).', year: 2009, title: 'Private speech, executive functioning, and the development of verbal self-regulation', kind: 'book', source: 'Cambridge University Press', doi: '10.1017/cbo9780511581533' },
+      'hurlburt-heavey-2006': { short: 'Hurlburt & Heavey, 2006', authors: 'Hurlburt, R. T., & Heavey, C. L.', year: 2006, title: 'Exploring inner experience: The descriptive experience sampling method', kind: 'book', source: 'John Benjamins', doi: '10.1075/aicr.64' },
+      'hurlburt-schwitzgebel-2007': { short: 'Hurlburt & Schwitzgebel, 2007', authors: 'Hurlburt, R. T., & Schwitzgebel, E.', year: 2007, title: 'Describing inner experience? Proponent meets skeptic', kind: 'book', source: 'MIT Press', doi: '10.7551/mitpress/7517.001.0001' }
+    };
+
+    // The articles. Text can contain {{reference-key}} citations, [[article-slug|link text]] links
+    // and **bold**. Each article's address is  #/learn/<slug>.
+    const ARTICLES = [
+      {
+        slug: 'what-is-an-inner-monologue',
+        group: 'inner-monologues',
+        title: 'What is an inner monologue?',
+        description: 'What researchers call inner speech, what it is like for people who have it, how often it turns up in everyday moments, and why it varies so much between people.',
+        keywords: ['inner monologue', 'inner speech', 'inner voice', 'verbal thinking', 'self-talk', 'silent speech', 'covert speech', 'hearing your thoughts', 'voice in your head', 'thinking in words', 'talking to yourself'],
+        lead: 'Some people describe a voice in their head that narrates, plans, nags or comments through the day. Researchers call this experience inner speech. It is real and well studied, but it turns out to be less constant, less like hearing a voice and less uniform from person to person than the word “monologue” suggests.',
+        takeaways: [
+          'Researchers call the experience of thinking in words inner speech, or sometimes covert speech or verbal thinking. “Inner monologue” is the everyday name for it.',
+          'When people describe it carefully, it is often like speaking in their own voice, but with no sound being produced.',
+          'Inner speech is not present in every moment, and people differ a great deal in how much of it they report.',
+          'Reviews link inner speech to working memory, planning and self-monitoring, and to how children develop self-control. The details are still being worked out.'
+        ],
+        body: [
+          { type: 'h2', text: 'A name for a familiar experience' },
+          { type: 'p', text: 'If you have ever silently rehearsed what you were about to say, read a sentence to yourself without moving your lips, or caught yourself thinking “I really should get going,” you were using what researchers call inner speech. They also call it covert speech or verbal thinking. In everyday language it is the inner voice, the voice in your head or the inner monologue.{{alderson-day-2015}}' },
+          { type: 'p', text: 'Interest in the topic is long-standing. A major review notes that inner speech has been implicated in theories of cognitive development, speech monitoring, executive function (the mental skills used to plan and control what you do) and mental health. It also notes that approaches to studying inner speech had remained “diffuse and largely unintegrated.”{{alderson-day-2015}} For a wider introduction, a 2018 edited volume collects essays on inner speech by philosophers and psychologists.{{langland-hassan-2018}}' },
+          { type: 'h2', text: 'What it is like for the person who has it' },
+          { type: 'p', text: 'One of the most careful descriptions comes from a research group that developed a method called Descriptive Experience Sampling. Participants carry a device that beeps at random moments during the day. At each beep they note what was in their experience just before the sound, and later an interviewer helps them describe it in detail.{{hurlburt-heavey-2006}}' },
+          { type: 'p', text: 'From this work the group concludes that inner speaking does occur in many moments of everyday experience, but certainly not in all of them. Most commonly, they report, people experience it as speaking in their own naturally inflected voice (with the everyday rhythm and emphasis of speech) but with no sound being produced. They also describe wide-ranging variations on that basic pattern, and large differences between people in how often it happens.{{hurlburt-2013}}' },
+          { type: 'example', title: 'An imagined moment', text: 'Imagine two people washing dishes when a random beep sounds. The first was silently saying “did I lock the door?” in her own voice, with no sound at all. The second was picturing the front door and feeling a flicker of worry, without any words. Both were thinking about the same thing, but only one was using inner speech. This scene is made up to show the idea. It is not a result from a study.' },
+          { type: 'p', text: 'The same researchers point out that their descriptions differ from what many other writers have claimed about inner speech. They attribute the mismatch to the methods different researchers have used to study it.{{hurlburt-2013}} Part of the lesson is that how you ask matters, a point taken up in [[how-we-know-whats-in-a-mind|How do we know what goes on in someone’s head?]]' },
+          { type: 'h2', text: 'How often is it there?' },
+          { type: 'p', text: 'Despite the word “monologue,” inner speech does not run in every moment. In a small study that used Descriptive Experience Sampling, 30 college students each described 10 randomly chosen moments. On average, inner speech showed up in roughly a quarter of the sampled moments, and so did each of four other kinds of experience: inner seeing (picturing something in the mind), unsymbolized thinking (a clear thought without words or images), feelings and sensory awareness. How often each appeared varied widely from person to person.{{heavey-2008}}' },
+          { type: 'p', text: 'Because that was only 30 college students, the numbers should not be read as a count of how people in general think. What the study does show is that, in this group, inner speech was one of several kinds of experience rather than the only one, and that people differed widely.' },
+          { type: 'p', text: 'A research team writing in 2024 describes the range across adults as running from near constant to nonexistent, and has proposed the name anendophasia for a lack of the experience of inner speech.{{nedergaard-2024}} That group of people is the subject of [[little-or-no-inner-speech|Thinking with little or no inner voice]].' },
+          { type: 'h2', text: 'Inner speech, thinking in words and an inner voice' },
+          { type: 'distinction', title: 'Three phrases that are often treated as one', text: 'Inner speech is the research term for language-like thought. “Thinking in words” describes what a thought is made of. An “inner voice” describes how it feels. These can come apart. The sampling studies describe inner speaking that feels like speaking without any sound,{{hurlburt-2013}} which is different from hearing a voice, and some people report clear thoughts with no words at all.{{hurlburt-akhter-2008}} See [[voice-or-words|Does inner speech sound like a voice?]] and [[thinking-without-words|Thinking without words]].' },
+          { type: 'h2', text: 'What inner speech seems to be for' },
+          { type: 'p', text: 'Researchers have linked inner speech to several mental jobs. Reviews describe a role in working memory (the mental workspace that holds information for a short time), in planning and in monitoring your own speech. They also note that inner speech can sometimes help performance and sometimes get in the way.{{alderson-day-2015,perrone-2014,baddeley-2003}}' },
+          { type: 'p', text: 'A classic picture of the verbal side of working memory is the “phonological loop,” a system that lets you hold words in mind by silently repeating them, in the way you might keep a phone number alive by rehearsing it.{{baddeley-2003}}' },
+          { type: 'p', text: 'Developmental researchers add that inner speech has roots in childhood. Young children often talk aloud to themselves while they play and solve problems, and a view that goes back to the psychologist Lev Vygotsky holds that this “private speech” gradually turns into silent inner speech. Current research on the topic includes how private speech relates to executive function and to the development of verbal self-regulation.{{winsler-2009,alderson-day-2015}}' },
+          { type: 'h2', text: 'What this means for you' },
+          { type: 'p', text: 'Some studies find differences on particular tasks between people with more and less inner speech (see [[little-or-no-inner-speech|Thinking with little or no inner voice]]). That is not the same as saying one way of thinking is better overall. This site treats a constant voice, an occasional one and none at all as differences in how thinking is experienced, and nothing on it ranks them.' }
+        ],
+        evidence: {
+          established: [
+            'People describe a wide range of experiences of inner speech, and researchers across many studies and reviews treat it as a real, measurable part of human experience.{{alderson-day-2015,perrone-2014}}',
+            'People differ widely in how often they experience inner speech.{{hurlburt-2013,heavey-2008,nedergaard-2024}}'
+          ],
+          supported: [
+            'When everyday moments are sampled at random, inner speech appears in many but not all of them, and is most often described as speaking in one’s own voice without sound. This comes mainly from one research group’s method.{{hurlburt-2013}}',
+            'In a small group of 30 college students, inner speech was present in roughly a quarter of sampled moments, alongside other kinds of experience.{{heavey-2008}}',
+            'Inner speech has roles in working memory, planning and self-monitoring, and can sometimes help and sometimes hinder performance.{{alderson-day-2015,perrone-2014,baddeley-2003}}',
+            'Inner speech grows out of children’s private speech. This view goes back to Vygotsky and is still being tested.{{winsler-2009,alderson-day-2015}}'
+          ],
+          proposed: [
+            'A multicomponent model that combines developmental, cognitive and language-based ideas has been proposed as a way to bring the study of inner speech together.{{alderson-day-2015}}'
+          ],
+          unknown: [
+            'Why people differ so much in how much inner speech they experience is not settled.{{lupyan-2023}}'
+          ]
+        },
+        related: ['little-or-no-inner-speech', 'voice-or-words', 'talking-to-yourself', 'many-ways-to-think']
+      },
+      {
+        slug: 'little-or-no-inner-speech',
+        group: 'inner-monologues',
+        title: 'Thinking with little or no inner voice',
+        description: 'What researchers know about people who report little or no inner speech: the term anendophasia, what a 2024 set of studies found about memory and rhyming tasks, and what is still unknown.',
+        keywords: ['anendophasia', 'no inner voice', 'no inner monologue', 'little inner speech', 'silent mind', 'without inner speech', 'no internal monologue', 'verbal working memory', 'rhyme', 'thinking without inner speech'],
+        lead: 'Some adults say their thoughts have no voice at all: no running commentary and no sentences in their head. It is commonly assumed that everyone has inner speech, and recent studies are testing that assumption by taking these reports seriously.',
+        takeaways: [
+          'A 2024 paper reports that adults vary widely in how much inner speech they experience, from near constant to nonexistent.',
+          'It proposes the name anendophasia for a lack of the experience of inner speech.',
+          'In its studies, adults who reported low inner speech did worse on a verbal memory task and found rhyme judgments harder. Two other tasks showed no difference.',
+          'Why people differ, and what thinking is like for people with no inner speech, are still open questions.'
+        ],
+        body: [
+          { type: 'h2', text: 'Taking these reports seriously' },
+          { type: 'p', text: 'It is commonly assumed that inner speech, the experience of thought occurring in a natural language, is a human universal. A 2024 paper reports that recent evidence suggests adults’ experience of inner speech varies from near constant to nonexistent. The authors proposed the name anendophasia for a lack of the experience of inner speech and ran four studies on some of its behavioral consequences.{{nedergaard-2024}}' },
+          { type: 'p', text: 'The term names an experience that people report. This site uses it that way and does not treat it as a diagnosis.' },
+          { type: 'p', text: 'Earlier sampling studies point in the same direction. They found that inner speech occurs in many moments of everyday experience but certainly not in all of them, and that people differ greatly in how often it occurs.{{hurlburt-2013}} In those studies, then, inner speech was not present in every sampled moment even for people who report it.' },
+          { type: 'distinction', title: 'A quiet voice is not an empty mind', text: 'Having little inner speech does not mean having nothing going on. Experience sampling research finds that inner speech is only one of several kinds of experience people report from moment to moment. Others include inner seeing, unsymbolized thinking, feelings and sensory awareness.{{heavey-2008}} The studies cited here do not map out what thinking is like for each person who reports little inner speech. See [[thinking-without-words|Thinking without words]] and [[many-ways-to-think|Many ways to think]].' },
+          { type: 'h2', text: 'What the 2024 studies tested' },
+          { type: 'p', text: 'The researchers compared adults who reported low levels of inner speech (46 people) with adults who reported high levels (47 people). The groups were defined by what people said about their own experience. They then looked at four things.{{nedergaard-2024}}' },
+          { type: 'ul', items: [
+            '**Verbal working memory** (holding a sequence of words in mind): the low-inner-speech group performed worse.',
+            '**Rhyme judgments** (deciding whether words rhyme): the low-inner-speech group had more difficulty.',
+            '**Task switching** (shifting between two tasks, which earlier work had linked to talking yourself through what to do next): no relationship with inner speech.',
+            '**Categorical effects on perceptual judgments** (the way language can make perception more categorical): no relationship with inner speech.'
+          ] },
+          { type: 'h2', text: 'How to read these results' },
+          { type: 'p', text: 'Several cautions apply. The results are averages for groups, so they do not describe every individual. The groups were formed from self-reports. Small groups like these are a reason to wait for other research teams to repeat the work.' },
+          { type: 'p', text: 'The two tasks that showed a difference involve words and sounds, which are the kind of tasks where silently repeating words might plausibly help. That is a possible explanation, not a demonstrated one.{{baddeley-2003,nedergaard-2024}} The two tasks that showed no difference suggest that having little inner speech does not change everything about how people think, but two tasks cannot show that no other differences exist.' },
+          { type: 'example', title: 'Why “different” does not mean “worse”', text: 'Suppose one person memorizes a phone number by silently repeating it, and another memorizes it by picturing the digits or by noticing the pattern they form. If you test both on exactly how many digits they can repeat back in order, the first strategy might have an edge. If you test them on finding their way around a new city, it might not matter at all. This scenario is made up to explain the point. It is not a study result.' },
+          { type: 'h2', text: 'Why might people differ?' },
+          { type: 'p', text: 'It has not yet been established why some adults experience a great deal of inner speech and others very little. Ideas about development and about brain function are discussed in the wider research on inner speech,{{alderson-day-2015}} but the studies cited on this page describe the differences rather than explaining them. A broader argument is that such hidden differences in experience are worth studying precisely because they can help explain otherwise puzzling differences in behavior.{{lupyan-2023}}' },
+          { type: 'h2', text: 'Questions that remain' },
+          { type: 'ul', items: [
+            'Do people with little inner speech use other mental tools, such as images or a direct sense of meaning, to do the same jobs? The studies cited here do not say.',
+            'Does the amount of inner speech change over a lifetime, or between situations such as reading, planning and relaxing?',
+            'Are there different kinds of low inner speech, or is it one thing?'
+          ] }
+        ],
+        evidence: {
+          established: [
+            'Adults differ widely in how much inner speech they report.{{nedergaard-2024,hurlburt-2013,heavey-2008}}'
+          ],
+          supported: [
+            'Adults who reported low inner speech did worse on a verbal working memory task and had more difficulty with rhyme judgments than adults who reported high inner speech. This comes from one set of four studies and needs to be repeated by other teams.{{nedergaard-2024}}',
+            'Task-switching performance and categorical effects on perceptual judgments were unrelated to differences in inner speech in the same studies.{{nedergaard-2024}}'
+          ],
+          proposed: [
+            'Inner speech may help with tasks that involve holding the sounds of words in mind. This is a possible reading of the results, not a tested explanation.{{baddeley-2003,nedergaard-2024}}',
+            'The name “anendophasia” has been proposed for a lack of the experience of inner speech.{{nedergaard-2024}}'
+          ],
+          unknown: [
+            'Why people differ in how much inner speech they experience, and what thinking is like for people who report none.{{lupyan-2023}}'
+          ]
+        },
+        related: ['what-is-an-inner-monologue', 'thinking-without-words', 'why-experiences-differ', 'many-ways-to-think']
+      },
+      {
+        slug: 'many-ways-to-think',
+        group: 'types-of-thinking',
+        title: 'Many ways to think',
+        description: 'A tour of the kinds of inner experience researchers describe, from inner speech and imagery to feelings and sensory awareness, and why labels like “verbal thinker” and “visual learner” oversimplify.',
+        keywords: ['types of thinking', 'thinking styles', 'verbal thinker', 'visual thinker', 'visual learner', 'learning styles', 'inner seeing', 'sensory awareness', 'feelings', 'spatial thinking', 'musical imagery', 'abstract thinking', 'conceptual thinking'],
+        lead: 'Ask people how they think and the answers differ: sentences, pictures, maps, melodies, hunches, bodily feelings, or a sense of knowing without any of those. Researchers who sample everyday experience describe several distinct kinds of inner experience, and find that they are not types of people.',
+        takeaways: [
+          'Researchers who sampled everyday moments describe five frequently occurring kinds of inner experience: inner speech, inner seeing, unsymbolized thinking, feelings and sensory awareness.',
+          'These are not personality types. In the sampling study, each kind turned up in about a quarter of moments on average, and people differed widely in their own mix.',
+          'Spatial thinking and musical or other sound imagery are further forms researchers study.',
+          'The popular idea that people learn best when teaching matches a “learning style” was reviewed in a major paper that found no adequate evidence for it.'
+        ],
+        body: [
+          { type: 'h2', text: 'Five kinds of inner experience found in everyday moments' },
+          { type: 'p', text: 'Studies that use Descriptive Experience Sampling have reported five frequently occurring kinds of inner experience: inner speech, inner seeing, unsymbolized thinking, feelings and sensory awareness.{{heavey-2008}} In plain language:' },
+          { type: 'ul', items: [
+            '**Inner speech:** thinking in words, such as silently saying a sentence to yourself. See [[what-is-an-inner-monologue|What is an inner monologue?]]',
+            '**Inner seeing:** having an image in your mind. See [[mental-imagery|What is mental imagery?]]',
+            '**Unsymbolized thinking:** a clear, specific thought that you experience without words, images or any other symbols.{{hurlburt-akhter-2008}} See [[thinking-without-words|Thinking without words]].',
+            '**Feelings:** an emotion or a bodily feeling that is part of the experience of the moment.',
+            '**Sensory awareness:** attention directed at something you are sensing, such as the texture of a table or the smell of coffee.'
+          ] },
+          { type: 'p', text: 'In that study, each of the five kinds appeared in about a quarter of the sampled moments on average, but how much of each a person had varied widely.{{heavey-2008}} The group was 30 college students, so the study shows that all five turned up often in that group. It does not show how people in general divide up their thinking.' },
+          { type: 'h2', text: 'More forms of thinking researchers describe' },
+          { type: 'p', text: 'Beyond those five, researchers study other forms of mental experience. Visual imagery itself comes in at least two forms: object imagery, about what things look like, and spatial imagery, about where things are and how they relate to each other.{{kozhevnikov-2005}} People can also imagine sounds, from single notes and melodies to speech and everyday noises.{{hubbard-2010}} See [[space-and-sound|Thinking in space and in sound]].' },
+          { type: 'example', title: 'One task, several routes', text: 'Suppose you are asked how many windows there are in your home. One person walks through the rooms in their mind’s eye, another recites the rooms by name and counts, and another simply knows the number or works it out from a sense of the layout. All of them reach the answer. This scenario is made up to illustrate the idea. It is not a result from a study.' },
+          { type: 'h2', text: 'A mix that changes, not a type you are' },
+          { type: 'p', text: 'It is tempting to sort people into “verbal thinkers” and “visual thinkers.” Some researchers do describe stable differences in cognitive style. For example, one study of people who described themselves as visualizers found two distinct groups, one stronger at object imagery and one stronger at spatial imagery, and described verbalizers as performing at an intermediate level on imagery tasks.{{kozhevnikov-2005}} Sampling research, by contrast, emphasizes that several kinds of experience each turn up often, and that frequencies vary widely between people.{{heavey-2008}}' },
+          { type: 'p', text: 'These views are not necessarily in conflict: a person can lean toward one way of thinking and still use others. Which description fits ordinary thinking best is not settled, and this site does not sort anyone into a type.' },
+          { type: 'h2', text: 'A caution about “learning styles”' },
+          { type: 'distinction', title: 'A way of thinking is not a way of learning', text: 'The popular idea of “learning styles” holds that people learn best when teaching matches their preferred mode, such as pictures for a “visual learner.” A major review found plenty of evidence that people have preferences about how they like information presented and that people differ in specific aptitudes. It found virtually no evidence that teaching matched to a learning style improves learning, and concluded that there is no adequate evidence base for using learning-style assessments in general education. It also noted that many versions of the idea have simply never been tested.{{pashler-2008}} Nothing on this site suggests that your results should change how you study or work.' },
+          { type: 'h2', text: 'How the questionnaire treats this' },
+          { type: 'p', text: 'The questionnaire on this site asks about several areas separately (inner voice, visual thinking, thinking without words, memory and everyday tasks) so that it does not force you into a single category.' }
+        ],
+        evidence: {
+          established: [
+            'People report a range of inner experiences, including inner speech, imagery, feelings and sensory awareness, and they differ widely in how often each occurs.{{heavey-2008,hurlburt-2013,hubbard-2010}}',
+            'People express preferences about how information is presented to them and differ in some specific aptitudes. Matching teaching to a preferred “learning style” has not been shown to improve learning, and a major review found no adequate evidence base for using such assessments in general education.{{pashler-2008}}'
+          ],
+          supported: [
+            'Five kinds of experience (inner speech, inner seeing, unsymbolized thinking, feelings and sensory awareness) each turned up often in sampled moments of a small student group.{{heavey-2008}}',
+            'Visual imagery has object and spatial forms that can differ between people.{{kozhevnikov-2005}}',
+            'Auditory imagery for pitch, melody, speech and environmental sounds is well documented and varies between people.{{hubbard-2010}}'
+          ],
+          proposed: [
+            'Describing people as stable types (verbalizers, object visualizers, spatial visualizers) is one proposal. Sampling research stresses that several kinds of experience each occur often. Which view better describes ordinary thinking has not been settled.{{kozhevnikov-2005,heavey-2008}}'
+          ],
+          unknown: [
+            'How the mix of kinds of thinking differs across everyday situations and across people, and what causes it, is not yet well mapped.'
+          ]
+        },
+        related: ['what-is-an-inner-monologue', 'thinking-without-words', 'space-and-sound', 'mental-imagery', 'why-experiences-differ']
+      },
+      {
+        slug: 'thinking-without-words',
+        group: 'types-of-thinking',
+        title: 'Thinking without words',
+        description: 'What researchers call unsymbolized thinking, how it differs from half-formed words or images, why it is controversial, and how it relates to intuition and the tip-of-the-tongue feeling.',
+        keywords: ['unsymbolized thinking', 'nonverbal thinking', 'thinking without words', 'intuition', 'tip of the tongue', 'abstract thinking', 'conceptual thinking', 'knowing without words', 'imageless thought', 'dual process', 'gut feeling', 'wordless thought'],
+        lead: 'Some thoughts arrive as a clear, definite idea that comes with no words and no pictures. Researchers who sample everyday experience call this unsymbolized thinking. It is surprising enough that some people, including professional students of consciousness, believe it is impossible, which is part of what makes it interesting.',
+        takeaways: [
+          'Unsymbolized thinking is the experience of an explicit, specific thought with no words, images or other symbols present.',
+          'The researchers who describe it report it as one of the five most frequent features of inner experience in their samples, and argue that it is distinct from half-formed words or faint images.',
+          'Whether people can report such experiences accurately is debated, and there are serious critics.',
+          'Related ideas include the tip-of-the-tongue experience and the distinction between quick, intuitive processing and slower, deliberate reasoning.'
+        ],
+        body: [
+          { type: 'h2', text: 'What unsymbolized thinking is' },
+          { type: 'p', text: 'In a 2008 article, the researchers who developed Descriptive Experience Sampling define unsymbolized thinking as the experience of an explicit, differentiated thought that does not include the experience of words, images or any other symbols. “Differentiated” means that it is a particular thought, not a vague blur. They argue that it is a distinct phenomenon, not merely an incompletely formed inner sentence or a vague image.{{hurlburt-akhter-2008}}' },
+          { type: 'example', title: 'An imagined example', text: 'Imagine you are deciding whether to take the bus or walk. When a random beep sounds, you realize you were weighing the two options. You were not saying anything in your head and you were not picturing anything. You were simply, definitely aware that you were comparing the bus with walking. This scene is made up to show the kind of experience the term describes. It is not a result from a study.' },
+          { type: 'p', text: 'The same authors report that, in their sampling studies, unsymbolized thinking is one of the five most common features of inner experience, along with inner speech, inner seeing, feelings and sensory awareness. They add that, in their view, many people, including many professional students of consciousness, believe that such an experience is impossible.{{hurlburt-akhter-2008}}' },
+          { type: 'p', text: 'If unsymbolized thinking is as frequent as they report, they argue, then much experienced thinking takes place without any experience of words or other symbols, which would matter for theories of how thought works.{{hurlburt-akhter-2008}} That frequency comes from their own studies of a particular method, and other researchers have not necessarily agreed, as the next section explains.' },
+          { type: 'h2', text: 'Why it is controversial' },
+          { type: 'p', text: 'Whether people can accurately report this kind of experience is debated. Some of the strongest doubts about introspection come from research showing that people often cannot correctly explain the causes of their own judgments and behavior,{{nisbett-1977}} and from philosophers who argue that people’s ordinary reports about their own experience are unreliable.{{schwitzgebel-2008}} The researchers who use Descriptive Experience Sampling respond that such criticisms point toward improving the methods, not toward giving up on asking people what they experience.{{hurlburt-heavey-2001}}' },
+          { type: 'p', text: 'A 2007 book sets the two positions side by side. It pairs Russell Hurlburt, who developed the method, with Eric Schwitzgebel, a philosopher who is skeptical about how reliable such reports are.{{hurlburt-schwitzgebel-2007}} This site does not take a side. It reports what each position claims and labels the question as unresolved. For more, see [[how-we-know-whats-in-a-mind|How do we know what goes on in someone’s head?]]' },
+          { type: 'h2', text: 'Knowing something you cannot yet say' },
+          { type: 'distinction', title: 'Different from a word on the tip of the tongue', text: 'The “tip of the tongue” experience is being sure you know a word but being unable to retrieve it. In a classic 1966 study, people in that state could often report partial information, such as the first letter of the word or its number of syllables.{{brown-mcneill-1966}} That is knowing something without having its words available. It is not the same as unsymbolized thinking, which is a thought that is experienced clearly and simply does not come with words or images, rather than a word you are failing to find.' },
+          { type: 'h2', text: 'Quick intuition and slow reasoning' },
+          { type: 'p', text: 'Another widely discussed idea in psychology is that thinking runs on more than one kind of process. Dual-process theories propose that rapid, automatic processes (called Type 1) supply default responses unless slower, deliberate reasoning (Type 2) steps in. On this view, Type 2 reasoning supports hypothetical thinking and relies heavily on working memory.{{evans-stanovich-2013}}' },
+          { type: 'p', text: 'This is a claim about how thinking works behind the scenes, not about what it feels like, so it does not tell us whether any particular thought comes with words. It does offer one way of thinking about why some conclusions seem to arrive without an explanation. Dual-process theories have also been criticized. Their defenders respond to five main lines of argument, and conclude that some of the arguments have force against some versions of the theory but are overstated.{{evans-stanovich-2013}}' },
+          { type: 'h2', text: 'Abstract ideas and relationships' },
+          { type: 'p', text: 'Many everyday thoughts are about abstract ideas, such as fairness, a plan, or how two things are related. Whether such thoughts are always carried by words, images or other symbols is exactly what the debate about unsymbolized thinking is about.{{hurlburt-akhter-2008,schwitzgebel-2008}}' },
+          { type: 'h2', text: 'If you take the questionnaire' },
+          { type: 'p', text: 'The questionnaire on this site includes questions about thinking without words. When you answer them, remember that you are describing your own impression, and that research on introspection suggests that such impressions are useful but not perfectly reliable. Answers such as “not sure” are always available.' }
+        ],
+        evidence: {
+          established: [
+            'People can be mistaken about the causes of their own judgments and behavior.{{nisbett-1977}}'
+          ],
+          supported: [
+            'Researchers who use Descriptive Experience Sampling report unsymbolized thinking as a frequently occurring kind of inner experience, distinct from inner speech and imagery. The evidence comes mainly from one research group’s method.{{hurlburt-akhter-2008,heavey-2008}}',
+            'In the tip-of-the-tongue state, people often know partial information about a word they cannot retrieve. This was first shown in a classic 1966 study.{{brown-mcneill-1966}}'
+          ],
+          proposed: [
+            'If unsymbolized thinking is real and frequent, much experienced thinking takes place without words or other symbols.{{hurlburt-akhter-2008}}',
+            'Fast, automatic (Type 1) processes and slower, deliberate (Type 2) processes both contribute to thought. This dual-process idea is influential and also criticized.{{evans-stanovich-2013}}'
+          ],
+          unknown: [
+            'Whether reports of unsymbolized thinking reflect a distinct kind of experience, or are affected by the limits of introspection, is still debated.{{schwitzgebel-2008,hurlburt-schwitzgebel-2007,hurlburt-heavey-2001}}'
+          ]
+        },
+        related: ['little-or-no-inner-speech', 'many-ways-to-think', 'how-we-know-whats-in-a-mind', 'what-is-an-inner-monologue']
+      },
+      {
+        slug: 'space-and-sound',
+        group: 'types-of-thinking',
+        title: 'Thinking in space and in sound',
+        description: 'Spatial thinking, object imagery and auditory or musical imagery: what researchers mean by them, how they can differ from picture-like imagery, and what that shows about “visual” thinking.',
+        keywords: ['spatial thinking', 'spatial imagery', 'object imagery', 'object visualizer', 'spatial visualizer', 'musical imagery', 'auditory imagery', 'imagining sounds', 'mental rotation', 'maps', 'hearing in your head', 'sound', 'music'],
+        lead: 'Not all “visual” thinking is about pictures, and not all imagery is visual. You can think about where things are without picturing what they look like, and you can imagine a tune or a voice with no sight involved at all. Researchers study these forms of imagery separately because they can differ from person to person.',
+        takeaways: [
+          'Researchers distinguish object imagery (what things look like, such as their color and shape) from spatial imagery (where things are and how they relate to each other).',
+          'In one study, people who described themselves as visualizers split into two groups: some stronger at object imagery, others stronger at spatial imagery.',
+          'In studies of people who report no visual imagery, spatial abilities appear to be intact, which suggests that thinking about space does not require picturing it.',
+          'Imagery also exists for sound. A major review covers imagined pitch, melody, speech and everyday noises, and finds that it shares many brain areas with hearing.'
+        ],
+        body: [
+          { type: 'h2', text: 'Two kinds of visual imagery' },
+          { type: 'p', text: 'When people say they are a “visual thinker,” they can mean quite different things. A 2005 study set out two forms of visual imagery that the brain handles in partly separate systems. Object imagery concerns what things look like: shape, color and detail. Spatial imagery concerns where things are and how they relate: layouts, directions and movements.{{kozhevnikov-2005}}' },
+          { type: 'p', text: 'In that study, people who described themselves as visualizers fell into two groups. One group scored poorly on spatial imagery tasks but excelled on object imagery tasks, and the other showed the reverse pattern. The researchers also found that scientists and engineers tended to excel at spatial imagery and to prefer spatial strategies, whereas visual artists tended to excel at object imagery and to prefer object-based strategies. Object visualizers appeared to process images as a single whole, while spatial visualizers built them up part by part.{{kozhevnikov-2005}}' },
+          { type: 'p', text: 'This is one study, and the groups were defined by the researchers’ own tests. It does not tell us how many people fall into each group.' },
+          { type: 'example', title: 'Two ways to remember a friend’s kitchen', text: 'One person might recall the blue tiles and the shape of the kettle, which is object imagery. Another might recall that the fridge is on the left, the window is above the sink and it takes three steps to get from the door to the stove, which is spatial imagery. Both are “thinking visually” in a broad sense, but they use different information. This illustration is made up. It is not a study result.' },
+          { type: 'h2', text: 'Spatial thinking without a picture' },
+          { type: 'p', text: 'Spatial abilities and picture-like imagery can come apart. Studies of people who report no voluntary visual imagery (see [[aphantasia|Aphantasia]]) have found spatial abilities that appear unaffected.{{dawes-2020}} In one study, the self-rated spatial imagery of people with aphantasia was above average even though their self-rated object imagery was well below average.{{keogh-2018}} In a drawing study, people with aphantasia reproduced scenes from memory with spatial accuracy equal to comparison participants, but recalled fewer objects and used less color.{{bainbridge-2021}} The authors of that study interpret this as evidence for separate memory systems for object and spatial information.{{bainbridge-2021}}' },
+          { type: 'p', text: 'A single case points the same way. Researchers described a man, called MX, who abruptly lost the ability to generate visual images, yet performed normally on standard tests of visual memory and on visuo-spatial tasks. Their conclusion was that successful performance on imagery and visual-memory tasks can be separated from the experience of having visual imagery.{{zeman-2010}}' },
+          { type: 'p', text: 'These findings come from specific groups of volunteers and from one case. They suggest that, for at least some people, thinking about where things are does not depend on experiencing a mental picture. They do not show what spatial thinking is like for everyone.' },
+          { type: 'h2', text: 'Imagining sound and music' },
+          { type: 'p', text: 'Imagery is not limited to vision. A comprehensive review of research on auditory imagery covers imagining pitch, loudness and timbre, imagining melody, harmony and tempo, imagining everyday sounds, and imagining speech and text. Among its conclusions are that auditory imagery preserves many structural and timing properties of real sounds, involves many of the same brain areas as hearing, and can help with some judgments about sounds while interfering with detecting very faint ones.{{hubbard-2010}}' },
+          { type: 'p', text: 'The review also describes individual differences in auditory imagery, including how vivid it is and how it relates to musical ability and experience, and it notes that the mechanisms of the link between imagery and musical ability are not clear.{{hubbard-2010}}' },
+          { type: 'p', text: 'Auditory imagery overlaps with inner speech, because imagining a voice is a kind of auditory imagery. Experiments suggest that readers can activate representations of a character’s voice while reading silently.{{kurby-2009}} See [[voice-or-words|Does inner speech sound like a voice?]]' },
+          { type: 'h2', text: 'Other senses and feelings' },
+          { type: 'p', text: 'Imagery can involve any sense. In studies of people who report no voluntary visual imagery, many also report reduced imagery in other senses, but not all do.{{dawes-2020}} In a large survey of people who had contacted the researchers, around half of those with aphantasia described an absence of imagery in all senses.{{zeman-2020}}' },
+          { type: 'p', text: 'Feelings, bodily sensations and sensory awareness are part of everyday experience reports too. In the sampling study described in [[many-ways-to-think|Many ways to think]], feelings and sensory awareness were two of the five frequently occurring kinds of inner experience.{{heavey-2008}}' }
+        ],
+        evidence: {
+          established: [
+            'Auditory imagery exists, preserves many properties of real sounds and shares many brain areas with hearing.{{hubbard-2010}}'
+          ],
+          supported: [
+            'Visual imagery has object and spatial forms, and in one study people who described themselves as visualizers split into object and spatial groups with different strengths.{{kozhevnikov-2005}}',
+            'Spatial abilities appeared preserved in the groups of people who report no visual imagery that were studied.{{dawes-2020,keogh-2018,bainbridge-2021,zeman-2010}}',
+            'In a drawing study, people with aphantasia recalled fewer objects and less color, with spatial accuracy similar to controls.{{bainbridge-2021}}',
+            'Many, but not all, people who report no visual imagery also report reduced imagery in other senses.{{dawes-2020,zeman-2020}}'
+          ],
+          proposed: [
+            'Separate memory systems may support object information and spatial information.{{bainbridge-2021}}'
+          ],
+          unknown: [
+            'Why imagery is preserved in some senses and reduced in others, and whether there are distinct subtypes of imagery differences, is not yet defined.{{zeman-2024}}'
+          ]
+        },
+        related: ['mental-imagery', 'aphantasia', 'voice-or-words', 'many-ways-to-think']
+      },
+      {
+        slug: 'mental-imagery',
+        group: 'visual-thinking',
+        title: 'What is mental imagery?',
+        description: 'How researchers define mental imagery, what happens in the brain when you imagine something, how imagery differs from memory and perception, how vividness is measured, and the debate over what mental images are.',
+        keywords: ['mental imagery', 'visual imagery', 'minds eye', 'visualize', 'visualise', 'imagination', 'vividness', 'VVIQ', 'Galton', 'breakfast table', 'visual memory', 'imagery vividness', 'binocular rivalry', 'visual thinking'],
+        lead: 'Close your eyes and picture a lemon. Some people see something close to a picture, some get a faint impression, and some get an idea of a lemon with no visual quality at all. Mental imagery is the umbrella term for experiences like these, and it is one of the oldest topics in the science of the mind.',
+        takeaways: [
+          'Mental imagery means having a sensory-like experience in your mind without the matching input from your senses. Visual imagery is the most studied kind.',
+          'Brain imaging finds a large overlap between imagining and seeing. A major review describes imagery as working much like a weak version of perception.',
+          'People differ greatly in how vivid their imagery is. Francis Galton noted this in the 1880s, and modern work describes a range from none at all to photo-like.',
+          'Scientists still debate what mental images are: picture-like displays in the brain, or descriptions that feel like pictures.'
+        ],
+        body: [
+          { type: 'h2', text: 'What researchers mean by mental imagery' },
+          { type: 'p', text: 'A review in Nature Reviews Neuroscience describes visual mental imagery as involving a network of brain areas stretching from the frontal cortex (at the front of the brain) to sensory areas, and says it can function much like a weak version of perception. It describes imagery vividness and strength as ranging from completely absent (aphantasia) to photo-like (hyperphantasia), and says that both the anatomy and the function of the primary visual cortex, the first stage of the brain’s visual processing, are related to visual imagery.{{pearson-2019}}' },
+          { type: 'example', title: 'Try it', text: 'Picture a lemon on a table. Notice what you get. You might see its color, the texture of its skin and the little point at one end. You might get a faint, shifting impression. You might not see anything but still know exactly what a lemon is like. People’s honest answers differ a great deal, and none of these answers is wrong. This exercise is not a test and has no score.' },
+          { type: 'distinction', title: 'Imagery, memory and knowledge are different things', text: 'Knowing what something looks like, being able to visualize it deliberately, and having an image pop into your mind unprompted are different abilities. A person could know every fact about what their front door looks like without being able to summon a picture of it at will. This is not just a thought experiment. Researchers have described a man, called MX, who lost the ability to generate visual images yet performed normally on standard tests of visual memory.{{zeman-2010}}' },
+          { type: 'h2', text: 'What happens in the brain' },
+          { type: 'p', text: 'A 2019 review of brain-imaging studies found a large overlap in the processing that goes on during perception and imagery. Brain activity representing imagined things is similar to activity representing seen things in visual, parietal and frontal areas, and both appear to rely on similar top-down connections, meaning signals sent from higher brain areas back to visual areas. The most prominent difference is that imagery lacks bottom-up processing, meaning that nothing is arriving from the eyes.{{dijkstra-2019}} The authors point out that these findings fit with the idea that imagery and perception rely on similar emulation or prediction processes.{{dijkstra-2019}}' },
+          { type: 'p', text: 'Other research looks at what controls how strong imagery is. In one set of experiments, people with lower resting activity and lower excitability in early visual cortex reported stronger sensory imagery, and reducing the excitability of visual cortex with a weak electrical current applied through the scalp increased imagery strength. The authors take this as showing a causal role for visual cortex excitability.{{keogh-2020}}' },
+          { type: 'h2', text: 'How vividness is measured' },
+          { type: 'p', text: 'Because imagery is private, measuring it is hard. The oldest approach is to ask. In 1880, Francis Galton asked people to call to mind their breakfast table and to say how bright, how well defined and how well colored the picture was. People’s answers differed greatly.{{galton-1880}} Later researchers noted that Galton recognized that some people lack visual imagery altogether, although this idea was largely neglected for the following century.{{milton-2021}}' },
+          { type: 'p', text: 'A widely used modern questionnaire, the Vividness of Visual Imagery Questionnaire (VVIQ), was introduced in 1973 and asks people to rate how clearly they can picture scenes and objects.{{marks-1973}} It is still used in current research.{{keogh-2018}}' },
+          { type: 'p', text: 'Self-reports are only useful if people can judge their own imagery. In a study that used binocular rivalry (a display in which two different images compete for dominance in your vision), people imagined a pattern and rated how vivid it was. Higher vividness ratings on a given trial predicted a greater chance that the imagined pattern would then dominate the display, and questionnaires predicted differences between people in the strength of this effect. The researchers concluded that people have a good metacognitive understanding of their own mental imagery, meaning that they can judge it reasonably well.{{pearson-2011}}' },
+          { type: 'h2', text: 'What are mental images, anyway?' },
+          { type: 'p', text: 'Scientists still disagree about what mental images are. One view holds that they are picture-like, displayed in some space in the brain and inspected much as you would look at a real scene. In a 2002 article, the cognitive scientist Zenon Pylyshyn argued that the evidence does not require this. He argued that it does not justify rejecting what he calls the “null hypothesis”: that reasoning with mental images uses the same kind of representation and the same processes as reasoning in general, except that the content of the thought is about how things would look.{{pylyshyn-2002}} The reviewers of the brain-imaging evidence note that the extent to which imagery relies on the same mechanisms as perception has been debated for decades.{{dijkstra-2019}}' },
+          { type: 'p', text: 'A review of auditory imagery, a different case, concluded that it has both depictive (picture-like) components and descriptive components.{{hubbard-2010}} The honest summary is that researchers agree imagery is real and that it overlaps with perception, but not about what kind of representation an image is.' },
+          { type: 'h2', text: 'Why the word “visualize” can mislead' },
+          { type: 'p', text: 'People vary widely in how much visual imagery they experience. Researchers have pointed out that people who cannot see in their mind’s eye tend to assume everyone is like them, and that people who can assume everyone else can too.{{lupyan-2023}} This is one reason differences in imagery can go unnoticed for a lifetime, and one reason the questionnaire on this site asks about imagery in several separate ways rather than with a single question.' }
+        ],
+        evidence: {
+          established: [
+            'Mental imagery is a real, measurable experience, and people differ widely in how vivid it is.{{galton-1880,marks-1973,pearson-2019,zeman-2024}}',
+            'Imagery and perception overlap in the brain areas and processes they use.{{dijkstra-2019,pearson-2019}}'
+          ],
+          supported: [
+            'Vividness ratings predict objective effects of imagery, so self-reports carry real information about imagery.{{pearson-2011}}',
+            'Lower excitability in early visual cortex goes with stronger imagery, and electrically reducing excitability increased imagery strength in experiments.{{keogh-2020}}',
+            'Knowing what something looks like, visualizing it at will and visual memory performance can come apart. This is shown by a single detailed case and by group studies of people with aphantasia.{{zeman-2010,bainbridge-2021}}'
+          ],
+          proposed: [
+            'Imagery and perception rely on similar emulation or prediction processes in the brain.{{dijkstra-2019}}',
+            'Reasoning with mental images may use the same kind of representation as reasoning in general, rather than a picture-like display (the “null hypothesis”).{{pylyshyn-2002}}'
+          ],
+          unknown: [
+            'What kind of representation a mental image is: picture-like, descriptive, or both.{{pylyshyn-2002,hubbard-2010}}'
+          ]
+        },
+        related: ['aphantasia', 'hyperphantasia', 'space-and-sound', 'how-memories-feel', 'dreams-and-imagery']
+      },
+      {
+        slug: 'aphantasia',
+        group: 'visual-thinking',
+        title: 'Aphantasia: thinking without a mind’s eye',
+        description: 'What aphantasia is, how researchers tested whether the reports are real, what is known about memory, other senses, spatial skills and dreams in people without visual imagery, and what is still uncertain.',
+        keywords: ['aphantasia', 'no minds eye', 'blind mind', 'cannot visualize', 'cannot visualise', 'no visual imagery', 'phantasia', 'imagery vividness', 'pupil response', 'binocular rivalry', 'face recognition', 'autobiographical memory', 'dreams', 'blind imagination'],
+        lead: 'Aphantasia is the term for having little or no voluntary visual imagery. Asked to picture a familiar face, a beach or a front door, a person with aphantasia sees nothing in the mind’s eye, though they may know a great deal about what the thing looks like. Francis Galton noticed such cases in the 1880s, but the topic was mostly neglected for the next century. It has since become an active area of research.',
+        takeaways: [
+          'Aphantasia means conscious, voluntary visual imagery that is markedly reduced or absent. Researchers describe it as a variation in experience.',
+          'Objective tests, not just self-reports, support the reports: people with aphantasia show almost no imagery effect in a perception test and no imagery-related pupil response.',
+          'In the studies described here, people with aphantasia reported weaker imagery in other senses and less vivid autobiographical memories on average, while spatial abilities appeared unaffected.',
+          'Findings about dreaming are mixed, and the causes of aphantasia are not yet established.'
+        ],
+        body: [
+          { type: 'h2', text: 'What aphantasia is' },
+          { type: 'p', text: 'Researchers coined the term to describe people in whom conscious, wakeful imagery is markedly reduced or absent entirely. Its counterpart, hyperphantasia, describes imagery whose vividness rivals perceptual experience.{{zeman-2024}} Aphantasia can be lifelong, which researchers call congenital aphantasia,{{bainbridge-2021}} and it can also begin suddenly in adulthood: a 2010 case study described a man who abruptly lost the ability to generate visual images.{{zeman-2010}}' },
+          { type: 'p', text: 'The word describes what a person experiences. It is not a diagnosis. Researchers describe it as a variation in human imagery experience,{{bainbridge-2021}} and one early study described people who lack the experience of visual imagery as otherwise healthy.{{keogh-2018}}' },
+          { type: 'example', title: 'What the term means in practice', text: 'Asked to imagine a beach at sunset, a person with aphantasia can tell you what a beach at sunset is like and might describe the waves, the sand and the colors in words, yet report that they see no picture at all. A person with very vivid imagery might report something close to seeing the beach. This is a made-up illustration of the terms. It is not a study result.' },
+          { type: 'distinction', title: 'Not seeing a picture is not the same as not knowing', text: 'What is missing in aphantasia is the experience of an image in the mind. The studies cited here found that people with aphantasia can still do tasks that depend on knowing how things look. The man in the case study performed normally on standard tests of visual memory,{{zeman-2010}} and in a drawing study, people with aphantasia recalled scenes with accurate spatial layout, although they remembered fewer objects.{{bainbridge-2021}}' },
+          { type: 'h2', text: 'Is it real? How researchers tested the reports' },
+          { type: 'p', text: 'Because imagery is private, an obvious worry is that people with aphantasia might have images they simply fail to notice, or are “blind to.” Several different kinds of test argue against that idea.' },
+          { type: 'ul', items: [
+            '**A perception test.** In people who report imagery, imagining one of two patterns beforehand makes that pattern more likely to dominate when the two compete in a binocular rivalry display. Experimentally naive people who identified as having aphantasia showed almost no such effect.{{keogh-2018}}',
+            '**The pupil.** Your pupil narrows in bright light. In people with imagery, imagining something bright also produces a measurable pupil response, and its size tracks how vivid people say the image is. People with aphantasia showed no significant imagery pupil response, although their pupils responded normally to real light and to mental effort.{{kay-2022}}',
+            '**Drawing from memory.** People with aphantasia recalled fewer objects, used less color and relied more on verbal labels than comparison participants, but they matched them on spatial accuracy. The groups did not differ when copying scenes while looking at them.{{bainbridge-2021}}',
+            '**Brain activity.** In the case study, activity while viewing famous faces was not significantly different from comparison participants. During attempted imagery, activity in a network of posterior regions was reduced and activity in frontal regions was increased.{{zeman-2010}}'
+          ] },
+          { type: 'p', text: 'The authors of the drawing study describe their results as experimental validation of aphantasia as a variation in imagery experience, and the authors of the pupil study call theirs the first physiological validation.{{bainbridge-2021,kay-2022}}' },
+          { type: 'h2', text: 'What else is different, and what is not' },
+          { type: 'p', text: 'Studies using questionnaires and tests report a pattern of associated differences. Most of the findings below come from volunteers who identified themselves as having aphantasia, so they may not describe everyone with reduced imagery.' },
+          { type: 'ul', items: [
+            '**Other senses.** Compared with people who have imagery, people with aphantasia report decreased imagery in other senses, though not all report a complete absence.{{dawes-2020}} In a survey of 2,000 people with aphantasia who had contacted the researchers, around half described an absence of wakeful imagery in all senses.{{zeman-2020}}',
+            '**Autobiographical memory and imagining the future.** People with aphantasia report less vivid and less rich autobiographical memories and imagined future scenes.{{dawes-2020}} In a laboratory study with objective tests, group differences in autobiographical memory and imagination appeared even though performance on standard memory tests was equivalent.{{milton-2021}}',
+            '**Spatial abilities.** These appear unaffected.{{dawes-2020,bainbridge-2021}}',
+            '**Face recognition.** Difficulty recognizing faces was reported more commonly in aphantasia in both a large survey and a laboratory study. These were reports of difficulty.{{zeman-2020,milton-2021}}',
+            '**Traits and occupations.** Autistic spectrum traits were reported more commonly in aphantasia, and the personality inventory showed reduced extraversion in the aphantasia group.{{milton-2021}} In a survey, aphantasia was associated with scientific and mathematical occupations and hyperphantasia with creative professions.{{zeman-2020}} These are statistical associations between groups, and they say nothing certain about any individual.',
+            '**Families.** Aphantasia appears to run in families more often than would be expected by chance.{{zeman-2020}}',
+            '**Trauma.** A study of cognitive profiles found that people with aphantasia do not appear to be considerably protected against all forms of trauma symptoms after stressful life events.{{dawes-2020}}'
+          ] },
+          { type: 'h2', text: 'Dreams' },
+          { type: 'p', text: 'Whether people with aphantasia dream visually is a useful test of how closely dreaming depends on waking imagery. In a large survey, a majority of participants with aphantasia reported dreaming visually,{{zeman-2020}} and a 2024 review concludes that visual dreaming is often preserved.{{zeman-2024}} A different study found that people with aphantasia reported fewer dreams, and dreams that were less rich, than comparison participants.{{dawes-2020}} The findings differ between studies, and why is not yet known. More in [[dreams-and-imagery|Dreams and mental imagery]].' },
+          { type: 'h2', text: 'What might cause it?' },
+          { type: 'p', text: 'The causes are not established. A 2024 review reports that aphantasia runs in families and that early results suggest differences in connectivity between frontoparietal and visual networks.{{zeman-2024}} A brain-scan study found stronger connectivity between prefrontal cortices and the visual network in people with hyperphantasia than in people with aphantasia.{{milton-2021}} Separately, lower excitability of early visual cortex goes with stronger imagery in general.{{keogh-2020}} These are correlations and early results. They do not amount to an explanation.' },
+          { type: 'h2', text: 'How common is it?' },
+          { type: 'p', text: 'This site makes no claims of its own about how common any way of thinking is. One 2024 review, written by Zeman, one of the researchers who coined the terms, says that around 1% of the population experience extreme aphantasia and around 3% extreme hyperphantasia.{{zeman-2024}} Those are the reviewer’s estimates for the two extremes of imagery vividness. They are not counts of how everyone thinks, and the volunteer studies described above cannot confirm them.' }
+        ],
+        evidence: {
+          established: [
+            'Imagery vividness varies between people from absent (aphantasia) to photo-like (hyperphantasia).{{pearson-2019,zeman-2024}}'
+          ],
+          supported: [
+            'Objective measures, including a binocular rivalry test, the pupil response and drawing from memory, back up reports of no visual imagery.{{keogh-2018,kay-2022,bainbridge-2021}}',
+            'Spatial abilities appear unaffected, while object memory in drawing tasks is reduced.{{dawes-2020,bainbridge-2021,keogh-2018}}',
+            'Aphantasia is associated with less vivid autobiographical memory and imagination, as measured by self-report and some tests.{{dawes-2020,milton-2021,zeman-2020}}',
+            'Many, but not all, people with aphantasia also report reduced imagery in other senses.{{dawes-2020,zeman-2020}}',
+            'Aphantasia appears to run in families. This does not by itself show whether genes or shared environment are the cause.{{zeman-2020,zeman-2024}}',
+            'Associations with face-recognition difficulty, autistic traits, lower extraversion and scientific occupations have been reported in volunteer surveys and a small laboratory study.{{zeman-2020,milton-2021}}',
+            'One review estimates that around 1% of people experience extreme aphantasia and around 3% extreme hyperphantasia. These are estimates of the extremes of imagery vividness.{{zeman-2024}}'
+          ],
+          proposed: [
+            'Differences in connectivity between frontoparietal and visual brain networks may underlie imagery extremes.{{zeman-2024,milton-2021}}',
+            'Visual imagery may play a constructive role in representing episodes, both remembered and imagined.{{dawes-2020}}'
+          ],
+          unknown: [
+            'Whether visual dreaming is preserved: studies disagree.{{zeman-2020,dawes-2020}}',
+            'What causes aphantasia, and whether there are distinct subtypes.{{zeman-2024}}',
+            'Whether the associated differences are caused by the lack of imagery or share a common cause.'
+          ]
+        },
+        related: ['hyperphantasia', 'mental-imagery', 'how-memories-feel', 'dreams-and-imagery', 'space-and-sound']
+      },
+      {
+        slug: 'hyperphantasia',
+        group: 'visual-thinking',
+        title: 'Hyperphantasia: imagery as vivid as seeing',
+        description: 'What researchers mean by hyperphantasia, how it was studied alongside aphantasia, what links to memory, imagination, creativity and synaesthesia have been reported, and what remains unknown about very vivid imagery.',
+        keywords: ['hyperphantasia', 'vivid imagery', 'vivid mental imagery', 'photo-like imagery', 'synesthesia', 'synaesthesia', 'creativity', 'imagery vividness', 'visual imagination', 'Galton'],
+        lead: 'At the other end of the range from aphantasia are people whose mental images feel almost as vivid as seeing. The term for this is hyperphantasia. It was named only recently, and the studies described here are small or based on volunteers, so the picture is still being filled in.',
+        takeaways: [
+          'Hyperphantasia means imagery whose vividness rivals perceptual experience.',
+          'A survey and a small brain-imaging study link it with better autobiographical memory and imagination, with more reported synaesthesia and with greater openness to experience. The survey also links it with creative professions.',
+          'Vivid imagery is not simply an advantage. A major review notes that imagery can be advantageous, unnecessary and even clinically disruptive.',
+          'The research describes differences between groups. It does not show that vivid imagery makes someone a better thinker overall.'
+        ],
+        body: [
+          { type: 'h2', text: 'The vivid end of the range' },
+          { type: 'p', text: 'Researchers use the term hyperphantasia for imagery whose vividness rivals perceptual experience. It is the counterpart to aphantasia.{{zeman-2024}} A review of the neuroscience of imagery describes imagery strength as running from completely absent to photo-like.{{pearson-2019}}' },
+          { type: 'p', text: 'People differ in imagery vividness even if they are not at either extreme, and researchers have been measuring that difference since Galton’s survey in 1880.{{galton-1880}} See [[mental-imagery|What is mental imagery?]] for how vividness is measured.' },
+          { type: 'h2', text: 'What surveys and tests have found' },
+          { type: 'p', text: 'In a survey of people who had contacted the researchers, 200 reported hyperphantasia, compared with 2,000 who reported aphantasia. Those with hyperphantasia more often worked in creative professions and more often reported synaesthesia, a condition in which one sense triggers experiences in another, such as sounds that come with colors.{{zeman-2020}} In the same survey, aphantasia was associated with scientific and mathematical occupations. Because the participants chose to contact the researchers, these are associations in a self-selected group.' },
+          { type: 'p', text: 'A smaller laboratory study compared 25 people with hyperphantasia, 24 with aphantasia and 20 with mid-range imagery. All groups performed equivalently on standard memory tests, but there were marked group differences in autobiographical memory and imagination: the hyperphantasia group outperformed the mid-range group, who in turn outperformed the aphantasia group.{{milton-2021}} A personality inventory found increased openness to experience in the hyperphantasia group. Brain scans at rest showed stronger connectivity between prefrontal cortices and the visual network in hyperphantasia than in aphantasia. In a task in which people visualized famous faces and places, there was greater activation in an anterior parietal region in the hyperphantasia and mid-range groups than in the aphantasia group.{{milton-2021}}' },
+          { type: 'distinction', title: 'Vivid is not the same as accurate', text: 'How vividly you experience an image or a memory tells you how clear it feels. It does not tell you whether it is correct. Memory research describes remembering as constructive and prone to errors and illusions,{{schacter-addis-2007}} so a very clear image of the past can still contain mistakes.' },
+          { type: 'h2', text: 'Is more imagery better?' },
+          { type: 'p', text: 'It is tempting to think of vivid imagery as a gift and its absence as a loss. The research is more balanced. A major review notes that mental imagery can be advantageous, unnecessary and even clinically disruptive, and that imagery plays both symptomatic and mechanistic roles in neurological and mental disorders and their treatments.{{pearson-2019}} In other words, imagery is a mental tool, and whether it helps depends on the job.' },
+          { type: 'h2', text: 'What might explain the differences?' },
+          { type: 'p', text: 'Several lines of work are looking into this. Lower resting excitability in early visual cortex goes with stronger imagery in general, and reducing that excitability increased imagery strength in experiments.{{keogh-2020}} The brain-scan differences described above suggest that connections between frontal and visual areas may matter.{{milton-2021}} A 2024 review suggests that alterations in connectivity between frontoparietal and visual networks may provide the neural basis for imagery extremes, and adds that subtypes of extreme imagery appear likely but are not yet well defined.{{zeman-2024}}' },
+          { type: 'h2', text: 'What is still unknown' },
+          { type: 'ul', items: [
+            'Whether there are distinct kinds of hyperphantasia, such as imagery that is vivid in one sense but not in others.{{zeman-2024}}',
+            'Whether very vivid imagery changes everyday thinking beyond the associations described above.',
+            'Whether the links with memory, creativity and personality are caused by imagery itself or by something that shapes both.'
+          ] }
+        ],
+        evidence: {
+          established: [
+            'Imagery vividness varies widely between people, up to imagery described as photo-like or as rivaling perception.{{pearson-2019,zeman-2024}}'
+          ],
+          supported: [
+            'People with hyperphantasia scored higher than people with mid-range imagery on tests of autobiographical memory and imagination, with equal performance on standard memory tests. The study was small.{{milton-2021}}',
+            'Hyperphantasia was associated with creative professions and with more reported synaesthesia in a survey of self-selected volunteers.{{zeman-2020}}',
+            'Hyperphantasia was associated with greater openness to experience and stronger prefrontal-to-visual connectivity at rest in a small laboratory study.{{milton-2021}}',
+            'Lower excitability of early visual cortex goes with stronger imagery.{{keogh-2020}}',
+            'One review estimates that around 3% of people experience extreme hyperphantasia.{{zeman-2024}}'
+          ],
+          proposed: [
+            'Differences in connectivity between frontoparietal and visual brain networks may underlie imagery extremes.{{zeman-2024}}'
+          ],
+          unknown: [
+            'Whether there are distinct subtypes of vivid imagery.{{zeman-2024}}',
+            'Whether, and how, very vivid imagery changes everyday thinking, and whether the associated traits are caused by imagery or by something shared.'
+          ]
+        },
+        related: ['aphantasia', 'mental-imagery', 'dreams-and-imagery', 'how-memories-feel']
+      },
+      {
+        slug: 'voice-or-words',
+        group: 'internal-speech',
+        title: 'Does inner speech sound like a voice?',
+        description: 'Whether inner speech is heard, felt as speaking without sound, or something else; whose voice it is; how reading can bring other voices to mind; and how the experience varies.',
+        keywords: ['inner voice', 'whose voice', 'own voice', 'another persons voice', 'reading voices', 'silent reading', 'auditory imagery', 'inner hearing', 'inner speaking', 'inner signing', 'subvocalization', 'what inner speech sounds like'],
+        lead: 'Ask people what inner speech is like and the answers differ: a voice they can hear, a feeling of speaking without any sound, or something else. Researchers have studied several versions of the experience, and the results show that “hearing” your thoughts is only one of the ways that thinking in words can feel.',
+        takeaways: [
+          'In one research group’s sampling studies, inner speech was most often experienced as speaking in your own voice, with natural rhythm and emphasis, but with no sound produced.',
+          'Experiments suggest readers can also bring voices to mind: silent reading was affected by an author’s speaking rate and by a character’s voice.',
+          'A questionnaire built to measure inner speech finds it can differ in whether it feels like a conversation, whether it is condensed or in full sentences, whether it praises or criticizes, and whether other people’s voices appear.',
+          'Reviews describe inner speech as sharing behavioral and brain activity with spoken speech, and as taking the form of inner signing for deaf people who sign.'
+        ],
+        body: [
+          { type: 'h2', text: 'Speaking without sound, or hearing?' },
+          { type: 'p', text: 'When researchers using Descriptive Experience Sampling asked people what they were experiencing at random moments, the most common description of inner speech was speaking in one’s own naturally inflected voice but with no sound being produced. The researchers also describe wide variations around that basic pattern.{{hurlburt-2013}}' },
+          { type: 'p', text: 'A broad review of the field describes several phenomena that inner speech shares with spoken language. Inner speech has shared behavioral and brain correlates with overt speech, takes different forms (deliberately generated verbal thought and verbal mind wandering), appears in reading and in writing, and takes the form of inner signing in deaf people who use sign language.{{perrone-2014}}' },
+          { type: 'distinction', title: 'Inner language is not always about sound', text: 'People who communicate in sign language can have inner signing,{{perrone-2014}} so “voice” is not the only form that inner language can take. That is one reason researchers use the broader term inner speech and one reason this site asks about the experience in several ways rather than assuming a sound.' },
+          { type: 'h2', text: 'Whose voice is it?' },
+          { type: 'p', text: 'The Varieties of Inner Speech Questionnaire was developed to measure how inner speech differs between people along four dimensions: whether it is dialogic, which means it takes the form of a conversation; whether it is condensed (shortened) or expanded (full sentences); whether it is evaluative or motivational, such as criticizing or encouraging yourself; and how far it incorporates other people’s voices.{{mccarthy-jones-2011}}' },
+          { type: 'p', text: 'In the young adults who completed the questionnaire during its development, the presence of other voices in inner speech and evaluative or motivational inner speech were each positively linked with anxiety, but not with depression.{{mccarthy-jones-2011}} These are statistical links in one sample. They cannot show cause and effect, and they are not a way to judge any one person’s inner speech.' },
+          { type: 'example', title: 'Same sentence, three experiences', text: 'Imagine reading the sentence “I need to call the dentist.” One person hears it in their own voice, as if spoken aloud inside their head. Another feels as if they are speaking it silently, with no sound at all. A third gets the idea itself with no words attached (see [[thinking-without-words|Thinking without words]]). This scene is invented to show how a single sentence could be experienced in different ways. Research has not told us how many people fall into each group.' },
+          { type: 'h2', text: 'Hearing voices while reading' },
+          { type: 'p', text: 'You may have noticed that some books seem to “speak” in a particular voice. Experiments suggest this is more than a feeling. In one series of experiments, people were introduced to two talkers, one speaking quickly and one slowly. They then read a passage they were told had been written by one of them. Reading times, both silent and aloud, were slower when participants thought the author was the slow talker, and the difference was larger for difficult texts. Individual differences in general auditory imagery ability were related to reading times. The researchers concluded that readers engage in a type of auditory imagery that preserves the perceptual details of an author’s voice.{{alexander-2008}}' },
+          { type: 'p', text: 'Another set of experiments had people listen to dialogues between two characters and then read scripts of those characters. When people were interrupted during reading and asked to recognize a sound, they responded faster when the sound was in the voice that matched the character than in a mismatching voice. This effect appeared for scripts they had listened to before, and it carried over to new scripts only after extended experience with the characters’ voices.{{kurby-2009}}' },
+          { type: 'p', text: 'Together, these experiments suggest that readers activate voice-like representations while reading silently. They do not show that everyone does this, or that it is the same as the inner speech of everyday thought.' },
+          { type: 'h2', text: 'Auditory imagery and inner speech' },
+          { type: 'p', text: 'A comprehensive review of auditory imagery includes imagery for speech, text, dreams and the interior monologue among the topics it covers. It concludes that auditory imagery is often, but not necessarily, influenced by subvocalization (small, silent movements of the speech system), and it describes individual differences in how vivid auditory imagery is.{{hubbard-2010}}' },
+          { type: 'p', text: 'It helps to separate three questions: how inner speech sounds (a voice, your own or someone else’s), how much of it there is (condensed or in full sentences), and how it feels (heard or spoken). Different studies emphasize different ones, and the answers can differ from person to person.' }
+        ],
+        evidence: {
+          established: [
+            'Inner speech shares behavioral and brain correlates with overt speech.{{perrone-2014}}',
+            'People differ in the qualities of their inner speech.{{mccarthy-jones-2011,hurlburt-2013}}'
+          ],
+          supported: [
+            'Inner speech is most often described as speaking in one’s own voice without sound. This comes mainly from one research group’s sampling studies.{{hurlburt-2013}}',
+            'Silent readers show effects of an author’s or character’s voice, which suggests auditory imagery during reading.{{alexander-2008,kurby-2009}}',
+            'Auditory imagery for speech is often but not necessarily influenced by subvocalization.{{hubbard-2010}}',
+            'Inner speech can take the form of inner signing in deaf people who sign.{{perrone-2014}}',
+            'In one sample of young adults, other voices in inner speech and evaluative or motivational inner speech were linked with anxiety.{{mccarthy-jones-2011}}'
+          ],
+          proposed: [
+            'Four qualities (dialogic, condensed or expanded, evaluative or motivational, and other voices) capture the main ways inner speech varies. This is a proposed measurement framework.{{mccarthy-jones-2011}}'
+          ],
+          unknown: [
+            'Whether inner speech is best described as hearing, as speaking, or as a distinct kind of experience, and how differences in the experience arise.'
+          ]
+        },
+        related: ['what-is-an-inner-monologue', 'talking-to-yourself', 'space-and-sound', 'little-or-no-inner-speech']
+      },
+      {
+        slug: 'talking-to-yourself',
+        group: 'internal-speech',
+        title: 'Talking to yourself in your head',
+        description: 'Inner conversations, encouraging and criticizing yourself, what happens when you refer to yourself by name, whether people can control their inner voice, and what research says about links with mood.',
+        keywords: ['self-talk', 'inner dialogue', 'internal conversation', 'talking to yourself', 'self-criticism', 'inner critic', 'third person self-talk', 'your own name', 'control inner voice', 'private speech', 'Vygotsky', 'multiple voices', 'anxiety', 'self-distancing'],
+        lead: 'People rehearse conversations, argue both sides of a decision, encourage themselves and sometimes criticize themselves, all silently. Researchers study these internal conversations to understand how they work, where they come from and whether the way you talk to yourself makes a difference.',
+        takeaways: [
+          'Inner speech can be like a conversation between perspectives, not just a single stream. A questionnaire measures this quality as “dialogicality.”',
+          'In experiments, people who referred to themselves by name or as “you” rather than “I” while preparing for stressful social tasks were rated as performing better and showed less distress.',
+          'Links between kinds of inner speech and anxiety, and between inner dialogue and proneness to hearing voices that other people do not hear, are statistical patterns in samples. They are not diagnoses.',
+          'How much control people have over starting or stopping their inner voice is not settled by the studies cited here.'
+        ],
+        body: [
+          { type: 'h2', text: 'Conversations in your head' },
+          { type: 'p', text: 'One of the four qualities measured by the Varieties of Inner Speech Questionnaire is dialogicality: the extent to which inner speech takes the form of a conversation between perspectives rather than a single stream.{{mccarthy-jones-2011}} People might rehearse a hard conversation, argue both sides of a decision or imagine how someone else would respond.' },
+          { type: 'example', title: 'Rehearsing a hard conversation', text: 'Before asking for a day off, someone silently plays out the conversation: what they will say, how their manager might answer, what they would say back. Several voices take part, though all of them are in one person’s head. This scene is invented for illustration. It is not a study result.' },
+          { type: 'h2', text: 'Encouraging and criticizing yourself' },
+          { type: 'p', text: 'Another quality the questionnaire measures is evaluative or motivational inner speech: praising, criticizing or urging yourself on. In the young adults who took part in its development, this kind of inner speech and the presence of other voices in inner speech were each uniquely positively related to anxiety, but not to depression. Only dialogic inner speech predicted proneness to hearing voices that other people do not hear (auditory hallucinations), and no quality of inner speech predicted visual hallucinations or disturbances.{{mccarthy-jones-2011}}' },
+          { type: 'p', text: 'A different study sampled everyday moments from 30 college students and found that higher frequencies of inner speech were associated with lower levels of psychological distress.{{heavey-2008}} The two sets of findings do not contradict each other, because they concern different qualities of inner speech in different samples. One possible reading is that the kind of inner speech matters more than how much of it there is, but that is only a possibility.' },
+          { type: 'distinction', title: 'A statistical link is not a diagnosis', text: 'A pattern found across a group of people cannot tell you anything certain about one person. These studies measured anxiety and proneness to hearing voices that other people do not hear in samples of young adults and students. They did not diagnose anyone, and nothing on this site can tell you whether an experience is a clinical concern. If your inner voice distresses you, a doctor or a licensed mental health professional is the right person to talk to.' },
+          { type: 'h2', text: 'How you address yourself' },
+          { type: 'p', text: 'A series of seven studies with 585 participants in total examined the language people use to refer to themselves while they think. Using non-first-person pronouns and one’s own name (for example “you” or “Alex” instead of “I”) during introspection increased self-distancing, which means thinking about yourself from a little further away. In studies about making a good first impression and about public speaking, people in the non-first-person group were rated as performing better by objective raters and showed less distress. In the public speaking study they also engaged in less unhelpful dwelling on the event afterward. They also appraised future stressors as more of a challenge and less of a threat.{{kross-2014}}' },
+          { type: 'p', text: 'A meta-analysis in the same paper found that none of these effects depended on how socially anxious people were.{{kross-2014}} The studies were experiments in which people were told how to refer to themselves, and most involved social stress such as public speaking and first impressions. They do not show that changing the way you refer to yourself helps in every situation.' },
+          { type: 'h2', text: 'Can people control their inner voice?' },
+          { type: 'p', text: 'Reviews describe inner speech as occurring in different forms, including deliberately generated verbal thought and verbal mind wandering,{{perrone-2014}} which suggests that it is sometimes chosen and sometimes simply arrives. The experiments above show that people can be directed to change how they refer to themselves, and that doing so changes the effect.{{kross-2014}} What the research cited here does not establish is how much control people have over whether inner speech starts or stops.' },
+          { type: 'h2', text: 'Where talking to yourself comes from' },
+          { type: 'p', text: 'Developmental psychologists have long noted that young children talk aloud to themselves when they play and solve problems, which is called private speech. A view that goes back to Vygotsky holds that this talk gradually becomes silent inner speech and takes over some of the work of planning and self-control.{{winsler-2009}} A major review notes that inner speech varies among individuals and across the life span, and that its functions in some cases reflect its developmental origins.{{alderson-day-2015}}' },
+          { type: 'h2', text: 'How you know it is you' },
+          { type: 'p', text: 'A review of inner speech research also considers agency: how we know that our inner voice is generated by ourselves and not produced by someone else.{{perrone-2014}} How the brain keeps track of this is part of the research on self-monitoring.' }
+        ],
+        evidence: {
+          supported: [
+            'Inner speech varies along several dimensions, including whether it is dialogic, condensed or expanded, evaluative or motivational, and whether it includes other voices.{{mccarthy-jones-2011}}',
+            'In one sample of young adults, evaluative or motivational inner speech and other voices in inner speech were linked with anxiety, and dialogic inner speech was linked with proneness to auditory hallucinations.{{mccarthy-jones-2011}}',
+            'In a small student sample, higher frequency of inner speech went with lower psychological distress.{{heavey-2008}}',
+            'Referring to yourself by name or as “you” during introspection increased self-distancing and, in lab studies of social stress, improved rated performance and reduced distress. This comes from seven studies with 585 participants.{{kross-2014}}',
+            'Inner speech has developmental roots in children’s private speech.{{winsler-2009,alderson-day-2015}}'
+          ],
+          proposed: [
+            'The kind of inner speech may matter more than how much of it there is. This is one possible reading of findings that point in different directions.{{heavey-2008,mccarthy-jones-2011}}',
+            'Self-distancing may explain why changing how you refer to yourself changes how you cope with stress.{{kross-2014}}'
+          ],
+          unknown: [
+            'How much control people have over starting or stopping their inner voice.',
+            'Whether the links between inner speech and anxiety or hallucination-proneness are causal, and in which direction.{{mccarthy-jones-2011}}'
+          ]
+        },
+        related: ['voice-or-words', 'what-is-an-inner-monologue', 'little-or-no-inner-speech', 'why-experiences-differ']
+      },
+      {
+        slug: 'how-memories-feel',
+        group: 'memory-and-dreams',
+        title: 'How people experience memories',
+        description: 'Memories as images, words, feelings and facts: what researchers know about episodic memory, how imagery and language contribute, why remembering is a construction, and what documented differences show.',
+        keywords: ['memory', 'autobiographical memory', 'episodic memory', 'replay', 'reliving', 'visual memory', 'SDAM', 'severely deficient autobiographical memory', 'constructive memory', 'imagining the future', 'remembering', 'semantic memory'],
+        lead: 'When you remember an event, you might see it, hear it, feel it again, simply know that it happened, or some mix of these. Memory research suggests that remembering is more like rebuilding than replaying, and that people differ in which ingredients they use.',
+        takeaways: [
+          'Episodic memory is the system that lets people remember specific past experiences. Researchers distinguish it from simply knowing facts.',
+          'Remembering is widely seen as constructive: memories are assembled at the time of recall, which makes them prone to errors, and the same system helps people imagine future events.',
+          'Visual imagery contributes to the feeling of reliving a memory, auditory imagery matters more for some people, and people with no visual imagery report less vivid autobiographical memories.',
+          'Researchers have described a few healthy adults with lifelong severely deficient autobiographical memory, who cannot vividly relive their past yet function normally day to day.'
+        ],
+        body: [
+          { type: 'h2', text: 'Remembering an event versus knowing a fact' },
+          { type: 'p', text: 'Researchers distinguish episodic memory, which lets people remember specific past experiences, from other memory systems such as knowing facts. A leading account ties episodic memory to the sense of self, to subjective time and to autonoetic consciousness, which is the awareness of yourself as the person who had the experience.{{tulving-2002}}' },
+          { type: 'distinction', title: 'Knowing that it happened is not the same as reliving it', text: 'You can know that you spent a certain birthday at the beach, as a fact, without being able to bring the day back. Remembering the event as an experience is what researchers mean by episodic memory.{{tulving-2002}} Both are everyday ways of “remembering,” and the questionnaire on this site asks about them separately.' },
+          { type: 'h2', text: 'Memory as construction' },
+          { type: 'p', text: 'In one influential model, autobiographical memories are not stored whole. They are transitory mental constructions put together within a “self-memory system,” which combines a knowledge base about your life with the current goals of what the authors call the working self.{{conway-2000}}' },
+          { type: 'p', text: 'A review of memory research describes episodic memory as fundamentally constructive rather than reproductive, which makes it prone to errors and illusions. The authors argue that this flexibility has a purpose: it allows people to simulate future episodes by recombining elements of earlier experience. They report considerable overlap between the psychological and brain processes involved in remembering the past and imagining the future.{{schacter-addis-2007}} This helps explain why a memory can feel vivid and still be wrong. A clear feeling is not a guarantee of accuracy.' },
+          { type: 'h2', text: 'The ingredients: images, words, sounds, places and feelings' },
+          { type: 'p', text: 'One model proposes that episodic memories are constructed from interactions among basic systems: vision, audition, olfaction and other senses, spatial imagery, language, emotion, narrative, motor output, explicit memory, and search and retrieval.{{rubin-2006}} On this view there is no single memory format. What people experience when they remember depends on which systems contribute.' },
+          { type: 'h2', text: 'Imagery and the feeling of reliving' },
+          { type: 'p', text: 'A set of three experiments looked at how visual imagery relates to autobiographical memory. In the first, the researchers found no significant positive relation between imagery ability and the qualities of autobiographical memory, except on a measure of cognitive style. In the second, for both visualizers and verbalizers, visual imagery was correlated with the feeling of reliving memories, but auditory imagery played a greater role in verbalizers. In the third, people with a congenital absence of visual imagery also had a deficit in auditory imagery, and were much less likely than comparison participants to feel as though they were reliving their memories. The authors concluded that visual imagery plays a vital and irreplaceable role in autobiographical recall. That is their interpretation of mixed results.{{greenberg-2014}}' },
+          { type: 'p', text: 'Later work on aphantasia fits part of this picture. People with aphantasia report less vivid and less rich autobiographical memories and imagined future scenes,{{dawes-2020}} and in a laboratory comparison with objective tests, they scored lower than people with mid-range imagery on autobiographical memory and imagination, despite equivalent performance on standard memory tests.{{milton-2021}} In a drawing study, people with aphantasia relied more on verbal descriptions, which the authors called “verbal scaffolding,” when recalling scenes.{{bainbridge-2021}}' },
+          { type: 'h2', text: 'Severely deficient autobiographical memory' },
+          { type: 'p', text: 'Researchers have described three healthy, high-functioning adults with lifelong severely deficient autobiographical memory, abbreviated SDAM. They reported a selective inability to vividly recollect personally experienced events from a first-person perspective. This was backed up by the absence of brain signals usually linked to recollection, in both brain imaging and electrical recordings, and by impaired retrieval of episodes, particularly for visual information. Yet learning and memory were otherwise intact as long as tasks could be done without recollecting episodes. The authors note that these people function normally in day-to-day life even though their past is experienced without recollection.{{palombo-2015}}' },
+          { type: 'p', text: 'Because only three people were studied, this shows that the pattern can exist. It does not show how common it is or how it arises. A 2024 review notes that aphantasia is variably associated with reduced autobiographical memory,{{zeman-2024}} which suggests that the two are connected for some people but not all.' },
+          { type: 'h2', text: 'How this relates to the questionnaire' },
+          { type: 'p', text: 'The optional part of the questionnaire asks how you experience memories and dreams: whether they are visual, verbal, emotional or something else. Your answers describe your own impression of remembering. They are not a test of how good your memory is.' }
+        ],
+        evidence: {
+          established: [
+            'Episodic memory, remembering specific past experiences, is distinguished from other memory systems.{{tulving-2002}}',
+            'Remembering is constructive and prone to errors and illusions.{{schacter-addis-2007,conway-2000}}'
+          ],
+          supported: [
+            'Remembering the past and imagining the future share psychological and brain processes.{{schacter-addis-2007}}',
+            'Visual imagery contributes to the feeling of reliving memories, and auditory imagery matters more for verbalizers.{{greenberg-2014}}',
+            'People with aphantasia report less vivid autobiographical memories, and a laboratory study found differences on objective tests despite equal performance on standard memory tests.{{dawes-2020,milton-2021}}',
+            'A pattern of severely deficient autobiographical memory has been described in three healthy adults.{{palombo-2015}}'
+          ],
+          proposed: [
+            'Episodic memories are built from interacting basic systems such as vision, audition, language, emotion and narrative.{{rubin-2006}}',
+            'Autobiographical memories are constructed within a self-memory system that is tied to current goals.{{conway-2000}}',
+            'Visual imagery plays a vital and irreplaceable role in autobiographical recall. This is the authors’ conclusion from three experiments with mixed results.{{greenberg-2014}}'
+          ],
+          unknown: [
+            'How common severe deficits in autobiographical memory are, and what causes them.{{palombo-2015}}',
+            'How much visual imagery is needed for a vivid sense of reliving.'
+          ]
+        },
+        related: ['aphantasia', 'dreams-and-imagery', 'mental-imagery', 'hyperphantasia', 'why-experiences-differ']
+      },
+      {
+        slug: 'dreams-and-imagery',
+        group: 'memory-and-dreams',
+        title: 'Dreams and mental imagery',
+        description: 'Why people remember dreams differently, what brain research says about dreaming, how dreams relate to imagery and perception, and what dreams look like for people who are blind or who report no waking imagery.',
+        keywords: ['dreams', 'dreaming', 'dream recall', 'REM', 'non-REM', 'nightmares', 'blind dreams', 'congenitally blind', 'aphantasia dreams', 'continuity hypothesis', 'dream imagery', 'hot zone', 'visual dreams', 'dream content'],
+        lead: 'Dreams are a nightly experiment in having experience without input from the senses. Researchers use them to ask what the brain can generate on its own, why people recall dreams so differently, and how dreaming is related to the mental imagery we have when awake.',
+        takeaways: [
+          'Dreaming shows that the brain, disconnected from the environment, can generate an entire world of conscious experiences by itself.',
+          'Dreaming is not limited to REM sleep. In one brain-recording study, reports of dreaming in both REM and non-REM sleep were linked to activity changes in a back-of-the-brain “hot zone.”',
+          'People differ greatly in how often they recall dreams and in what their dreams contain, but few measures from psychological tests predict how often a person recalls dreams.',
+          'Whether dreaming is closer to imagery or to perception is an open question. Studies of blind people and of people with aphantasia add evidence but do not settle it.'
+        ],
+        body: [
+          { type: 'h2', text: 'An experiment every night' },
+          { type: 'p', text: 'Researchers describe dreams as a remarkable natural experiment in psychology and neuroscience. They show that the human brain, disconnected from the environment, can generate an entire world of conscious experiences by itself. Dreams raise several questions for cognitive neuroscience: how conscious experiences in sleep relate to brain activity, why the dreamer is largely disconnected from the environment, and whether dreaming is more closely related to mental imagery or to perception.{{nir-tononi-2010}}' },
+          { type: 'h2', text: 'What the brain is doing' },
+          { type: 'p', text: 'Dreaming has traditionally been identified with rapid eye-movement (REM) sleep, when brain activity looks much like waking. But dreaming also occurs in non-REM sleep, which has very different brain activity. In a study using high-density electroencephalography (EEG, recordings of electrical activity from the scalp), reports of dream experience were associated, in both non-REM and REM sleep, with local decreases in low-frequency activity in posterior (back-of-the-brain) cortical regions. High-frequency activity in these regions correlated with specific dream contents. Monitoring this posterior “hot zone” in real time predicted whether a person would report dreaming during non-REM sleep. The authors suggest that it may constitute a core correlate of conscious experience in sleep.{{siclari-2017}}' },
+          { type: 'h2', text: 'Why people recall dreams so differently' },
+          { type: 'p', text: 'People differ greatly in how often they recall dreams, in how often they recall particular types such as nightmares, and in what their dreams contain. A review of the research on waking-life correlates concluded that, although dream recall and dream content have trait-like aspects, very few correlates of recall frequency and content, measured with psychological tests, have been found. Research has been more successful with particular types of dreams, such as nightmares and lucid dreams, and with how waking-life experience is associated with dream content. The review also sees potential in studying the brain correlates of these differences.{{blagrove-2010}}' },
+          { type: 'h2', text: 'Do dreams reflect waking life?' },
+          { type: 'p', text: 'The continuity hypothesis says that dreams reflect waking life. A study using dream diaries and careful measures of waking activities found that differences between people in how much time they spent on particular waking activities were reflected in dream content. The authors concluded, though, that the continuity hypothesis in its general form is not valid and should be made more specific. Highly focused cognitive activities such as reading and writing, for example, rarely appear in dreams, and emotional involvement may affect how often waking experiences are incorporated.{{schredl-2003}}' },
+          { type: 'h2', text: 'Dreaming without sight' },
+          { type: 'p', text: 'A study of 11 people who were blind from birth, 14 who became blind later and 25 sighted comparison participants collected dream reports over four weeks. All blind participants reported fewer visual dream impressions than sighted participants. Among those who became blind later, longer blindness went with shorter, less clear and less colorful visual dream impressions. People blind from birth reported more auditory, touch, taste and smell components in their dreams than sighted participants, whereas people who became blind later reported more touch impressions only. Emotional and thematic content did not differ between the groups, but those blind from birth reported more aggressive interactions and more nightmares. The authors conclude that blindness considerably alters the sensory composition of dreams, and suggest that the extra nightmares may be related to more threatening experiences in daily life.{{meaidi-2014}}' },
+          { type: 'p', text: 'The groups were small, so these results show patterns in those samples. They are not rates for everyone who is blind.' },
+          { type: 'h2', text: 'Dreams when you have no waking imagery' },
+          { type: 'distinction', title: 'Waking imagery and dream imagery are different questions', text: '“Can you picture a beach right now?” and “Do you see pictures in your dreams?” are different questions, and people can answer them differently. That is why researchers treat dreaming as a separate window onto imagery. In a large survey, a majority of participants with aphantasia reported dreaming visually,{{zeman-2020}} and a 2024 review concludes that visual dreaming is often preserved in aphantasia.{{zeman-2024}}' },
+          { type: 'p', text: 'A different study found that people with aphantasia reported fewer dreams, and dreams that were less rich, than comparison participants.{{dawes-2020}} The studies used different samples and different questions, and it is not yet clear why their results differ. See [[aphantasia|Aphantasia]] for more.' },
+          { type: 'h2', text: 'Is dreaming more like imagery or like perception?' },
+          { type: 'p', text: 'This is posed as a fundamental question for dream research.{{nir-tononi-2010}} The studies above do not settle it, but they add evidence. In dreams, the sensory makeup of experience depends on a person’s history: blindness changes it considerably, and the age at which sight was lost matters.{{meaidi-2014}} Meanwhile, in one large survey, a majority of participants with aphantasia still reported dreaming visually.{{zeman-2020}} Explaining both facts together is a task for future research.' }
+        ],
+        evidence: {
+          established: [
+            'Dreaming is conscious experience generated by the sleeping brain with little input from the surroundings.{{nir-tononi-2010}}',
+            'People differ greatly in how often they recall dreams and in what their dreams contain.{{blagrove-2010}}'
+          ],
+          supported: [
+            'Dreaming occurs in both REM and non-REM sleep, and dream reports are linked to activity in a posterior “hot zone” in both.{{siclari-2017}}',
+            'Waking-life activities are reflected in dream content, but more selectively than a simple continuity idea predicts.{{schredl-2003}}',
+            'Blindness changes the sensory composition of dreams. This comes from small groups.{{meaidi-2014}}',
+            'A majority of participants with aphantasia in one large survey reported dreaming visually, and a review concludes that visual dreaming is often preserved.{{zeman-2020,zeman-2024}}'
+          ],
+          proposed: [
+            'The posterior “hot zone” may be a core correlate of conscious experience in sleep.{{siclari-2017}}'
+          ],
+          unknown: [
+            'Whether dreaming is more closely related to mental imagery or to perception.{{nir-tononi-2010}}',
+            'Why one study of aphantasia found fewer and less rich dreams while others found visual dreaming preserved.{{zeman-2020,dawes-2020}}',
+            'Why dream recall differs so much between people, given how few measured correlates have been found.{{blagrove-2010}}'
+          ]
+        },
+        related: ['aphantasia', 'mental-imagery', 'how-memories-feel', 'why-experiences-differ']
+      },
+      {
+        slug: 'why-experiences-differ',
+        group: 'why-we-differ',
+        title: 'Why do inner experiences differ?',
+        description: 'What researchers know about differences in inner experience: hidden differences, why people assume everyone is like them, how language, development and biology might contribute, why samples matter, and what is still uncertain.',
+        keywords: ['individual differences', 'why people differ', 'hidden differences', 'phenomenal experience', 'false consensus', 'language and thought', 'development', 'WEIRD', 'culture', 'conscious experience', 'assume everyone', 'uncertain', 'genetics', 'brain'],
+        lead: 'Differences in how people experience thinking are easy to miss. We cannot see inside each other’s minds, and each of us tends to assume that others are like us. Researchers are only beginning to map these differences, and they have more questions than answers about why they exist.',
+        takeaways: [
+          'Researchers call many of these differences “hidden”: real but hard to observe, so people often find out about them by accident.',
+          'People who cannot see in their mind’s eye tend to assume everyone is like them, and people who can assume that others can too. A classic study found a similar “false consensus” for choices.',
+          'Language, development and brain function have each been studied, but an accepted explanation has not yet been established for the differences described on this site.',
+          'A major review argues that much behavioral science draws on a narrow, unusual slice of humanity, which is a reason for care when generalizing findings about inner experience.'
+        ],
+        body: [
+          { type: 'h2', text: 'Hidden differences' },
+          { type: 'p', text: 'Researchers describe a class of “hidden differences” in people’s subjective experiences: differences that are real but hard to observe, so they go unnoticed. People vary widely in how much visual imagery they experience, for example, but those who cannot see in their mind’s eye tend to assume everyone is like them, and those who can assume that everyone else can as well. The researchers argue that studying such differences has much to teach cognitive science. It may help predict otherwise puzzling differences in behavior, and it can act as a stress test for some theories.{{lupyan-2023}}' },
+          { type: 'p', text: 'Assuming that others are like us is a general feature of social judgment. In a classic set of experiments, people who made one choice estimated that more people would make the same choice than people who chose differently did. This is known as the false consensus effect.{{ross-1977}}' },
+          { type: 'distinction', title: 'Different experience is not necessarily different ability', text: 'Having a different inner experience does not by itself mean a difference in what a person can do. In one laboratory study, people with very different imagery performed equivalently on standard memory tests,{{milton-2021}} while in another study, people who reported low inner speech did less well on particular tasks.{{nedergaard-2024}} Each possible difference has to be tested task by task.' },
+          { type: 'h2', text: 'Language and thought' },
+          { type: 'p', text: 'One long-running question is how language shapes thinking. A review of behavioral and electrophysiological evidence concluded that effects of language on perception can be observed both in higher-level processes such as recognition and in lower-level processes such as discrimination and detection. A consistent finding is that language causes people to perceive in a more categorical way. The authors argue that such effects arise naturally from the interactive and predictive nature of perception.{{lupyan-2020}}' },
+          { type: 'p', text: 'That research is about language in general. It is not about inner speech in particular, and it does not say that people who think without words perceive the world differently. In one study of inner speech, categorical effects on perceptual judgments were unrelated to how much inner speech people reported.{{nedergaard-2024}}' },
+          { type: 'h2', text: 'Development' },
+          { type: 'p', text: 'Researchers who study how inner speech develops describe children’s private speech, the talking aloud to themselves that children do while they play and solve problems, as a starting point for inner speech.{{winsler-2009}} A major review notes that inner speech varies among individuals and across the life span, and that in some cases its functions reflect its developmental origins.{{alderson-day-2015}} How these developmental ideas might explain adult differences in how much inner speech people experience has not been established.' },
+          { type: 'h2', text: 'Brain and biology' },
+          { type: 'p', text: 'Researchers have begun to look for biological differences that go with imagery differences. Lower excitability in early visual cortex goes with stronger imagery.{{keogh-2020}} Stronger connectivity between prefrontal cortices and the visual network was found in people with hyperphantasia than in people with aphantasia.{{milton-2021}} Aphantasia appears to run in families more often than chance would predict.{{zeman-2020}} A 2024 review suggests that alterations in connectivity between frontoparietal and visual networks may provide the neural basis for imagery extremes.{{zeman-2024}} These are early findings. Running in families does not by itself show that genes are the cause, because families also share environments.' },
+          { type: 'h2', text: 'Who is in the studies?' },
+          { type: 'p', text: 'A review in Behavioral and Brain Sciences found that behavioral scientists routinely publish broad claims about human psychology based on samples drawn entirely from Western, Educated, Industrialized, Rich and Democratic (WEIRD) societies. Its review of the comparative evidence suggests that there is substantial variability across populations and that people from WEIRD societies are particularly unusual compared with the rest of the species, often outliers, in areas including visual perception, spatial reasoning, categorization and reasoning styles.{{henrich-2010}} That review does not cover inner speech or imagery specifically.' },
+          { type: 'p', text: 'Several of the studies described on this site used college students, online volunteers or people who contacted the researchers, so what they find may not apply equally to people everywhere.' },
+          { type: 'h2', text: 'What remains uncertain' },
+          { type: 'ul', items: [
+            'Why people differ in how much inner speech they experience.',
+            'Whether differences in imagery cause differences in memory and imagination, or whether both come from something shared.',
+            'How much these differences change across situations and over a lifetime.',
+            'How these differences appear in cultures and groups that have not been studied.',
+            'How inner experience can be measured accurately. See [[how-we-know-whats-in-a-mind|How do we know what goes on in someone’s head?]]'
+          ] }
+        ],
+        evidence: {
+          established: [
+            'People tend to see their own choices and beliefs as more common than other people do (the false consensus effect).{{ross-1977}}',
+            'Psychological samples are often drawn from a narrow set of societies, and results can differ across populations.{{henrich-2010}}'
+          ],
+          supported: [
+            'Differences in inner experience can stay hidden because people assume others are like them.{{lupyan-2023}}',
+            'Language influences perception, making it more categorical.{{lupyan-2020}}',
+            'Lower early visual cortex excitability goes with stronger imagery.{{keogh-2020}}',
+            'Aphantasia appears to run in families.{{zeman-2020}}',
+            'Inner speech varies among individuals and across the life span.{{alderson-day-2015}}'
+          ],
+          proposed: [
+            'Inner speech grows out of children’s private speech.{{winsler-2009,alderson-day-2015}}',
+            'Differences in connectivity between frontoparietal and visual networks may underlie imagery extremes.{{zeman-2024}}',
+            'Studying hidden differences can help predict otherwise puzzling differences in behavior.{{lupyan-2023}}'
+          ],
+          unknown: [
+            'Why people differ in how much inner speech they experience.',
+            'Whether imagery differences cause differences in memory and imagination or share a common cause.',
+            'How these differences appear in cultures and groups that have not yet been studied.{{henrich-2010}}'
+          ]
+        },
+        related: ['how-we-know-whats-in-a-mind', 'little-or-no-inner-speech', 'aphantasia', 'what-is-an-inner-monologue']
+      },
+      {
+        slug: 'how-we-know-whats-in-a-mind',
+        group: 'why-we-differ',
+        title: 'How do we know what goes on in someone’s head?',
+        description: 'The methods researchers use to study inner experience, from questionnaires and random-beep sampling to objective tests, why self-reports can be wrong, and what this means for taking a questionnaire like the one on this site.',
+        keywords: ['introspection', 'self-report', 'questionnaire', 'experience sampling', 'descriptive experience sampling', 'DES', 'reliability', 'validity', 'metacognition', 'binocular rivalry', 'pupil', 'limits of self-report', 'how do we know'],
+        lead: 'Inner experience is private. Researchers cannot observe it directly, so every method for studying it involves some way of asking people, and every way of asking has weak points. This article describes the main methods, what is known about how far they can be trusted, and what that means for the questionnaire on this site.',
+        takeaways: [
+          'Questionnaires, interviews, random-beep sampling and objective tests each capture something different.',
+          'People can be mistaken about the causes of their own behavior and judgments, and some philosophers argue that reports about our own current experience are less reliable than they feel. Others argue that careful methods can give accurate descriptions.',
+          'Objective tests can check some self-reports. Imagery vividness ratings predicted a bias in binocular rivalry, and people who report no visual imagery showed no imagery-related pupil response.',
+          'The questionnaire on this site records your own impressions. It cannot measure your thinking directly and it does not diagnose anything.'
+        ],
+        body: [
+          { type: 'h2', text: 'Asking people directly' },
+          { type: 'p', text: 'The oldest method is to ask. Francis Galton’s 1880 breakfast-table survey is an early example of a systematic questionnaire about mental imagery.{{galton-1880}} The Vividness of Visual Imagery Questionnaire, introduced in 1973, is a descendant that is still used in current research.{{marks-1973,keogh-2018}} New questionnaires are tested before use. The Varieties of Inner Speech Questionnaire, for example, was developed and psychometrically validated (checked for whether it measures what it is meant to measure, consistently) in a sample of young adults.{{mccarthy-jones-2011}}' },
+          { type: 'h2', text: 'Sampling moments instead of asking in general' },
+          { type: 'p', text: 'Experience sampling collects reports at random moments during daily life. The Experience-Sampling Method was designed to describe how often people do different things and have different mental states and thoughts. A 1987 review presented evidence for its short-term and long-term reliability, and for its validity, through correlations with physiological measures, one-time psychological tests and behavioral indices.{{csikszentmihalyi-1987}}' },
+          { type: 'p', text: 'Descriptive Experience Sampling is a related method developed by Russell Hurlburt and colleagues. Participants note what they were experiencing at the moment of a random beep, and an interviewer helps them describe it in detail.{{hurlburt-heavey-2006}} Its developers describe it as a way of producing high-fidelity descriptions of randomly selected, pristine inner experience, and argue that although exploring inner experience is not trivially easy, it can provide important knowledge for cognitive science.{{hurlburt-2013,hurlburt-heavey-2001}}' },
+          { type: 'distinction', title: 'A general impression and a single moment are different questions', text: 'If you are asked “do you have an inner voice?” you answer from a general impression built over many moments. Sampling studies ask about one moment at a time. The two approaches can give different answers, and the researchers who use sampling attribute differences between their findings and other writers’ claims about inner speech to the methods used.{{hurlburt-2013}}' },
+          { type: 'h2', text: 'Why self-reports can go wrong' },
+          { type: 'p', text: 'A classic 1977 review argued that people often cannot accurately report the causes of their own judgments and behavior, and that when they explain themselves they may give plausible accounts that do not match what actually influenced them.{{nisbett-1977}} That argument is about the causes of behavior rather than the experience itself, but it is often cited as a reason to doubt introspection, which is the practice of looking inward and reporting on your own mental life. Researchers who use experience sampling have addressed that criticism directly.{{hurlburt-heavey-2001}}' },
+          { type: 'p', text: 'The philosopher Eric Schwitzgebel makes a broader argument in a paper called “The unreliability of naive introspection”: that people’s ordinary judgments about their own current conscious experience are more error-prone than they feel.{{schwitzgebel-2008}}' },
+          { type: 'p', text: 'Defenders of careful sampling respond that such criticisms point toward technical improvements in how experience is asked about, not toward giving up on it.{{hurlburt-heavey-2001}} The two sides have set out their positions in a book-length exchange.{{hurlburt-schwitzgebel-2007}}' },
+          { type: 'p', text: 'Another weak point is comparison. If you have never been able to compare your inner experience with someone else’s, you may not realize that it differs, which is part of why such differences can stay hidden.{{lupyan-2023}}' },
+          { type: 'h2', text: 'Checking reports against objective tests' },
+          { type: 'p', text: 'One way to test self-reports is to compare them with behavior. In a study that used binocular rivalry, people imagined a pattern and rated how vivid it was. On individual trials, higher ratings predicted a greater chance that the imagined pattern would then dominate the rivalry display. Questionnaires also predicted differences between people in the strength of this effect, and mock displays showed no bias, which argues against people simply guessing what the researchers wanted. The authors concluded that people have a good metacognitive understanding of their own mental imagery.{{pearson-2011}}' },
+          { type: 'p', text: 'People who report no visual imagery have been tested in similar ways. Experimentally naive people who identified as having aphantasia showed almost no imagery-based priming in binocular rivalry,{{keogh-2018}} and in a pupil study they showed no significant imagery pupil response, while their pupils responded normally to real light and to mental effort.{{kay-2022}} In both studies, the objective measures matched what the participants had said.' },
+          { type: 'p', text: 'These checks are strongest for visual imagery, where good objective tests exist. For other kinds of experience, such as inner speech, the objective checks described in this article’s sources are fewer. One example is the 2024 study in which groups defined by self-reported inner speech differed on verbal working memory and rhyme tasks.{{nedergaard-2024}}' },
+          { type: 'h2', text: 'What this means for the questionnaire on this site' },
+          { type: 'p', text: 'The questionnaire is a self-report instrument. It asks what you notice about your own thinking and records only your impressions. Given everything above:' },
+          { type: 'ul', items: [
+            'Treat your results as a description of how you report your own experience, not as a measurement of your mind.',
+            'There are no right or wrong answers, and “not sure” is always an acceptable response.',
+            'Results are compared only with other people who completed this questionnaire. They are volunteers, not a representative sample, so a comparison shows how others who took part answered, not how people in general think. A comparison appears only when enough people have answered.',
+            'Nothing on this site is a diagnosis.'
+          ] }
+        ],
+        evidence: {
+          established: [
+            'People can be wrong about the causes of their own judgments and behavior.{{nisbett-1977}}'
+          ],
+          supported: [
+            'Imagery vividness ratings predicted objective effects in a binocular rivalry experiment.{{pearson-2011}}',
+            'Objective measures, a binocular rivalry test and the pupil response, matched reports of no visual imagery in aphantasia.{{keogh-2018,kay-2022}}',
+            'The Experience-Sampling Method has evidence for reliability and validity, including correlations with physiological measures, psychological tests and behavioral indices.{{csikszentmihalyi-1987}}',
+            'The Varieties of Inner Speech Questionnaire was psychometrically validated in a sample of young adults.{{mccarthy-jones-2011}}'
+          ],
+          proposed: [
+            'Careful sampling methods can produce accurate descriptions of inner experience, and criticisms of introspection point toward improvements in method.{{hurlburt-heavey-2001}}',
+            'Naive introspection about one’s own current conscious experience is unreliable. This is a philosophical argument that is disputed.{{schwitzgebel-2008}}',
+            'Differences between sampling studies and other researchers’ claims about inner speech are due to differences in method.{{hurlburt-2013}}'
+          ],
+          unknown: [
+            'How far reports of inner speech, unsymbolized thinking and other experiences can be checked against objective measures.',
+            'How accurately people can report experiences for which no objective test exists.'
+          ]
+        },
+        related: ['why-experiences-differ', 'thinking-without-words', 'aphantasia', 'mental-imagery']
+      }
+    ];
+    // END CONTENT DATA
+
+    // BEGIN SEARCH LOGIC
+    /** Lower-case, accent-free text, so that "Dream" finds "dreams". */
+    function normalizeText(text) {
+      return String(text).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+    }
+
+    /** Trims a plural or “-ing” ending, so “memory” finds “memories” and “dream” finds “dreaming”. */
+    function stem(word) {
+      if (word.length > 4 && word.endsWith('ies')) return word.slice(0, -3) + 'y';
+      if (word.length > 6 && word.endsWith('ing')) return word.slice(0, -3);
+      if (word.length > 3 && word.endsWith('s') && !word.endsWith('ss')) return word.slice(0, -1);
+      return word;
+    }
+
+    function wordsOf(text) {
+      return normalizeText(text).split(/[^a-z0-9]+/).filter(Boolean).map(stem);
+    }
+
+    /** Text with citation and link markup removed, for searching and for counting words. */
+    function plainText(text) {
+      return String(text).replace(/\{\{[^}]*\}\}/g, '').replace(/\[\[[^|\]]*\|([^\]]*)\]\]/g, '$1').replace(/\*\*/g, '');
+    }
+
+    function blockPlainText(block) {
+      return plainText([block.title, block.text, block.items ? block.items.join(' ') : ''].filter(Boolean).join(' '));
+    }
+
+    function articleWordCount(article) {
+      const evidence = Object.keys(article.evidence || {}).map((k) => article.evidence[k].join(' ')).join(' ');
+      const text = [article.title, plainText(article.lead), (article.takeaways || []).join(' '), article.body.map(blockPlainText).join(' '), plainText(evidence)].join(' ');
+      return text.split(/\s+/).filter(Boolean).length;
+    }
+
+    function readingMinutes(article) {
+      return Math.max(1, Math.round(articleWordCount(article) / 200));
+    }
+
+    /**
+     * Finds articles for a search. Every word typed has to match somewhere (title, keywords,
+     * description, topic area, headings or introduction). Titles and keywords count for most.
+     */
+    function searchArticles(query, articles, groups) {
+      const tokens = wordsOf(query);
+      if (tokens.length === 0 || tokens.every((t) => t.length < 2)) return [];
+      const groupTitle = {};
+      groups.forEach((g) => { groupTitle[g.id] = g.title; });
+      const hits = [];
+      articles.forEach((article) => {
+        const fields = [
+          { weight: 6, words: wordsOf(article.title) },
+          { weight: 5, words: wordsOf(article.keywords.join(' ')) },
+          { weight: 3, words: wordsOf(article.description + ' ' + (groupTitle[article.group] || '')) },
+          { weight: 2, words: wordsOf(article.body.filter((b) => b.type === 'h2').map((b) => b.text).join(' ') + ' ' + plainText(article.lead)) }
+        ];
+        let total = 0;
+        for (const token of tokens) {
+          let best = 0;
+          fields.forEach((field) => field.words.forEach((word) => {
+            if (word === token) best = Math.max(best, field.weight * 3);
+            else if (word.indexOf(token) === 0) best = Math.max(best, field.weight * 2);
+            else if (token.length >= 4 && word.indexOf(token) !== -1) best = Math.max(best, field.weight);
+          }));
+          if (best === 0) { total = 0; break; }
+          total += best;
+        }
+        if (total > 0) hits.push({ article: article, score: total });
+      });
+      hits.sort((a, b) => b.score - a.score || a.article.title.localeCompare(b.article.title));
+      return hits;
+    }
+    // END SEARCH LOGIC
 
     // =====================================================================
     // 4. ROUTING  (the pure part is tested on its own)
@@ -564,12 +1626,18 @@
         h('div', { class: 'mind-card mc-3' }, h('span', { class: 'mc-label' }, 'Ideas'), nodes));
     }
 
-    function topicCard(topic) {
+    function groupArticles(group) {
+      return ARTICLES.filter((a) => a.group === group.id);
+    }
+
+    /** A home-page card for one topic area. It opens that area's first article. */
+    function groupCard(group) {
+      const list = groupArticles(group);
       return h('article', { class: 'card card-link' },
-        h('div', { class: 'card-icon' }, icon(topic.icon)),
-        h('h3', null, h('a', { class: 'card-anchor', href: '#/learn' }, topic.title)),
-        h('p', null, topic.text),
-        h('span', { class: 'card-more', 'aria-hidden': 'true' }, 'Browse in Learn', icon('arrow')));
+        h('div', { class: 'card-icon' }, icon(group.icon)),
+        h('h3', null, h('a', { class: 'card-anchor', href: '#/learn/' + list[0].slug }, group.title)),
+        h('p', null, group.text),
+        h('span', { class: 'card-more', 'aria-hidden': 'true' }, list.length + (list.length === 1 ? ' article' : ' articles'), icon('arrow')));
     }
 
     function point(iconName, title, text) {
@@ -589,8 +1657,8 @@
         h('section', { class: 'section', 'aria-labelledby': 'topics-title' },
           h('p', { class: 'eyebrow' }, 'What you can explore'),
           h('h2', { id: 'topics-title' }, 'Six ways into the question of how people think'),
-          h('p', { class: 'section-lead' }, 'Each topic will have an article that explains the idea in plain language, separates what research has established from what is still uncertain, and links to the published studies behind it.'),
-          h('div', { class: 'grid' }, TOPICS.map(topicCard))),
+          h('p', { class: 'section-lead' }, 'Each topic has articles that explain the ideas in plain language, separate what research has established from what is still uncertain, and link to the published studies behind them.'),
+          h('div', { class: 'grid' }, TOPIC_GROUPS.map(groupCard))),
         h('section', { class: 'section promo', 'aria-labelledby': 'quiz-title' },
           h('div', null,
             h('p', { class: 'eyebrow' }, 'The questionnaire'),
@@ -616,13 +1684,113 @@
         h('div', { class: 'cta-row' }, opts.actions));
     }
 
-    const buildLearn = () => buildPlain({
-      eyebrow: 'Learn',
-      title: 'The articles are on their way',
-      lead: 'Each article will explain one idea in plain language, separate what is well established from what is still being investigated, and link to the published research it draws on.',
-      note: 'Articles and search arrive in the next stage of the build.',
-      actions: [button('Back to the home page', '#/', 'secondary')]
-    });
+    // ---- The Learn page: topic areas, the evidence key and search ----
+    function topicOf(article) {
+      return TOPIC_GROUPS.filter((g) => g.id === article.group)[0];
+    }
+
+    function bySlug(slug) {
+      return ARTICLES.filter((a) => a.slug === slug)[0];
+    }
+
+    /** A card for one article, used in the Learn lists, in search results and under "Keep exploring". */
+    function articleCard(article, headingLevel) {
+      return h('article', { class: 'card card-link article-card' },
+        h('p', { class: 'card-meta' }, topicOf(article).title + ' \u00b7 ' + readingMinutes(article) + ' min read'),
+        h('h' + headingLevel, null, h('a', { class: 'card-anchor', href: '#/learn/' + article.slug }, article.title)),
+        h('p', null, article.description),
+        h('span', { class: 'card-more', 'aria-hidden': 'true' }, 'Read the article', icon('arrow')));
+    }
+
+    function buildGroupSection(group) {
+      const headingId = 'group-' + group.id;
+      return h('section', { class: 'group', 'aria-labelledby': headingId },
+        h('div', { class: 'group-head' },
+          h('div', { class: 'card-icon' }, icon(group.icon)),
+          h('div', null, h('h2', { id: headingId }, group.title), h('p', null, group.text))),
+        h('div', { class: 'grid' }, groupArticles(group).map((article) => articleCard(article, 3))));
+    }
+
+    function buildEvidenceKey() {
+      return h('section', { class: 'key', 'aria-labelledby': 'key-title' },
+        h('h2', { id: 'key-title' }, 'How the articles label what we know'),
+        h('p', null, 'Research on inner experience is a mix of firm findings and open questions. Each article ends with a panel that sorts its main points into these four groups, so you can tell them apart.'),
+        h('ul', { class: 'legend' }, EVIDENCE_LEVELS.map((level) =>
+          h('li', { class: 'ev-' + level.id }, h('strong', null, icon(level.icon), level.label), level.text))));
+    }
+
+    function buildLearn() {
+      const input = h('input', { id: 'search-input', class: 'search-input', type: 'search', placeholder: 'Try \u201cvoice\u201d, \u201cimagery\u201d or \u201cdreams\u201d', autocomplete: 'off', spellcheck: 'false' });
+      const clear = h('button', { class: 'search-clear', type: 'button', 'aria-label': 'Clear the search', hidden: true }, icon('close'));
+      // The count is shown at once; a screen reader hears it a moment after typing stops.
+      const shownStatus = h('p', { class: 'search-status', 'aria-hidden': 'true' });
+      const spokenStatus = h('p', { class: 'sr-only', role: 'status' });
+      const cards = h('div', { class: 'grid' });
+      const none = h('div', { class: 'notice', hidden: true });
+      const results = h('section', { class: 'results', 'aria-labelledby': 'results-title', hidden: true },
+        h('h2', { id: 'results-title', class: 'sr-only' }, 'Search results'), none, cards);
+      const groups = h('div', { class: 'groups' }, TOPIC_GROUPS.map(buildGroupSection));
+      let statusTimer = 0;
+
+      function setStatus(message) {
+        shownStatus.textContent = message;
+        window.clearTimeout(statusTimer);
+        statusTimer = window.setTimeout(() => { spokenStatus.textContent = message; }, 600);
+      }
+
+      function clearSearch() {
+        input.value = '';
+        update();
+        input.focus();
+      }
+
+      function update() {
+        const query = input.value.trim();
+        clear.hidden = input.value === '';
+        if (!wordsOf(query).some((word) => word.length >= 2)) {
+          results.hidden = true;
+          groups.hidden = false;
+          setStatus(query === '' ? '' : 'Type at least two letters to search.');
+          return;
+        }
+        const hits = searchArticles(query, ARTICLES, TOPIC_GROUPS);
+        groups.hidden = true;
+        results.hidden = false;
+        cards.replaceChildren(...hits.map((hit) => articleCard(hit.article, 3)));
+        none.hidden = hits.length > 0;
+        if (hits.length === 0) {
+          const showAll = h('button', { type: 'button', class: 'btn btn-secondary' }, 'Show all topics');
+          showAll.addEventListener('click', clearSearch);
+          none.replaceChildren(
+            h('p', null, 'No article matches \u201c' + query + '\u201d. Try a single word such as \u201cvoice\u201d, \u201cimagery\u201d or \u201cmemory\u201d, or browse every topic.'),
+            showAll);
+          setStatus('No articles found.');
+        } else {
+          setStatus(hits.length + (hits.length === 1 ? ' article found.' : ' articles found.'));
+        }
+      }
+
+      input.addEventListener('input', update);
+      input.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && input.value !== '') {
+          event.preventDefault();
+          clearSearch();
+        }
+      });
+      clear.addEventListener('click', clearSearch);
+
+      return h('div', { class: 'page page-learn' },
+        h('header', { class: 'page-head' },
+          h('p', { class: 'eyebrow' }, 'Learn'),
+          h('h1', { tabindex: '-1' }, 'How people experience thinking'),
+          h('p', { class: 'lead' }, ARTICLES.length + ' articles on inner speech, mental imagery, thinking without words, memory and dreams. Each one separates what research has established from what is still uncertain, and lists the studies behind it.')),
+        h('div', { class: 'search' },
+          h('label', { for: 'search-input' }, 'Search the articles'),
+          h('div', { class: 'search-field' }, icon('search'), input, clear),
+          shownStatus, spokenStatus),
+        results, groups, buildEvidenceKey());
+    }
+
     const buildQuiz = () => buildPlain({
       eyebrow: 'Questionnaire',
       title: 'The questionnaire is being built',
@@ -651,15 +1819,181 @@
       actions: [button('Back to the home page', '#/', 'secondary')]
     });
 
-    /** Shows one article. The full layout (references, evidence labels, related topics) comes with the articles. */
+    // ---- One article ----
+    // Citation numbers, "In this article" entries and "Back to the text" are buttons, because the
+    // address bar holds the page name and a #section link would be read as a different page.
+    const INLINE_PATTERN = /(\{\{[a-z0-9,-]+\}\}|\[\[[a-z0-9-]+\|[^\]]+\]\]|\*\*[^*]+\*\*)/;
+
+    /** One or more numbered citations such as [1, 2]. Each number jumps to its reference. */
+    function citeGroup(keys, citations) {
+      const nodes = ['['];
+      keys.forEach((key, i) => {
+        const ref = REFERENCES[key];
+        if (!citations.has(key)) citations.set(key, citations.size + 1);
+        const n = citations.get(key);
+        if (i > 0) nodes.push(', ');
+        nodes.push(h('button', { type: 'button', class: 'cite', 'data-ref': String(n), 'aria-label': 'Reference ' + n + ': ' + ref.short }, String(n)));
+      });
+      nodes.push(']');
+      return h('span', { class: 'cites' }, nodes);
+    }
+
+    /** Turns article text into page content. Citations are numbered in the order they first appear. */
+    function renderInline(text, citations) {
+      return text.split(INLINE_PATTERN).filter((part) => part !== '').map((part) => {
+        if (part.startsWith('{{')) return citeGroup(part.slice(2, -2).split(','), citations);
+        if (part.startsWith('[[')) {
+          const bar = part.indexOf('|');
+          return h('a', { href: '#/learn/' + part.slice(2, bar) }, part.slice(bar + 1, -2));
+        }
+        if (part.startsWith('**')) return h('strong', null, part.slice(2, -2));
+        return part;
+      });
+    }
+
+    function buildCallout(kind, title, text, citations) {
+      const label = kind === 'example' ? 'Example' : 'Not the same thing';
+      return h('div', { class: 'callout callout-' + kind },
+        h('p', { class: 'callout-label' }, icon(kind === 'example' ? 'spark' : 'compare'), label),
+        title ? h('p', { class: 'callout-title' }, title) : null,
+        h('p', null, renderInline(text, citations)));
+    }
+
+    function renderBody(article, citations) {
+      let sectionNumber = 0;
+      return article.body.map((block) => {
+        if (block.type === 'h2') {
+          sectionNumber += 1;
+          return h('h2', { id: 'sec-' + sectionNumber, tabindex: '-1' }, block.text);
+        }
+        if (block.type === 'p') return h('p', null, renderInline(block.text, citations));
+        if (block.type === 'ul') return h('ul', null, block.items.map((item) => h('li', null, renderInline(item, citations))));
+        if (block.type === 'example' || block.type === 'distinction') return buildCallout(block.type, block.title, block.text, citations);
+        throw new Error('Unknown article block: ' + block.type);
+      });
+    }
+
+    /** The panel that sorts an article's main points by how firm the evidence is. */
+    function buildEvidence(article, citations) {
+      const levels = EVIDENCE_LEVELS.filter((level) => (article.evidence[level.id] || []).length > 0);
+      return h('section', { class: 'evidence', 'aria-labelledby': 'evidence-title' },
+        h('h2', { id: 'evidence-title', tabindex: '-1' }, 'How well do we know this?'),
+        h('p', { class: 'evidence-lead' }, 'Some findings in this area are firm and others are still being tested. This panel sorts the main points of the article by how well the evidence supports them.'),
+        h('div', { class: 'evidence-grid' }, levels.map((level) =>
+          h('div', { class: 'ev ev-' + level.id },
+            h('h3', { class: 'ev-label' }, icon(level.icon), level.label),
+            h('p', { class: 'ev-note' }, level.text),
+            h('ul', null, article.evidence[level.id].map((item) => h('li', null, renderInline(item, citations))))))));
+    }
+
+    function withStop(text) {
+      return /[.?!]$/.test(text) ? text : text + '.';
+    }
+
+    function buildReference(ref, n) {
+      const url = 'https://doi.org/' + ref.doi;
+      const text = ref.kind === 'book'
+        ? [ref.authors + ' (' + ref.year + '). ', h('em', null, ref.title), '. ' + ref.source + '. ']
+        : [ref.authors + ' (' + ref.year + '). ' + withStop(ref.title) + ' ', h('em', null, ref.source), ', ' + ref.detail + '. '];
+      return h('li', { id: 'ref-' + n, tabindex: '-1' }, text,
+        h('a', { href: url, target: '_blank', rel: 'noopener noreferrer' }, url, h('span', { class: 'sr-only' }, ' (opens in a new tab)')),
+        h('button', { type: 'button', class: 'linklike ref-back', 'data-back': String(n), 'aria-label': 'Back to where reference ' + n + ' is cited' }, 'Back to the text'));
+    }
+
+    function buildReferences(citations) {
+      const entries = Array.from(citations.entries()).sort((a, b) => a[1] - b[1]);
+      return h('section', { class: 'refs', 'aria-labelledby': 'refs-title' },
+        h('h2', { id: 'refs-title', tabindex: '-1' }, 'References'),
+        h('p', { class: 'refs-note' }, 'The sources behind the numbered citations above. Each link goes to the source through its DOI, and every one was checked in November 2026.'),
+        h('ol', { class: 'ref-list' }, entries.map((entry) => buildReference(REFERENCES[entry[0]], entry[1]))));
+    }
+
+    /** All articles in reading order: topic area by topic area. */
+    function orderedArticles() {
+      return TOPIC_GROUPS.map(groupArticles).reduce((all, list) => all.concat(list), []);
+    }
+
+    function pagerLink(article, direction) {
+      const label = direction === 'prev' ? 'Previous article' : 'Next article';
+      return h('a', { class: 'pager-link pager-' + direction, href: '#/learn/' + article.slug },
+        h('span', { class: 'pager-dir' }, label, icon('arrow')),
+        h('span', { class: 'pager-title' }, article.title));
+    }
+
+    /** Moves to an element and puts keyboard focus on it. Short moves glide; long ones jump, because a long glide is disorienting. */
+    function scrollToElement(el, block) {
+      const far = Math.abs(el.getBoundingClientRect().top) > window.innerHeight * 1.5;
+      el.scrollIntoView({ behavior: (prefersReducedMotion() || far) ? 'auto' : 'smooth', block: block });
+      el.focus({ preventScroll: true });
+    }
+
+    /** Handles clicks on the buttons inside articles (citations, contents list, "Back to the text"). */
+    function onViewClick(event) {
+      const cite = event.target.closest('button.cite');
+      if (cite) {
+        const ref = document.getElementById('ref-' + cite.getAttribute('data-ref'));
+        if (ref) scrollToElement(ref, 'start');
+        return;
+      }
+      const jump = event.target.closest('button[data-jump]');
+      if (jump) {
+        const target = document.getElementById(jump.getAttribute('data-jump'));
+        if (target) scrollToElement(target, 'start');
+        return;
+      }
+      const back = event.target.closest('button[data-back]');
+      if (back) {
+        const source = document.querySelector('#view button.cite[data-ref="' + back.getAttribute('data-back') + '"]');
+        if (source) scrollToElement(source, 'center');
+      }
+    }
+
     function buildArticle(article) {
-      return h('div', { class: 'page page-narrow' },
-        h('header', { class: 'page-head' },
-          h('p', { class: 'eyebrow' }, 'Learn'),
-          h('h1', { tabindex: '-1' }, article.title),
-          article.lead ? h('p', { class: 'lead' }, article.lead) : null),
-        (article.paragraphs || []).map((text) => h('p', null, text)),
-        h('div', { class: 'cta-row' }, button('All topics', '#/learn', 'secondary')));
+      const citations = new Map();
+      const topic = topicOf(article);
+      // Built in reading order so the citation numbers run 1, 2, 3 down the page.
+      const lead = renderInline(article.lead, citations);
+      const takeaways = article.takeaways.map((text) => h('li', null, renderInline(text, citations)));
+      const body = renderBody(article, citations);
+      const evidence = buildEvidence(article, citations);
+      const references = buildReferences(citations);
+
+      const contents = article.body.filter((block) => block.type === 'h2')
+        .map((block, i) => ({ id: 'sec-' + (i + 1), text: block.text }))
+        .concat([{ id: 'evidence-title', text: 'How well do we know this?' }, { id: 'refs-title', text: 'References' }]);
+
+      const list = orderedArticles();
+      const at = list.indexOf(article);
+
+      return h('div', { class: 'page page-article' },
+        h('div', { class: 'article-wrap' },
+          h('nav', { class: 'breadcrumb', 'aria-label': 'Breadcrumb' },
+            h('ol', null,
+              h('li', null, h('a', { href: '#/learn' }, 'Learn')),
+              h('li', null, h('span', { 'aria-current': 'page' }, topic.title)))),
+          h('header', { class: 'article-head' },
+            h('h1', { tabindex: '-1' }, article.title),
+            h('p', { class: 'lead' }, lead),
+            h('p', { class: 'article-meta' },
+              h('span', null, icon('clock'), readingMinutes(article) + ' min read'),
+              h('span', null, icon(topic.icon), topic.title))),
+          h('section', { class: 'takeaways', 'aria-labelledby': 'takeaways-title' },
+            h('h2', { id: 'takeaways-title' }, 'The short version'),
+            h('ul', null, takeaways)),
+          h('nav', { class: 'toc', 'aria-label': 'In this article' },
+            h('p', { class: 'toc-title' }, 'In this article'),
+            h('ol', null, contents.map((entry) =>
+              h('li', null, h('button', { type: 'button', class: 'linklike', 'data-jump': entry.id }, entry.text))))),
+          h('div', { class: 'prose' }, body),
+          evidence,
+          references,
+          h('p', { class: 'disclaimer' }, 'This article is general information for learning and reflection. It is not medical or psychological advice. If something about your thinking worries you, a doctor or a licensed mental health professional is the right person to ask.'),
+          h('nav', { class: 'pager', 'aria-label': 'Previous and next articles' },
+            at > 0 ? pagerLink(list[at - 1], 'prev') : null,
+            at < list.length - 1 ? pagerLink(list[at + 1], 'next') : null)),
+        h('section', { class: 'related', 'aria-labelledby': 'related-title' },
+          h('h2', { id: 'related-title' }, 'Keep exploring'),
+          h('div', { class: 'grid' }, article.related.map((slug) => articleCard(bySlug(slug), 3)))));
     }
 
     const PAGES = {
@@ -673,7 +2007,7 @@
 
     function pageFor(route) {
       if (route.name === 'article') {
-        const article = ARTICLES.filter((a) => a.slug === route.slug)[0];
+        const article = bySlug(route.slug);
         return { title: article.title, nav: 'learn', build: () => buildArticle(article) };
       }
       return PAGES[route.name];
@@ -818,6 +2152,7 @@
         document.getElementById('main').focus();
       });
       window.addEventListener('hashchange', () => { renderRoute(false); });
+      document.getElementById('view').addEventListener('click', onViewClick);
       let resizing = false;
       window.addEventListener('resize', () => {
         if (resizing) return;
