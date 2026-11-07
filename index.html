@@ -577,6 +577,31 @@
     .pin-for { margin: 0 0 6px; color: var(--text-2); overflow-wrap: anywhere; }
     .pin-panel .cta-row { justify-content: center; margin-top: 14px; }
     .page-saved > p { color: var(--text-2); }
+
+    /* Results. A bar shows where an answer sits on its own scale; the words beside it carry the meaning. */
+    .results-title { margin-top: 44px; font-size: 1.6rem; }
+    .results-read ul { margin: 0; padding-left: 1.2em; color: var(--text-2); font-size: 0.97rem; line-height: 1.65; }
+    .results-read li { margin-bottom: 8px; }
+    .results-read li:last-child { margin-bottom: 0; }
+    .results-section { margin-top: 40px; }
+    .results-h { margin: 0 0 8px; font-size: 1.3rem; }
+    .results-sub { margin: 26px 0 6px; font-size: 1.05rem; }
+    .meters { display: grid; gap: 22px; margin: 20px 0 0; padding: 0; list-style: none; }
+    .meter-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 2px 16px; }
+    .meter-name { font-weight: 600; color: var(--text); }
+    .meter-answer { font-weight: 700; color: var(--cyan-soft); }
+    .meter-note { font-weight: 400; color: var(--text-2); }
+    .meter-track { height: 12px; margin-top: 8px; overflow: hidden; border: 1px solid var(--line-strong); border-radius: 999px; background: rgba(255, 255, 255, 0.06); }
+    .meter-fill { display: block; height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--violet), var(--cyan)); }
+    .meter-scale { display: flex; justify-content: space-between; gap: 12px; margin-top: 6px; color: var(--text-3); font-size: 0.85rem; }
+    .area p { margin: 0 0 10px; color: var(--text-2); line-height: 1.7; }
+    .area .read-more { color: var(--text-3); font-size: 0.93rem; }
+    .compare { margin-top: 26px; }
+    .compare .meters { gap: 16px; margin-top: 12px; }
+    .tag-yours { display: inline-block; margin-top: 6px; padding: 2px 10px; font-size: 0.85rem; font-weight: 700; color: var(--bg-0); background: var(--cyan-soft); border-radius: 999px; }
+    .compare-foot { margin: 12px 0 0; color: var(--text-3); font-size: 0.93rem; }
+    .lost-pin { margin-top: 28px; }
+    .page-results .lead { margin-bottom: 0; }
     @media (max-width: 560px) {
       .q-nav { flex-direction: column-reverse; align-items: stretch; }
       .q-nav .btn { width: 100%; }
@@ -614,6 +639,9 @@
       *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
     }
     @media (forced-colors: active) {
+      .meter-fill { background: Highlight; }
+      .meter-track { border-color: CanvasText; }
+      .tag-yours { color: HighlightText; background: Highlight; }
       .grad { background: none; color: CanvasText; }
       .btn { border-color: ButtonText; }
       .nav-indicator { background: Highlight; }
@@ -1723,6 +1751,18 @@ const LITTLE_VOICE = ['never', 'rarely'];
 const HAS_PICTURE = ['very_faint', 'faint', 'clear', 'vivid'];
 const REMEMBERS_DREAMS = ['rarely', 'sometimes', 'often', 'almost_always'];
 
+// How the answers to a compared question are grouped in the public comparison: low, middle and high.
+const LOW_MIDDLE_HIGH_FREQUENCY = [
+  { id: 'low', values: ['never', 'rarely'] },
+  { id: 'middle', values: ['sometimes'] },
+  { id: 'high', values: ['often', 'almost_always'] }
+];
+const LOW_MIDDLE_HIGH_CLARITY = [
+  { id: 'low', values: ['none', 'very_faint'] },
+  { id: 'middle', values: ['faint'] },
+  { id: 'high', values: ['clear', 'vivid'] }
+];
+
 /** A question answered on a scale. extra lists any further answers that sit beside "Not sure". */
 function scaled(id, section, scale, showIf, extra) {
   const q = { id: id, section: section, options: scale.concat(extra || [], NOT_STATED) };
@@ -1831,8 +1871,15 @@ const SPEC = {
     { id: 'dream_recall', type: 'level', question: 'od_recall' },
     { id: 'dream_visual', type: 'level', question: 'od_visual' }
   ],
-  // Questions whose answer counts may appear in public "how this site's participants answered".
-  publicStats: ['voice_freq', 'img_deliberate', 'img_spontaneous', 'nv_clear', 'mem_scene'],
+  // Questions whose answers may appear, as totals, in "how others who took part answered". Each scale answer
+  // falls in exactly one group. Not sure and Prefer not to answer are never counted or shown.
+  publicStats: [
+    { question: 'voice_freq', groups: LOW_MIDDLE_HIGH_FREQUENCY },
+    { question: 'img_deliberate', groups: LOW_MIDDLE_HIGH_CLARITY },
+    { question: 'img_spontaneous', groups: LOW_MIDDLE_HIGH_FREQUENCY },
+    { question: 'nv_clear', groups: LOW_MIDDLE_HIGH_FREQUENCY },
+    { question: 'mem_scene', groups: LOW_MIDDLE_HIGH_FREQUENCY }
+  ],
   // Simple splits for the admin dashboard.
   flags: [
     { id: 'inner_voice', question: 'voice_freq', groups: { regular: REGULAR_VOICE, little_or_none: LITTLE_VOICE } },
@@ -2157,6 +2204,245 @@ function isValidEmail_(email) {
       return checked.ok ? checked.cleaned : null;
     }
     // END QUIZ LOGIC
+
+    // BEGIN RESULTS TEXT
+    // The words on the results page. They were approved as a draft before being built, and a test checks them against
+    // that draft. A frame turns one answer into one sentence: {adv} and {ease} take the word you chose in lower case,
+    // {label} and {labels} take the answer or answers quoted exactly as they appeared in the questionnaire.
+    const RESULTS_TEXT = {
+      readTitle: 'How to read these results',
+      readItems: [
+        'These results describe how you reported your own experience. They are not a measurement of your mind, and they are not a diagnosis.',
+        'There is no total score and no type. Each area stands on its own, and no way of thinking is better or worse.',
+        'Nothing on this site suggests that your results should change how you study or work.'
+      ],
+      readLinkBefore: 'Self-reports have limits. ',
+      readLinkText: 'Read how researchers study inner experience.',
+      readLinkSlug: 'how-we-know-whats-in-a-mind',
+      kindsTitle: 'How often each kind of thinking shows up',
+      kindsHelp: 'All four use the same scale, from Never to Almost always. They are separate, so one does not add to or take away from another.',
+      imageryTitle: 'How clear your imagery is',
+      imageryHelp: 'Each sense is asked about separately, and this page does not work out one from another.',
+      wordsTitle: 'Your answers in plain words',
+      wordsHelp: 'Each paragraph is built from your own choices. It repeats what you said and adds nothing to it. Answers of Not sure and Prefer not to answer are left out of the sentences and counted at the end of the paragraph.',
+      allLeftOut: 'You chose “Not sure” or “Prefer not to answer” for every question in this area, so there is nothing to summarize here.',
+      readMore: 'Read more:',
+      extraTitle: 'Memories and dreams',
+      extraHelp: 'These describe your own impression of remembering and dreaming. They are not a test of how good your memory is.',
+      extraSkipped: 'You skipped the optional memories and dreams part, so there is nothing to show here.',
+      notAsked: 'Not asked, because it depends on an earlier answer.',
+      chose: { unsure: 'You chose “Not sure”.', prefer_not: 'You chose “Prefer not to answer”.' },
+      compareTitle: 'How others who took part answered',
+      compareIntro: 'These are totals from people who finished this questionnaire. They are volunteers who found this site, not a representative sample, so they show how those people answered, not how people in general think. Individual answers are never shown.',
+      compareLoading: 'Loading comparisons…',
+      compareNone: 'Comparisons will appear here once enough people have finished the questionnaire.',
+      compareFailed: 'Comparisons could not be loaded right now. Your results above are not affected.',
+      compareTooFew: 'Not shown yet: not enough people have answered this question.',
+      compareSmallGroup: 'Not shown yet: too few people in some groups.',
+      yourAnswer: 'Your answer',
+      cannotShow: 'These results were saved with an earlier version of the questionnaire, so they cannot be shown here.'
+    };
+
+    const RESULT_FRAMES = {
+      voice_freq: { text: 'You said you {adv} experience your thoughts as words in your head.' },
+      voice_own: { text: 'When you do have words in your head, you chose {labels} for whose voice they seem to be in.' },
+      voice_pattern: { text: 'For how your inner voice behaves through the day, you chose {labels}.' },
+      voice_control: { text: 'You said it is {ease} to start, stop or change your inner voice on purpose.' },
+      voice_dialogue: { text: 'You said your inner voice {adv} works like a conversation, with more than one point of view.' },
+      voice_job: { text: 'For what your inner voice mostly does, you chose {labels}.' },
+      img_deliberate: { text: 'When you try on purpose to picture something like a familiar face or your front door, you chose {label} for how clear the picture is.' },
+      img_detail: { text: 'For how much detail your pictures have, you chose {label}.' },
+      img_spontaneous: { text: 'You said pictures {adv} come into your mind without you trying.' },
+      img_knowledge: { text: 'You said it is {ease} to describe what familiar places or objects look like without picturing anything.' },
+      img_sound: { text: 'When you try on purpose to imagine a familiar song or voice, you chose {label} for how clear it is.' },
+      img_touch: { text: 'When you try on purpose to imagine a smell, a taste or how something feels to touch, you chose {label} for how clear it is.' },
+      img_future: { text: 'When you imagine something that might happen in the future, you chose {labels} for how you do it.' },
+      img_space: { text: 'When you work out a route or arrange a room in your head, you chose {labels} for how you do it.' },
+      nv_clear: { text: 'You said you {adv} have a clear, specific thought that has no words and no pictures with it.' },
+      nv_intuit: { text: 'You said you {adv} know something is true, or know what to do, without being able to say right away why.' },
+      nv_structure: { text: 'You said you {adv} think by sensing how ideas or things connect, like a structure or a web, rather than with words or pictures.' },
+      nv_feeling: { text: 'You said feelings or sensations in your body {adv} guide how you think something through.' },
+      nv_explain: { text: 'You said it is {ease} to put an idea you understand well into words for someone else.', otherText: 'For how easy it is to put an idea you understand well into words for someone else, you chose {label}.' },
+      nv_how: { text: 'When you think something through, such as planning your day, you chose {labels} for how it happens for you.' },
+      mem_scene: { text: 'You said you {adv} see an event from your life like a scene in your mind when you remember it.' },
+      mem_sound: { text: 'You said you {adv} hear sounds, voices or words from the moment when you remember an event.' },
+      mem_relive: { text: 'You said remembering an event {adv} feels like reliving it, as if you were back there.' },
+      mem_strong: { text: 'For which part of a remembered event is usually strongest, you chose {labels}.' },
+      day_read: { text: 'You said you {adv} “hear” the words in your head when you read silently.' },
+      day_write: { text: 'When you write something, you chose {labels} for how you mostly work out what to say.' },
+      day_solve: { text: 'When you solve a problem, you chose {labels} for what you mostly use.' },
+      day_decide: { text: 'When you make a decision, you chose {labels} for what happens.' },
+      day_plan: { text: 'When you plan your day, you chose {labels} for how you mostly hold the plan in mind.' },
+      day_music: { text: 'When you listen to music, you chose {labels} for what is usually going on in your mind.' },
+      day_routine: { text: 'While you do a familiar task, such as walking or washing up, you chose {labels} for what is usually in your mind.' },
+      om_vivid: { text: 'For how vivid your memories of events from your own past are, you chose {label}.' },
+      om_replay: { text: 'You said you {adv} replay memories on purpose.' },
+      om_unbidden: { text: 'You said memories {adv} come back to you without your trying.' },
+      om_viewpoint: { text: 'When you remember an event, you chose {labels} for where you seem to be.' },
+      om_emotion: { text: 'For how strongly a memory brings back the feelings you had at the time, you chose {label}.' },
+      om_senses: { text: 'You said your memories {adv} include smells, tastes or touch.' },
+      om_words: { text: 'You said you {adv} remember what was said in a conversation almost word for word.' },
+      om_future: { text: 'For how vivid it is when you imagine a specific event in your own future, you chose {label}.' },
+      od_recall: { text: 'You said you {adv} remember your dreams when you wake up.' },
+      od_visual: { text: 'When you remember a dream, you chose {label} for how visual it is.' },
+      od_sound: { text: 'You said your dreams {adv} include sounds or music.' },
+      od_speech: { text: 'You said your dreams {adv} include people speaking, or you speaking or thinking in words.' },
+      od_touch: { text: 'You said your dreams {adv} include touch, smell or taste.' },
+      od_emotion: { text: 'For how strong the feelings in your dreams are, you chose {label}.' },
+      od_lucid: { text: 'You said you {adv} know you are dreaming while the dream is happening.' },
+      od_daylink: { text: 'You said your dreams {adv} include things from your day or your recent life.' }
+    };
+
+    // The same articles are linked for everyone, so a link never hints at a label.
+    const RESULT_AREAS = [
+      { area: 'Inner voice', links: ['what-is-an-inner-monologue', 'little-or-no-inner-speech', 'voice-or-words', 'talking-to-yourself'] },
+      { area: 'Visual thinking and imagery', links: ['mental-imagery', 'aphantasia', 'hyperphantasia'] },
+      { area: 'Thinking without words', links: ['thinking-without-words', 'space-and-sound', 'many-ways-to-think'] },
+      { area: 'Memory', links: ['how-memories-feel'] },
+      { area: 'Everyday thinking', links: ['many-ways-to-think', 'why-experiences-differ'] },
+      { area: 'Memories', optional: true, links: ['how-memories-feel'] },
+      { area: 'Dreams', optional: true, links: ['dreams-and-imagery'] }
+    ];
+
+    const RESULT_BARS = {
+      kinds: [
+        { category: 'words_in_head', question: 'voice_freq', name: 'Words in your head' },
+        { category: 'pictures_unprompted', question: 'img_spontaneous', name: 'Pictures that come on their own' },
+        { category: 'wordless_thought', question: 'nv_clear', name: 'Clear thoughts with no words or pictures' },
+        { category: 'feelings_guide_thought', question: 'nv_feeling', name: 'Feelings or body sensations guiding your thinking' }
+      ],
+      imagery: [
+        { category: 'imagery_sight', question: 'img_deliberate', name: 'Picturing something on purpose' },
+        { category: 'imagery_sound', question: 'img_sound', name: 'Imagining a song or a voice' },
+        { category: 'imagery_touch_smell_taste', question: 'img_touch', name: 'Imagining a smell, a taste or a touch' }
+      ],
+      extra: [
+        { category: 'memory_vividness', question: 'om_vivid', name: 'How vivid your memories are' },
+        { category: 'dream_recall', question: 'od_recall', name: 'How often you remember your dreams' },
+        { category: 'dream_visual', question: 'od_visual', name: 'How visual your remembered dreams are' }
+      ]
+    };
+
+    // The questions compared with other participants, in the words people see.
+    const COMPARE_NAMES = {
+      voice_freq: 'Words in your head',
+      img_deliberate: 'Picturing something on purpose',
+      img_spontaneous: 'Pictures that come on their own',
+      nv_clear: 'Clear thoughts with no words or pictures',
+      mem_scene: 'Seeing a remembered event like a scene'
+    };
+    // END RESULTS TEXT
+
+    // BEGIN RESULTS LOGIC
+    // Pure functions that turn saved answers and results into what the results page shows. They use the shared spec,
+    // the question wording and the results wording above, and are tested on their own.
+
+    const lowerFirst = (text) => text.charAt(0).toLowerCase() + text.slice(1);
+
+    /** “A”, “B” and “C” */
+    function quoteLabels(labels) {
+      const quoted = labels.map((label) => '“' + label + '”');
+      if (quoted.length <= 1) return quoted.join('');
+      return quoted.slice(0, -1).join(', ') + ' and ' + quoted[quoted.length - 1];
+    }
+
+    /** 'unsure' or 'prefer_not' when that is the whole answer, otherwise null. */
+    function unscoredAnswer(value) {
+      const only = Array.isArray(value) ? (value.length === 1 ? value[0] : null) : value;
+      return only === 'unsure' || only === 'prefer_not' ? only : null;
+    }
+
+    /** One sentence for one answered question. Not sure and Prefer not to answer are counted elsewhere, never put in a sentence. */
+    function answerSentence(questionId, value) {
+      const frame = RESULT_FRAMES[questionId];
+      const labels = (Array.isArray(value) ? value : [value]).map((v) => answerLabel(questionId, v));
+      const quoted = quoteLabels(labels);
+      // "It depends on the idea" cannot go inside "you said it is ... to put an idea into words", so it has its own sentence.
+      const text = !Array.isArray(value) && OTHER_ANSWERS[value] !== undefined && frame.otherText ? frame.otherText : frame.text;
+      return text
+        .replace('{adv}', () => lowerFirst(labels[0]))
+        .replace('{ease}', () => lowerFirst(labels[0]))
+        .replace('{label}', () => quoted)
+        .replace('{labels}', () => quoted);
+    }
+
+    /** The paragraph for one area, or null if nothing in that area was asked. */
+    function areaParagraph(spec, answers, area) {
+      const ids = spec.questions.map((q) => q.id).filter((id) => QUESTION_TEXT[id].area === area && answers[id] !== undefined);
+      if (ids.length === 0) return null;
+      const sentences = [];
+      let unsure = 0;
+      let preferNot = 0;
+      ids.forEach((id) => {
+        const kind = unscoredAnswer(answers[id]);
+        if (kind === 'unsure') unsure += 1;
+        else if (kind === 'prefer_not') preferNot += 1;
+        else sentences.push(answerSentence(id, answers[id]));
+      });
+      if (sentences.length === 0) return RESULTS_TEXT.allLeftOut;
+      const left = [];
+      if (unsure > 0) left.push('“Not sure” for ' + unsure + (unsure === 1 ? ' question' : ' questions'));
+      if (preferNot > 0) left.push('“Prefer not to answer” for ' + preferNot + (preferNot === 1 ? ' question' : ' questions'));
+      if (left.length > 0) sentences.push('You chose ' + left.join(' and ') + ' in this area, so ' + (unsure + preferNot === 1 ? 'it is' : 'they are') + ' left out here.');
+      return sentences.join(' ');
+    }
+
+    /** What one bar shows: a position on its own scale, or the words for an answer that has no position. */
+    function barState(answers, results, bar) {
+      const value = answers[bar.question];
+      if (value === undefined) return { kind: 'not_asked' };
+      const unscored = unscoredAnswer(value);
+      if (unscored) return { kind: unscored };
+      const level = results[bar.category];
+      if (typeof level !== 'number') return { kind: 'not_asked' };
+      const words = Object.keys(SCALE_LABELS[QUESTION_TEXT[bar.question].scale]).map((k) => SCALE_LABELS[QUESTION_TEXT[bar.question].scale][k]);
+      return { kind: 'level', level: level, max: words.length - 1, answer: answerLabel(bar.question, value), first: words[0], last: words[words.length - 1] };
+    }
+
+    /** "Never or rarely": the words of a group of answers. */
+    function groupLabel(questionId, values) {
+      const labels = values.map((v) => answerLabel(questionId, v));
+      return labels.length === 1 ? labels[0] : labels[0] + ' or ' + lowerFirst(labels[labels.length - 1]);
+    }
+
+    /** The comparisons this page knows how to show, or null if the reply is not in the shape the page expects (never guessed at). */
+    function usableStats(reply) {
+      if (!reply || reply.ok !== true || !Array.isArray(reply.stats)) return null;
+      const stats = reply.stats.filter((s) => s && COMPARE_NAMES[s.question] !== undefined);
+      const fine = stats.every((s) => typeof s.available === 'boolean' && (!s.available || (Array.isArray(s.groups) && typeof s.asked === 'number' && s.asked > 0)));
+      return fine ? stats : null;
+    }
+
+    /** What one comparison shows, from the server's figures and this person's own answer. */
+    function comparisonModel(stat, answers) {
+      const name = COMPARE_NAMES[stat.question];
+      if (!stat.available) return { question: stat.question, name: name, available: false, reason: stat.reason };
+      const mine = answers[stat.question];
+      const unscored = unscoredAnswer(mine);
+      return {
+        question: stat.question,
+        name: name,
+        available: true,
+        asked: stat.asked,
+        rough: stat.asked < 100,
+        note: unscored ? 'You chose “' + (unscored === 'unsure' ? 'Not sure' : 'Prefer not to answer') + '”, so none of the groups is marked as yours.' : null,
+        groups: stat.groups.map((g) => ({
+          label: groupLabel(stat.question, g.values),
+          count: g.count,
+          percent: Math.round((g.count / stat.asked) * 100),
+          yours: typeof mine === 'string' && g.values.indexOf(mine) !== -1
+        }))
+      };
+    }
+
+    /** null if these results can be shown; otherwise the sentence to show instead. */
+    function resultsProblem(spec, data) {
+      if (!data || typeof data.answers !== 'object' || data.answers === null || typeof data.results !== 'object' || data.results === null) return RESULTS_TEXT.cannotShow;
+      if (data.schemaVersion !== undefined && data.schemaVersion !== spec.version) return RESULTS_TEXT.cannotShow;
+      return validateAnswers(spec, data.answers).ok ? null : RESULTS_TEXT.cannotShow;
+    }
+    // END RESULTS LOGIC
+
 
 
     // =====================================================================
@@ -2996,13 +3282,98 @@ function isValidEmail_(email) {
         stageBox,
         foot);
     }
-    const buildRetrieve = () => buildPlain({
-      eyebrow: 'Retrieve results',
-      title: 'Find your saved results',
-      lead: 'When you finish the questionnaire you receive a private PIN. Enter your email and that PIN here to see your results again.',
-      note: 'Retrieving results is the next stage of the build, so this page is not switched on yet. Your PIN will keep working.',
-      actions: [button('Back to the home page', '#/', 'secondary')]
-    });
+    // ---- Retrieve: the right email and PIN open saved results ----
+    // Results opened this way are held in memory only, never in the browser tab (that was a decision), so
+    // refreshing the page or closing the tab closes them. Nothing here is written to any storage.
+    let openedResults = null;
+
+    function buildRetrieve() {
+      const emailInput = h('input', { type: 'email', id: 'r-email', class: 'text-input', autocomplete: 'email', inputmode: 'email', spellcheck: 'false', autocapitalize: 'off', maxlength: '254', 'aria-describedby': 'r-email-error' });
+      const pinInput = h('input', { type: 'text', id: 'r-pin', class: 'text-input', autocomplete: 'off', spellcheck: 'false', autocapitalize: 'characters', maxlength: '20', 'aria-describedby': 'r-pin-help r-pin-error' });
+      const emailError = h('p', { class: 'field-error', id: 'r-email-error', role: 'alert' });
+      const pinError = h('p', { class: 'field-error', id: 'r-pin-error', role: 'alert' });
+      const status = h('p', { class: 'q-help save-status', role: 'status' });
+      const problem = h('div', { class: 'notice notice-problem', role: 'alert', hidden: true });
+      const submit = h('button', { type: 'submit', class: 'btn btn-primary' }, 'Show my results', icon('arrow'));
+      let looking = false;
+
+      const setBusy = (busy, message) => {
+        looking = busy;
+        emailInput.disabled = busy;
+        pinInput.disabled = busy;
+        submit.disabled = busy;
+        status.textContent = busy ? message : '';
+      };
+      const clearMessages = () => {
+        emailError.textContent = '';
+        pinError.textContent = '';
+        problem.hidden = true;
+      };
+      emailInput.addEventListener('input', clearMessages);
+      pinInput.addEventListener('input', clearMessages);
+
+      const form = h('form', { class: 'q-form', novalidate: true },
+        h('div', { class: 'field' },
+          h('label', { for: 'r-email', class: 'field-label' }, 'Your email address'),
+          emailInput,
+          emailError),
+        h('div', { class: 'field' },
+          h('label', { for: 'r-pin', class: 'field-label' }, 'Your PIN'),
+          h('p', { class: 'q-help', id: 'r-pin-help' }, 'It looks like K7M4-Q9XR. Capital letters and the dash do not matter.'),
+          pinInput,
+          pinError),
+        status,
+        problem,
+        h('div', { class: 'q-nav' }, submit));
+
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        if (looking) return;
+        clearMessages();
+        const email = normalizeEmail_(emailInput.value);
+        const pin = pinInput.value.trim();
+        if (!isValidEmail_(email)) {
+          emailError.textContent = 'Please enter a valid email address.';
+          emailInput.focus();
+          return;
+        }
+        if (pin === '') {
+          pinError.textContent = 'Please enter your PIN.';
+          pinInput.focus();
+          return;
+        }
+        setBusy(true, 'Looking for your results. This can take a few seconds.');
+        let reply = null;
+        try {
+          reply = await callApi({ action: 'retrieve', email: email, pin: pin });
+        } catch (err) {
+          setBusy(false);
+          problem.textContent = 'We could not reach the server. Check your connection and try again.';
+          problem.hidden = false;
+          return;
+        }
+        setBusy(false);
+        if (reply && reply.ok === true && reply.answers && reply.results) {
+          openedResults = { answers: reply.answers, results: reply.results, optionalCompleted: reply.optionalCompleted === true, schemaVersion: reply.schemaVersion, createdAt: reply.createdAt };
+          window.location.hash = '#/results';
+          return;
+        }
+        problem.textContent = reply && typeof reply.message === 'string' ? reply.message : 'Something went wrong. Please try again in a moment.';
+        problem.hidden = false;
+      });
+
+      return h('div', { class: 'page page-narrow' },
+        h('header', { class: 'page-head' },
+          h('p', { class: 'eyebrow' }, 'Retrieve results'),
+          h('h1', { tabindex: '-1' }, 'Find your saved results'),
+          h('p', { class: 'lead' }, 'When you finish the questionnaire you receive a private PIN. Enter your email and that PIN here to see your results again.')),
+        form,
+        h('p', { class: 'notice lost-pin' }, h('span', null, h('strong', null, 'Lost your PIN? '),
+          'We cannot email it to you. Write to ', h('a', { href: 'mailto:kaleb@theflings.com' }, 'kaleb@theflings.com'),
+          ' and the administrator can help. Student email addresses cannot send messages to that address, so if you used one for the questionnaire, write from a personal email address instead and say which email address you used for the questionnaire.')),
+        h('div', { class: 'cta-row' }, button('Take the questionnaire', '#/quiz', 'secondary')));
+    }
+
     function buildNoResults() {
       return buildPlain({
       eyebrow: 'Your results',
@@ -3012,7 +3383,127 @@ function isValidEmail_(email) {
       });
     }
 
-    /** What a visitor sees right after saving: their PIN, also kept in this tab so a refresh cannot hide it. */
+    // ---- The results themselves ----
+    /** "Read more:" and the same articles for everyone, so a link never hints at a label. */
+    function articleLinks(slugs) {
+      const nodes = [];
+      slugs.forEach((slug, i) => {
+        if (i > 0) nodes.push(' · ');
+        nodes.push(h('a', { href: '#/learn/' + slug }, bySlug(slug).title));
+      });
+      return h('p', { class: 'read-more' }, RESULTS_TEXT.readMore + ' ', nodes);
+    }
+
+    /** Bars show where an answer sits on its own scale. The words are always there too, so a bar is never the only signal. */
+    function barList(bars, data) {
+      return h('ul', { class: 'meters' }, bars.map((bar) => {
+        const state = barState(data.answers, data.results, bar);
+        const words = state.kind === 'level' ? state.answer : (state.kind === 'not_asked' ? RESULTS_TEXT.notAsked : RESULTS_TEXT.chose[state.kind]);
+        const item = h('li', { class: 'meter' },
+          h('div', { class: 'meter-head' },
+            h('span', { class: 'meter-name' }, bar.name),
+            h('span', { class: state.kind === 'level' ? 'meter-answer' : 'meter-answer meter-note' }, words)));
+        if (state.kind === 'level') {
+          item.append(
+            h('div', { class: 'meter-track', 'aria-hidden': 'true' }, h('span', { class: 'meter-fill', style: 'width:' + Math.round((state.level / state.max) * 100) + '%' })),
+            h('div', { class: 'meter-scale', 'aria-hidden': 'true' }, h('span', null, state.first), h('span', null, state.last)));
+        }
+        return item;
+      }));
+    }
+
+    function areaBlocks(data, optional, level) {
+      return RESULT_AREAS.filter((a) => (a.optional === true) === optional).map((a) => {
+        const paragraph = areaParagraph(SPEC, data.answers, a.area);
+        if (paragraph === null) return null;
+        return h('div', { class: 'area' }, h('h' + level, { class: 'results-sub' }, a.area), h('p', null, paragraph), articleLinks(a.links));
+      });
+    }
+
+    function resultsSection(id, level, title, help, ...content) {
+      return h('section', { class: 'results-section', 'aria-labelledby': id },
+        h('h' + level, { id: id, class: 'results-h' }, title),
+        help ? h('p', { class: 'q-help' }, help) : null,
+        ...content);
+    }
+
+    /** How others who took part answered. The figures come from the server, which only sends a comparison once enough people have answered. */
+    function buildComparison(data, level) {
+      const body = h('div', { class: 'compare-body' }, h('p', { class: 'q-help' }, RESULTS_TEXT.compareLoading));
+      const fill = (reply) => {
+        const stats = usableStats(reply);
+        if (stats === null) {
+          body.replaceChildren(h('p', { class: 'q-help' }, RESULTS_TEXT.compareFailed));
+          return;
+        }
+        const models = stats.map((s) => comparisonModel(s, data.answers));
+        if (models.every((m) => !m.available && m.reason === 'too_few')) {
+          body.replaceChildren(h('p', { class: 'q-help' }, RESULTS_TEXT.compareNone));
+          return;
+        }
+        body.replaceChildren(...models.map((m) => {
+          const head = h('h' + (level + 1), { class: 'results-sub' }, m.name);
+          if (!m.available) return h('div', { class: 'compare' }, head, h('p', { class: 'q-help' }, m.reason === 'too_few' ? RESULTS_TEXT.compareTooFew : RESULTS_TEXT.compareSmallGroup));
+          return h('div', { class: 'compare' },
+            head,
+            h('ul', { class: 'meters' }, m.groups.map((g) => h('li', { class: 'meter compare-row' },
+              h('div', { class: 'meter-head' },
+                h('span', { class: 'meter-name' }, g.label),
+                h('span', { class: 'meter-answer' }, g.count + (g.count === 1 ? ' person' : ' people') + ' (' + g.percent + '%)')),
+              h('div', { class: 'meter-track', 'aria-hidden': 'true' }, h('span', { class: 'meter-fill', style: 'width:' + g.percent + '%' })),
+              g.yours ? h('span', { class: 'tag-yours' }, RESULTS_TEXT.yourAnswer) : null))),
+            m.note ? h('p', { class: 'q-help' }, m.note) : null,
+            h('p', { class: 'compare-foot' }, 'Based on ' + m.asked + ' people who chose one of the scale answers to this question.' + (m.rough ? ' With fewer than 100 people, treat the shares as rough.' : '')));
+        }));
+      };
+      callApi({ action: 'publicStats' }).then(fill, () => fill(null));
+      return resultsSection('compare-title', level, RESULTS_TEXT.compareTitle, RESULTS_TEXT.compareIntro, body);
+    }
+
+    /** Everything below the heading: how to read it, the bars, the paragraphs, the optional part and the comparison. */
+    function buildBreakdown(data, level) {
+      const problem = resultsProblem(SPEC, data);
+      if (problem !== null) return h('p', { class: 'notice' }, h('span', null, problem));
+      const read = h('section', { class: 'notice-card results-read', 'aria-labelledby': 'read-title' },
+        h('h' + level, { id: 'read-title' }, RESULTS_TEXT.readTitle),
+        h('ul', null,
+          RESULTS_TEXT.readItems.map((text) => h('li', null, text)),
+          h('li', null, RESULTS_TEXT.readLinkBefore, h('a', { href: '#/learn/' + RESULTS_TEXT.readLinkSlug }, RESULTS_TEXT.readLinkText))));
+      const optional = data.optionalCompleted === true;
+      return h('div', { class: 'results-body' },
+        read,
+        resultsSection('kinds-title', level, RESULTS_TEXT.kindsTitle, RESULTS_TEXT.kindsHelp, barList(RESULT_BARS.kinds, data)),
+        resultsSection('imagery-title', level, RESULTS_TEXT.imageryTitle, RESULTS_TEXT.imageryHelp, barList(RESULT_BARS.imagery, data)),
+        resultsSection('words-title', level, RESULTS_TEXT.wordsTitle, RESULTS_TEXT.wordsHelp, areaBlocks(data, false, level + 1)),
+        optional
+          ? resultsSection('extra-title', level, RESULTS_TEXT.extraTitle, RESULTS_TEXT.extraHelp, barList(RESULT_BARS.extra, data), areaBlocks(data, true, level + 1))
+          : resultsSection('extra-title', level, RESULTS_TEXT.extraTitle, null, h('p', null, RESULTS_TEXT.extraSkipped)),
+        buildComparison(data, level));
+    }
+
+    function formatSavedDate(iso) {
+      const date = new Date(iso);
+      return typeof iso === 'string' && !Number.isNaN(date.getTime()) ? date.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' }) : null;
+    }
+
+    /** Results opened with an email and PIN. They live in memory only; "Close these results" and a refresh both end them. */
+    function buildRetrievedResults(data) {
+      const close = h('button', { type: 'button', class: 'btn btn-ghost' }, 'Close these results');
+      close.addEventListener('click', () => {
+        openedResults = null;
+        window.location.hash = '#/retrieve';
+      });
+      const saved = formatSavedDate(data.createdAt);
+      return h('div', { class: 'page page-narrow page-results' },
+        h('header', { class: 'page-head' },
+          h('p', { class: 'eyebrow' }, 'Retrieved'),
+          h('h1', { tabindex: '-1' }, 'Your results'),
+          saved ? h('p', { class: 'lead' }, 'Saved on ' + saved) : null),
+        buildBreakdown(data, 2),
+        h('div', { class: 'cta-row' }, close, button('Keep exploring the articles', '#/learn', 'secondary', true)));
+    }
+
+    /** What a visitor sees right after saving: their PIN first (also kept in this tab so a refresh cannot hide it), then their results. */
     function buildSavedResults(saved) {
       const status = h('p', { class: 'q-help', role: 'status' });
       const copy = h('button', { type: 'button', class: 'btn btn-secondary' }, 'Copy PIN');
@@ -3043,11 +3534,15 @@ function isValidEmail_(email) {
           status),
         h('p', { class: 'notice' }, h('span', null, h('strong', null, 'Keep it safe. '), 'The site cannot email your PIN to you later. The site administrator can see it, so it was made up for you and is not one you use elsewhere.')),
         h('p', null, 'So that a refresh cannot hide your PIN, it is also kept in this browser tab until you close the tab or remove it here. On a shared computer, remove it once you have written it down.'),
-        h('p', null, 'Your breakdown page is not ready yet. Your answers are saved, and you will be able to see your results with your email address and your PIN.'),
-        h('div', { class: 'cta-row' }, remove, button('Keep exploring the articles', '#/learn', 'secondary', true)));
+        h('div', { class: 'cta-row' }, remove),
+        h('section', { class: 'results', 'aria-labelledby': 'results-title' },
+          h('h2', { id: 'results-title', class: 'results-title' }, 'Your results'),
+          buildBreakdown(saved, 3)),
+        h('div', { class: 'cta-row' }, button('Keep exploring the articles', '#/learn', 'secondary', true)));
     }
 
     function buildResults() {
+      if (openedResults !== null) return buildRetrievedResults(openedResults);
       const saved = readStore(SAVED_KEY);
       if (saved && saved.v === SPEC.version && typeof saved.pin === 'string' && typeof saved.email === 'string') return buildSavedResults(saved);
       return buildNoResults();
