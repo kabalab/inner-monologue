@@ -490,6 +490,91 @@
     }
 
     /* =====================================================================
+       4c. QUESTIONNAIRE
+       ===================================================================== */
+    .btn-ghost { color: var(--text-2); background: transparent; border-color: transparent; }
+    .btn-ghost:hover { color: var(--text); background: rgba(255, 255, 255, 0.06); }
+    .btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none; box-shadow: none; }
+
+    .page-quiz { max-width: 760px; }
+    .quiz-title { margin-bottom: 14px; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--cyan-soft); }
+    .quiz-stage { transition: opacity 0.15s var(--ease), transform 0.15s var(--ease); }
+    .quiz-stage.is-leaving { opacity: 0; transform: translateX(-14px); }
+    .quiz-stage.is-entering { opacity: 0; transform: translateX(14px); transition: none; }
+
+    .quiz-intro h2 { margin-bottom: 14px; font-size: clamp(1.6rem, 1.6vw + 1.1rem, 2.2rem); }
+    .quiz-points { margin: 22px 0 0; padding-left: 1.2em; color: var(--text-2); }
+    .quiz-points li + li { margin-top: 8px; }
+    .notice-card { margin-top: 32px; padding: 22px 24px; border: 1px solid var(--line-strong); border-radius: var(--radius); background: rgba(255, 255, 255, 0.03); }
+    .notice-card h3 { margin-bottom: 14px; font-size: 1.1rem; }
+    .notice-card p { margin: 0 0 12px; color: var(--text-2); font-size: 0.97rem; line-height: 1.65; }
+    .notice-card p:last-child { margin-bottom: 0; }
+    .notice-card strong { color: var(--text); }
+    .consent-row { display: flex; gap: 14px; align-items: flex-start; margin-top: 24px; }
+    .consent-row input { flex: none; width: 24px; height: 24px; margin: 2px 0 0; cursor: pointer; accent-color: var(--cyan); }
+    .consent-row label { font-weight: 650; cursor: pointer; }
+    .consent-hint { margin: 10px 0 0; }
+
+    .quiz-card {
+      padding: clamp(20px, 3vw, 32px); border: 1px solid var(--line); border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.015)), var(--surface);
+      box-shadow: var(--shadow);
+    }
+    .quiz-head { margin-bottom: 22px; }
+    .quiz-head .eyebrow { margin-bottom: 6px; }
+    .quiz-count { margin: 0 0 12px; color: var(--text-3); font-size: 0.93rem; }
+    .progress { height: 8px; overflow: hidden; border-radius: 999px; background: rgba(255, 255, 255, 0.1); }
+    .progress span { display: block; height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--violet), var(--cyan)); transition: width 0.35s var(--ease); }
+
+    .q-form fieldset { min-width: 0; margin: 0; padding: 0; border: 0; }
+    .q-text { width: 100%; margin: 0 0 10px; padding: 0; font-size: clamp(1.25rem, 1.1vw + 1.05rem, 1.65rem); font-weight: 700; line-height: 1.3; letter-spacing: -0.01em; color: var(--text); }
+    .q-help { margin: 0 0 6px; color: var(--text-3); font-size: 0.95rem; }
+    .opts { display: grid; gap: 10px; margin-top: 20px; }
+    .opts-other { margin-top: 16px; padding-top: 16px; border-top: 1px dashed var(--line-strong); }
+    .opt {
+      position: relative; display: flex; align-items: flex-start; gap: 14px; min-height: 52px; padding: 13px 16px; cursor: pointer;
+      border: 1px solid var(--line); border-radius: var(--radius-sm); background: rgba(255, 255, 255, 0.03);
+      transition: border-color 0.2s, background-color 0.2s;
+    }
+    .opt:hover { border-color: var(--line-strong); background: rgba(255, 255, 255, 0.06); }
+    .opt input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+    .opt-mark { flex: none; display: grid; place-items: center; width: 22px; height: 22px; margin-top: 1px; border: 2px solid var(--line-input); border-radius: 50%; }
+    .opt-mark::after { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--cyan); transform: scale(0); transition: transform 0.18s var(--ease); }
+    .opt input:checked ~ .opt-mark { border-color: var(--cyan); }
+    .opt input:checked ~ .opt-mark::after { transform: scale(1); }
+    .opt:has(input:checked) { border-color: var(--cyan); background: rgba(111, 220, 255, 0.09); }
+    .opt input:focus-visible ~ .opt-mark { outline: 3px solid var(--focus); outline-offset: 3px; }
+    .opt-text { color: var(--text); }
+    .opts-other .opt { min-height: 46px; }
+    .opts-other .opt-text { color: var(--text-2); font-size: 0.97rem; }
+    .field-error { min-height: 1.5em; margin: 14px 0 0; color: var(--bad); font-weight: 600; }
+    .q-nav { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-top: 24px; }
+    .q-nav-stack { justify-content: flex-start; }
+    .text-input { width: 100%; min-height: 52px; padding: 12px 16px; font: inherit; color: var(--text); background: var(--bg-0); border: 1px solid var(--line-input); border-radius: 14px; }
+    .text-input:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; border-radius: 14px; }
+    .field-label { display: block; margin-bottom: 6px; font-weight: 700; }
+    .save-status { min-height: 1.5em; margin-top: 14px; }
+    .notice-problem { margin-top: 14px; flex-wrap: wrap; align-items: center; gap: 10px; border-left-color: var(--bad); }
+    .quiz-foot { margin-top: 18px; font-size: 0.93rem; }
+    .quiz-foot-text { margin-right: 12px; color: var(--text-3); }
+    .quiz-foot .linklike + .linklike { margin-left: 14px; }
+    .quiz-saved { margin-bottom: 20px; }
+
+    .pin-panel {
+      margin-top: 28px; padding: 28px; text-align: center; border: 1px solid var(--line-strong); border-radius: var(--radius);
+      background: linear-gradient(135deg, rgba(143, 130, 255, 0.16), rgba(111, 220, 255, 0.07));
+    }
+    .pin-panel h2 { font-size: 1rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--cyan-soft); }
+    .pin-value { margin: 14px 0 4px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: clamp(2rem, 6vw, 3rem); font-weight: 700; letter-spacing: 0.12em; color: var(--text); user-select: all; }
+    .pin-for { margin: 0 0 6px; color: var(--text-2); overflow-wrap: anywhere; }
+    .pin-panel .cta-row { justify-content: center; margin-top: 14px; }
+    .page-saved > p { color: var(--text-2); }
+    @media (max-width: 560px) {
+      .q-nav { flex-direction: column-reverse; align-items: stretch; }
+      .q-nav .btn { width: 100%; }
+    }
+
+    /* =====================================================================
        5. FOOTER
        ===================================================================== */
     .site-footer { border-top: 1px solid var(--line); background: rgba(9, 11, 28, 0.6); }
@@ -589,6 +674,8 @@
     // =====================================================================
     const SITE_NAME = 'Inside Your Head';
     const HOME_TITLE = SITE_NAME + ': how people experience thinking';
+    // The Apps Script web app that stores answers. Public by design: the Sheet stays private because every rule is enforced there.
+    const API_URL = 'https://script.google.com/macros/s/AKfycbz2c1RQezz7TVqOln7dGVrsPB9qDX3yhTT4zZDBjXFLwbZsZbPA-TRTCPtA42xz6tgXmg/exec';
 
     // =====================================================================
     // 2. SMALL HELPERS
@@ -1577,6 +1664,437 @@
     }
     // END SEARCH LOGIC
 
+// BEGIN SHARED SPEC
+const NOT_STATED = [{ value: 'unsure' }, { value: 'prefer_not' }];
+// "Which is closest" questions also let people say that none of the choices fits.
+const CHOICE_EXTRAS = [{ value: 'depends' }, { value: 'different' }].concat(NOT_STATED);
+
+// Scales. level is the score used for bars and comparisons. unsure and prefer_not never get one.
+const FREQUENCY = [
+  { value: 'never', level: 0 },
+  { value: 'rarely', level: 1 },
+  { value: 'sometimes', level: 2 },
+  { value: 'often', level: 3 },
+  { value: 'almost_always', level: 4 }
+];
+const CLARITY = [
+  { value: 'none', level: 0 },
+  { value: 'very_faint', level: 1 },
+  { value: 'faint', level: 2 },
+  { value: 'clear', level: 3 },
+  { value: 'vivid', level: 4 }
+];
+const EASE = [
+  { value: 'very_hard', level: 0 },
+  { value: 'hard', level: 1 },
+  { value: 'neutral', level: 2 },
+  { value: 'easy', level: 3 },
+  { value: 'very_easy', level: 4 }
+];
+const STRENGTH = [
+  { value: 'not_at_all', level: 0 },
+  { value: 'slightly', level: 1 },
+  { value: 'moderately', level: 2 },
+  { value: 'strongly', level: 3 },
+  { value: 'very_strongly', level: 4 }
+];
+const DETAIL = [
+  { value: 'little', level: 1 },
+  { value: 'some', level: 2 },
+  { value: 'a_lot', level: 3 },
+  { value: 'almost_all', level: 4 }
+];
+
+// When follow-up questions appear.
+const SOME_VOICE = ['rarely', 'sometimes', 'often', 'almost_always'];
+const REGULAR_VOICE = ['sometimes', 'often', 'almost_always'];
+const LITTLE_VOICE = ['never', 'rarely'];
+const HAS_PICTURE = ['very_faint', 'faint', 'clear', 'vivid'];
+const REMEMBERS_DREAMS = ['rarely', 'sometimes', 'often', 'almost_always'];
+
+/** A question answered on a scale. */
+function scaled(id, section, scale, showIf) {
+  const q = { id: id, section: section, options: scale.concat(NOT_STATED) };
+  if (showIf) q.showIf = showIf;
+  return q;
+}
+
+/** A "which is closest" question: one choice from a list of named options. */
+function choice(id, section, values, showIf) {
+  const q = {
+    id: id,
+    section: section,
+    options: values.map(function (value) { return { value: value }; }).concat(CHOICE_EXTRAS)
+  };
+  if (showIf) q.showIf = showIf;
+  return q;
+}
+
+const SPEC = {
+  version: 2,
+  questions: [
+    // A. Inner voice
+    scaled('voice_freq', 'main', FREQUENCY),
+    choice('voice_own', 'main', ['own', 'others', 'mix', 'no_sound'], { id: 'voice_freq', anyOf: SOME_VOICE }),
+    choice('voice_pattern', 'main', ['constant', 'comes_goes', 'situations'], { id: 'voice_freq', anyOf: REGULAR_VOICE }),
+    scaled('voice_control', 'main', EASE, { id: 'voice_freq', anyOf: REGULAR_VOICE }),
+    scaled('voice_dialogue', 'main', FREQUENCY, { id: 'voice_freq', anyOf: REGULAR_VOICE }),
+    choice('voice_job', 'main', ['plans', 'comments', 'rehearses', 'evaluates', 'thinks'], { id: 'voice_freq', anyOf: REGULAR_VOICE }),
+    // B. Visual thinking and imagery
+    scaled('img_deliberate', 'main', CLARITY),
+    scaled('img_detail', 'main', DETAIL, { id: 'img_deliberate', anyOf: HAS_PICTURE }),
+    scaled('img_spontaneous', 'main', FREQUENCY),
+    scaled('img_knowledge', 'main', EASE),
+    scaled('img_sound', 'main', CLARITY),
+    scaled('img_touch', 'main', CLARITY),
+    choice('img_future', 'main', ['pictures', 'words', 'idea', 'mix']),
+    choice('img_space', 'main', ['scene', 'layout', 'words', 'as_i_go']),
+    // C. Thinking without words
+    scaled('nv_clear', 'main', FREQUENCY),
+    scaled('nv_intuit', 'main', FREQUENCY),
+    scaled('nv_structure', 'main', FREQUENCY),
+    scaled('nv_feeling', 'main', FREQUENCY),
+    scaled('nv_explain', 'main', EASE),
+    choice('nv_how', 'main', ['images', 'idea', 'feelings', 'layout', 'silent_words'], { id: 'voice_freq', anyOf: LITTLE_VOICE }),
+    // D. Memory
+    scaled('mem_scene', 'main', FREQUENCY),
+    scaled('mem_sound', 'main', FREQUENCY),
+    scaled('mem_relive', 'main', FREQUENCY),
+    choice('mem_strong', 'main', ['seen', 'heard', 'felt', 'facts', 'body']),
+    // E. Everyday thinking
+    scaled('day_read', 'main', FREQUENCY),
+    choice('day_write', 'main', ['say_first', 'picture', 'idea_first', 'as_i_write']),
+    choice('day_solve', 'main', ['words', 'pictures', 'structure', 'try_out']),
+    choice('day_decide', 'main', ['talk', 'imagine', 'feel', 'weigh']),
+    choice('day_plan', 'main', ['list', 'picture', 'sense', 'no_plan']),
+    choice('day_music', 'main', ['pictures', 'feelings', 'words', 'sound_only', 'body']),
+    choice('day_routine', 'main', ['words', 'pictures', 'feelings', 'sounds', 'ideas', 'little']),
+    // F. Memories (optional part)
+    scaled('om_vivid', 'optional', CLARITY),
+    scaled('om_replay', 'optional', FREQUENCY),
+    scaled('om_unbidden', 'optional', FREQUENCY),
+    choice('om_viewpoint', 'optional', ['own_eyes', 'observer', 'varies', 'no_viewpoint']),
+    scaled('om_emotion', 'optional', STRENGTH),
+    scaled('om_senses', 'optional', FREQUENCY),
+    scaled('om_words', 'optional', FREQUENCY),
+    scaled('om_future', 'optional', CLARITY),
+    // G. Dreams (optional part)
+    scaled('od_recall', 'optional', FREQUENCY),
+    scaled('od_visual', 'optional', CLARITY, { id: 'od_recall', anyOf: REMEMBERS_DREAMS }),
+    scaled('od_sound', 'optional', FREQUENCY, { id: 'od_recall', anyOf: REMEMBERS_DREAMS }),
+    scaled('od_speech', 'optional', FREQUENCY, { id: 'od_recall', anyOf: REMEMBERS_DREAMS }),
+    scaled('od_touch', 'optional', FREQUENCY, { id: 'od_recall', anyOf: REMEMBERS_DREAMS }),
+    scaled('od_emotion', 'optional', STRENGTH, { id: 'od_recall', anyOf: REMEMBERS_DREAMS }),
+    scaled('od_lucid', 'optional', FREQUENCY, { id: 'od_recall', anyOf: REMEMBERS_DREAMS }),
+    scaled('od_daylink', 'optional', FREQUENCY, { id: 'od_recall', anyOf: REMEMBERS_DREAMS })
+  ],
+  // Result categories. Each one is the score of a single question, so nothing is added up and
+  // no total or type is ever made. Unscored answers (unsure, prefer_not) and hidden questions
+  // give null, never an invented number.
+  categories: [
+    { id: 'words_in_head', type: 'level', question: 'voice_freq' },
+    { id: 'pictures_unprompted', type: 'level', question: 'img_spontaneous' },
+    { id: 'wordless_thought', type: 'level', question: 'nv_clear' },
+    { id: 'feelings_guide_thought', type: 'level', question: 'nv_feeling' },
+    { id: 'imagery_sight', type: 'level', question: 'img_deliberate' },
+    { id: 'imagery_sound', type: 'level', question: 'img_sound' },
+    { id: 'imagery_touch_smell_taste', type: 'level', question: 'img_touch' },
+    { id: 'memory_vividness', type: 'level', question: 'om_vivid' },
+    { id: 'dream_recall', type: 'level', question: 'od_recall' },
+    { id: 'dream_visual', type: 'level', question: 'od_visual' }
+  ],
+  // Questions whose answer counts may appear in public "how this site's participants answered".
+  publicStats: ['voice_freq', 'img_deliberate', 'img_spontaneous', 'nv_clear', 'mem_scene'],
+  // Simple splits for the admin dashboard.
+  flags: [
+    { id: 'inner_voice', question: 'voice_freq', groups: { regular: REGULAR_VOICE, little_or_none: LITTLE_VOICE } },
+    { id: 'visual_imagery', question: 'img_deliberate', groups: { some: HAS_PICTURE, none: ['none'] } }
+  ]
+};
+
+/** id -> question, without any inherited object keys. */
+function indexQuestions_(spec) {
+  const byId = Object.create(null);
+  spec.questions.forEach(function (q) { byId[q.id] = q; });
+  return byId;
+}
+
+/** Ids of the questions a participant should see, given the answers so far. */
+function visibleQuestionIds(spec, answers) {
+  const visible = [];
+  const seen = Object.create(null);
+  spec.questions.forEach(function (q) {
+    const cond = q.showIf;
+    const show = !cond || (seen[cond.id] === true && cond.anyOf.indexOf(answers[cond.id]) !== -1);
+    if (show) {
+      visible.push(q.id);
+      seen[q.id] = true;
+    }
+  });
+  return visible;
+}
+
+/**
+ * Checks a set of answers against the spec. Returns:
+ *   ok, fields (question ids with a problem), problems (codes only), cleaned (valid answers),
+ *   optionalCompleted (true only if the whole optional section was answered).
+ * The optional section is all-or-nothing: either every visible optional question is answered,
+ * or none is.
+ */
+function validateAnswers(spec, answers) {
+  const result = { ok: false, fields: [], problems: [], cleaned: {}, optionalCompleted: false };
+  if (answers === null || typeof answers !== 'object' || Array.isArray(answers)) {
+    result.problems.push('answers_not_object');
+    return result;
+  }
+  const byId = indexQuestions_(spec);
+  const keys = Object.keys(answers);
+  if (keys.length > spec.questions.length) {
+    result.problems.push('too_many_answers');
+    return result;
+  }
+  if (keys.some(function (k) { return byId[k] === undefined; })) {
+    result.problems.push('unknown_question');
+    return result;
+  }
+
+  const visible = visibleQuestionIds(spec, answers);
+  const isVisible = Object.create(null);
+  visible.forEach(function (id) { isVisible[id] = true; });
+
+  const bad = [];
+  keys.forEach(function (id) {
+    const value = answers[id];
+    if (!isVisible[id]) {
+      bad.push(id);
+      result.problems.push('answered_hidden_question');
+    } else if (typeof value !== 'string' || !byId[id].options.some(function (o) { return o.value === value; })) {
+      bad.push(id);
+      result.problems.push('invalid_value');
+    } else {
+      result.cleaned[id] = value;
+    }
+  });
+
+  const optionalVisible = visible.filter(function (id) { return byId[id].section === 'optional'; });
+  const optionalSkipped = optionalVisible.every(function (id) { return answers[id] === undefined; });
+  visible.forEach(function (id) {
+    if (answers[id] !== undefined) return;
+    if (byId[id].section === 'optional' && optionalSkipped) return;
+    bad.push(id);
+    result.problems.push('missing_answer');
+  });
+
+  result.fields = bad.filter(function (id, i) { return bad.indexOf(id) === i; });
+  result.ok = result.problems.length === 0;
+  result.optionalCompleted = result.ok && !optionalSkipped && optionalVisible.length > 0;
+  return result;
+}
+
+function levelOf_(byId, questionId, answers) {
+  const q = byId[questionId];
+  const value = answers[questionId];
+  if (!q || typeof value !== 'string') return null;
+  const option = q.options.filter(function (o) { return o.value === value; })[0];
+  return option && typeof option.level === 'number' ? option.level : null;
+}
+
+/** Turns validated answers into the stored result categories. Pure, so it is easy to test. */
+function computeResults(spec, answers) {
+  const byId = indexQuestions_(spec);
+  const results = {};
+  spec.categories.forEach(function (cat) {
+    if (cat.type === 'choice') {
+      results[cat.id] = typeof answers[cat.question] === 'string' ? answers[cat.question] : null;
+    } else if (cat.type === 'level') {
+      results[cat.id] = levelOf_(byId, cat.question, answers);
+    } else if (cat.type === 'mean') {
+      const levels = cat.questions
+        .map(function (id) { return levelOf_(byId, id, answers); })
+        .filter(function (v) { return v !== null; });
+      const sum = levels.reduce(function (a, b) { return a + b; }, 0);
+      results[cat.id] = levels.length > 0 ? Math.round((sum / levels.length) * 100) / 100 : null;
+    } else {
+      results[cat.id] = null;
+    }
+  });
+  return results;
+}
+
+function normalizeEmail_(value) {
+  return typeof value === 'string' ? value.normalize('NFKC').trim().toLowerCase() : '';
+}
+
+/** Plain ASCII addresses only. The first character must be a letter or digit (no = + - @). */
+function isValidEmail_(email) {
+  if (email.length < 6 || email.length > 254) return false;
+  const at = email.indexOf('@');
+  if (at < 1 || at !== email.lastIndexOf('@')) return false;
+  const local = email.slice(0, at);
+  const domain = email.slice(at + 1);
+  if (local.length > 64) return false;
+  if (!/^[a-z0-9][a-z0-9._+-]*$/.test(local) || local.indexOf('..') !== -1 || /\.$/.test(local)) return false;
+  return /^(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,24}$/.test(domain);
+}
+// END SHARED SPEC
+
+    // BEGIN QUESTION TEXT
+    // The words people read. Question ids and answer values must match the shared spec above;
+    // a test checks that every question and every answer has wording, and nothing else does.
+    const OTHER_ANSWERS = {
+      unsure: 'Not sure',
+      prefer_not: 'Prefer not to answer',
+      depends: 'It depends',
+      different: 'I experience this differently'
+    };
+
+    const SCALE_LABELS = {
+      frequency: { never: 'Never', rarely: 'Rarely', sometimes: 'Sometimes', often: 'Often', almost_always: 'Almost always' },
+      ease: { very_hard: 'Very difficult', hard: 'Somewhat difficult', neutral: 'Neither easy nor difficult', easy: 'Somewhat easy', very_easy: 'Very easy' },
+      strength: { not_at_all: 'Not at all', slightly: 'Slightly', moderately: 'Moderately', strongly: 'Strongly', very_strongly: 'Very strongly' },
+      clarity_sight: { none: 'No picture at all', very_faint: 'Very faint', faint: 'Faint but there', clear: 'Clear', vivid: 'As vivid as seeing it' },
+      clarity_sound: { none: 'Nothing at all', very_faint: 'Very faint', faint: 'Faint but there', clear: 'Clear', vivid: 'As vivid as hearing it' },
+      clarity_other: { none: 'Nothing at all', very_faint: 'Very faint', faint: 'Faint but there', clear: 'Clear', vivid: 'As vivid as the real thing' },
+      clarity_memory: { none: 'I cannot bring them back, I only know the facts', very_faint: 'Very faint', faint: 'Faint but there', clear: 'Clear', vivid: 'As vivid as being there' },
+      clarity_dream: { none: 'No pictures at all', very_faint: 'Very faint', faint: 'Faint but there', clear: 'Clear', vivid: 'As vivid as seeing' },
+      detail: { little: 'Very little detail', some: 'Some detail', a_lot: 'A lot of detail', almost_all: 'Almost as much as seeing it' }
+    };
+
+    // A question uses either a scale (the answer words come from SCALE_LABELS) or its own labels.
+    const QUESTION_TEXT = {
+      // A. Inner voice
+      voice_freq: { area: 'Inner voice', scale: 'frequency', text: 'When you think, how often do you experience your thoughts as words in your head?', help: 'These can be a voice you hear, or the feeling of saying words silently to yourself. They do not need to have any sound.' },
+      voice_own: { area: 'Inner voice', text: 'When you do have words in your head, whose voice do they usually seem to be in?', labels: { own: 'Mostly my own voice', others: 'Mostly other people’s voices', mix: 'A mix of my voice and other people’s', no_sound: 'Words, but with no sound or voice quality' } },
+      voice_pattern: { area: 'Inner voice', text: 'Which best describes how your inner voice behaves through the day?', labels: { constant: 'It is there almost all the time', comes_goes: 'It comes and goes', situations: 'It shows up mainly in particular situations' } },
+      voice_control: { area: 'Inner voice', scale: 'ease', text: 'How easy is it to start, stop or change your inner voice on purpose?' },
+      voice_dialogue: { area: 'Inner voice', scale: 'frequency', text: 'How often does your inner voice work like a conversation, with more than one point of view?' },
+      voice_job: { area: 'Inner voice', text: 'What does your inner voice mostly do?', labels: { plans: 'Plans and organizes what to do', comments: 'Comments on what is happening', rehearses: 'Rehearses things I might say', evaluates: 'Encourages or criticizes me', thinks: 'Works through ideas and problems' } },
+
+      // B. Visual thinking and imagery
+      img_deliberate: { area: 'Visual thinking and imagery', scale: 'clarity_sight', text: 'Try this: picture a familiar person’s face, or your own front door. When you try on purpose to picture something like that, how clear is the picture in your mind?' },
+      img_detail: { area: 'Visual thinking and imagery', scale: 'detail', text: 'When you do get a picture, how much detail does it have, such as colors and small features?' },
+      img_spontaneous: { area: 'Visual thinking and imagery', scale: 'frequency', text: 'How often do pictures come into your mind without you trying, for example while you are thinking about something else?' },
+      img_knowledge: { area: 'Visual thinking and imagery', scale: 'ease', text: 'Without picturing anything, how easily can you describe what familiar places or objects look like?', help: 'For example, the layout of your kitchen or the color of your front door. You might do this by knowing the facts rather than by seeing a picture.' },
+      img_sound: { area: 'Visual thinking and imagery', scale: 'clarity_sound', text: 'When you try on purpose to imagine a familiar song or voice, how clear is it?' },
+      img_touch: { area: 'Visual thinking and imagery', scale: 'clarity_other', text: 'When you try on purpose to imagine a smell, a taste or how something feels to touch, how clear is it?' },
+      img_future: { area: 'Visual thinking and imagery', text: 'When you imagine something that might happen in the future, such as a trip or a conversation, how do you mostly do it?', labels: { pictures: 'Mostly as pictures', words: 'Mostly in words', idea: 'As an idea or a feeling, without pictures or words', mix: 'A mix of these' } },
+      img_space: { area: 'Visual thinking and imagery', text: 'When you work out a route or arrange a room in your head, how do you mostly do it?', labels: { scene: 'I picture it like a scene', layout: 'I sense where things are, without a picture', words: 'I use words or directions', as_i_go: 'I do not work it out in my head; I work it out as I go' } },
+
+      // C. Thinking without words
+      nv_clear: { area: 'Thinking without words', scale: 'frequency', text: 'How often do you have a clear, specific thought that has no words and no pictures with it?', help: 'For example, you realize you are weighing two options without saying anything in your head and without picturing anything.' },
+      nv_intuit: { area: 'Thinking without words', scale: 'frequency', text: 'How often do you know something is true, or know what to do, without being able to say right away why?' },
+      nv_structure: { area: 'Thinking without words', scale: 'frequency', text: 'How often do you think by sensing how ideas or things connect, like a structure or a web, rather than with words or pictures?' },
+      nv_feeling: { area: 'Thinking without words', scale: 'frequency', text: 'How often do feelings or sensations in your body guide how you think something through?' },
+      nv_explain: { area: 'Thinking without words', scale: 'ease', text: 'When you understand an idea well, how easy is it to put it into words for someone else?' },
+      nv_how: { area: 'Thinking without words', text: 'When you think something through, such as planning your day, which is closest to how it happens for you?', labels: { images: 'Mostly pictures', idea: 'The idea itself, without words or pictures', feelings: 'Feelings or sensations in my body', layout: 'A sense of how things are arranged or connected', silent_words: 'Words, but with no sound or voice' } },
+
+      // D. Memory
+      mem_scene: { area: 'Memory', scale: 'frequency', text: 'When you remember an event from your life, how often do you see it like a scene in your mind?' },
+      mem_sound: { area: 'Memory', scale: 'frequency', text: 'When you remember an event, how often do you hear sounds, voices or words from that moment?' },
+      mem_relive: { area: 'Memory', scale: 'frequency', text: 'How often does remembering an event feel like reliving it, as if you were back there?' },
+      mem_strong: { area: 'Memory', text: 'When you remember an event, which part is usually strongest?', labels: { seen: 'What I saw', heard: 'What I heard', felt: 'How I felt', facts: 'The facts, without much else', body: 'Sensations in my body, smells or tastes' } },
+
+      // E. Everyday thinking
+      day_read: { area: 'Everyday thinking', scale: 'frequency', text: 'When you read silently, how often do you “hear” the words in your head?' },
+      day_write: { area: 'Everyday thinking', text: 'When you write something, such as a message or an essay, how do you mostly work out what to say?', labels: { say_first: 'I say the words in my head first', picture: 'I picture what I want to say', idea_first: 'I know the idea and the words come as I write', as_i_write: 'I work it out as I write or type' } },
+      day_solve: { area: 'Everyday thinking', text: 'When you solve a problem, what do you mostly use?', labels: { words: 'Words in my head', pictures: 'Pictures or diagrams in my mind', structure: 'A sense of how the parts fit together', try_out: 'I try things out on paper or in real life' } },
+      day_decide: { area: 'Everyday thinking', text: 'When you make a decision, which is closest to what happens?', labels: { talk: 'I talk it through in my head', imagine: 'I imagine how each option would turn out', feel: 'I notice how I feel about each option', weigh: 'I weigh up facts or lists' } },
+      day_plan: { area: 'Everyday thinking', text: 'When you plan your day, how do you mostly hold the plan in mind?', labels: { list: 'As a list in words', picture: 'As a picture or a map', sense: 'As a sense of what comes next', no_plan: 'I do not plan ahead in my head' } },
+      day_music: { area: 'Everyday thinking', text: 'When you listen to music, what is usually going on in your mind?', labels: { pictures: 'Pictures or scenes', feelings: 'Feelings or moods', words: 'Words, such as lyrics or comments to myself', sound_only: 'Mostly just the sound', body: 'Sensations in my body or an urge to move' } },
+      day_routine: { area: 'Everyday thinking', text: 'While you do a familiar task, such as walking or washing up, what is usually in your mind?', labels: { words: 'Words', pictures: 'Pictures', feelings: 'Feelings', sounds: 'Music or other sounds', ideas: 'Ideas without words or pictures', little: 'Very little in particular' } },
+
+      // F. Memories (optional part)
+      om_vivid: { area: 'Memories', scale: 'clarity_memory', text: 'How vivid are your memories of events from your own past?' },
+      om_replay: { area: 'Memories', scale: 'frequency', text: 'How often do you replay memories on purpose?' },
+      om_unbidden: { area: 'Memories', scale: 'frequency', text: 'How often do memories come back to you without your trying?' },
+      om_viewpoint: { area: 'Memories', text: 'When you remember an event, where do you seem to be?', labels: { own_eyes: 'Looking out through my own eyes', observer: 'Watching myself from outside, like an observer', varies: 'It varies', no_viewpoint: 'I have no viewpoint; I just know what happened' } },
+      om_emotion: { area: 'Memories', scale: 'strength', text: 'How strongly does a memory bring back the feelings you had at the time?' },
+      om_senses: { area: 'Memories', scale: 'frequency', text: 'How often do your memories include smells, tastes or touch?' },
+      om_words: { area: 'Memories', scale: 'frequency', text: 'How often do you remember what was said in a conversation almost word for word?' },
+      om_future: { area: 'Memories', scale: 'clarity_sight', text: 'How vivid is it when you imagine a specific event in your own future?' },
+
+      // G. Dreams (optional part)
+      od_recall: { area: 'Dreams', scale: 'frequency', text: 'How often do you remember your dreams when you wake up?' },
+      od_visual: { area: 'Dreams', scale: 'clarity_dream', text: 'When you remember a dream, how visual is it?' },
+      od_sound: { area: 'Dreams', scale: 'frequency', text: 'How often do your dreams include sounds or music?' },
+      od_speech: { area: 'Dreams', scale: 'frequency', text: 'How often do your dreams include people speaking, or you speaking or thinking in words?' },
+      od_touch: { area: 'Dreams', scale: 'frequency', text: 'How often do your dreams include touch, smell or taste?' },
+      od_emotion: { area: 'Dreams', scale: 'strength', text: 'How strong are the feelings in your dreams?' },
+      od_lucid: { area: 'Dreams', scale: 'frequency', text: 'How often do you know you are dreaming while the dream is happening?' },
+      od_daylink: { area: 'Dreams', scale: 'frequency', text: 'How often do your dreams include things from your day or your recent life?' }
+    };
+
+    /** The words for one answer value of one question. */
+    function answerLabel(questionId, value) {
+      if (OTHER_ANSWERS[value] !== undefined) return OTHER_ANSWERS[value];
+      const t = QUESTION_TEXT[questionId];
+      return t.scale ? SCALE_LABELS[t.scale][value] : t.labels[value];
+    }
+    // END QUESTION TEXT
+
+    // BEGIN QUIZ LOGIC
+    // The rules for moving through the questionnaire. These are pure functions with no access to the
+    // page, so they are tested on their own. They use the shared spec block above.
+
+    /** Ids of the questions in one section ('main' or 'optional') that should be shown right now. */
+    function sectionQuestions(spec, answers, section) {
+      const byId = indexQuestions_(spec);
+      return visibleQuestionIds(spec, answers).filter(function (id) { return byId[id].section === section; });
+    }
+
+    /** The question after this one in its section, or null if it is the last one shown. */
+    function nextQuestionId(spec, answers, id) {
+      const list = sectionQuestions(spec, answers, indexQuestions_(spec)[id].section);
+      const at = list.indexOf(id);
+      return at === -1 || at === list.length - 1 ? null : list[at + 1];
+    }
+
+    /** The question before this one in its section, or null if it is the first one shown. */
+    function previousQuestionId(spec, answers, id) {
+      const list = sectionQuestions(spec, answers, indexQuestions_(spec)[id].section);
+      const at = list.indexOf(id);
+      return at <= 0 ? null : list[at - 1];
+    }
+
+    /** The first question shown in a section that has no answer yet, or null if all are answered. */
+    function firstUnansweredId(spec, answers, section) {
+      const list = sectionQuestions(spec, answers, section);
+      for (let i = 0; i < list.length; i++) {
+        if (answers[list[i]] === undefined) return list[i];
+      }
+      return null;
+    }
+
+    /** How far through its section a question is: position counts from 1. */
+    function sectionProgress(spec, answers, id) {
+      const list = sectionQuestions(spec, answers, indexQuestions_(spec)[id].section);
+      return { position: list.indexOf(id) + 1, total: list.length };
+    }
+
+    /** Keeps only the answers to questions that are shown, so a changed answer cannot leave a stale follow-up behind. */
+    function pruneAnswers(spec, answers) {
+      const kept = {};
+      visibleQuestionIds(spec, answers).forEach(function (id) {
+        if (answers[id] !== undefined) kept[id] = answers[id];
+      });
+      return kept;
+    }
+
+    /** The answers to send to the server, or null if anything required is missing or not valid. */
+    function answersToSend(spec, answers, wantsOptional) {
+      const kept = pruneAnswers(spec, answers);
+      if (!wantsOptional) {
+        const byId = indexQuestions_(spec);
+        Object.keys(kept).forEach(function (id) {
+          if (byId[id].section === 'optional') delete kept[id];
+        });
+      }
+      const checked = validateAnswers(spec, kept);
+      return checked.ok ? checked.cleaned : null;
+    }
+    // END QUIZ LOGIC
+
+
     // =====================================================================
     // 4. ROUTING  (the pure part is tested on its own)
     // =====================================================================
@@ -1806,26 +2324,528 @@
         results, groups, buildEvidenceKey());
     }
 
-    const buildQuiz = () => buildPlain({
-      eyebrow: 'Questionnaire',
-      title: 'The questionnaire is being built',
-      lead: 'It will ask multiple-choice questions about your inner voice, mental imagery, thinking without words, memory and everyday thinking, and adapt to your answers. Before you start you will read a privacy notice and choose whether to agree.',
-      note: 'It is not ready yet. Please check back soon.',
-      actions: [button('Explore the topics', '#/learn', 'primary', true), button('Back to the home page', '#/', 'secondary')]
-    });
+    // ---- The questionnaire ----
+    // Whatever the visitor types stays in this browser tab (sessionStorage) until they finish.
+    // Nothing is sent anywhere until the final "Save my answers" step.
+    const PROGRESS_KEY = 'iyh:progress';
+    const SAVED_KEY = 'iyh:saved';
+    const KEY_FORMAT = /^[A-Za-z0-9][A-Za-z0-9_-]{15,63}$/;
+
+    // The wording below is the approved notice. Two sentences were added because of later decisions:
+    // the unfinished answers kept in this tab, and Google's version history (see the plan).
+    const PRIVACY_NOTICE = [
+      ['What you will do.', 'Answer about 30 multiple-choice questions on how you experience thinking, and optionally some extra questions about memories and dreams. Nothing is sent to the server or saved there until you finish. If you leave before then, nothing is saved on the server. While you answer, your unfinished answers are kept in this browser tab only, and they are cleared when you close it.'],
+      ['What is saved.', 'Your answers, your email address, a PIN we create for you, and the date and time you finish.'],
+      ['Why your email.', 'So you can come back to your results later with your email and PIN, and so one email address can finish the questionnaire only once. We do not send you email.'],
+      ['This is not anonymous.', 'Because your email address is saved with your answers, your answers are linked to you. We never publish your email address or your individual answers.'],
+      ['Who can see it.', 'Only the site administrator can see your email address, your PIN and your answers. The PIN is stored where the administrator can read it, so it is made up for you and should not be a PIN you use elsewhere. Answers are stored in a private Google Sheet, so your answers are sent to Google when you finish. The site uses no analytics, advertising or tracking.'],
+      ['Comparisons.', 'The results page can compare your answers with those of other people who took part. These comparisons are totals only, shown only when enough people have finished, and never show individuals.'],
+      ['Deleting your answers.', 'You can ask for your answers to be deleted at any time. Write to kaleb@theflings.com from the email address you used, and the administrator will delete them. Deleting removes your answers from the live data, but Google’s version history of the private sheet may still hold older copies.'],
+      ['This is not a medical or psychological test.', 'It is for learning and reflection. It cannot diagnose anything. If you are worried about your thoughts or wellbeing, please talk to a doctor or a licensed mental health professional.']
+    ];
+
+    function readStore(key) {
+      try {
+        const raw = window.sessionStorage.getItem(key);
+        return raw ? JSON.parse(raw) : null;
+      } catch (err) {
+        return null; // storage can be blocked or hold something unreadable; the questionnaire works without it
+      }
+    }
+
+    function writeStore(key, value) {
+      try {
+        window.sessionStorage.setItem(key, JSON.stringify(value));
+      } catch (err) {
+        // blocked or full: the only loss is being able to carry on after a refresh
+      }
+    }
+
+    function clearStore(key) {
+      try {
+        window.sessionStorage.removeItem(key);
+      } catch (err) {
+        // nothing to clear
+      }
+    }
+
+    /** A random key for one save. Reusing it on a retry is what stops a second copy being written. */
+    function newKey() {
+      if (window.crypto && typeof window.crypto.randomUUID === 'function') return window.crypto.randomUUID();
+      const bytes = new Uint8Array(16);
+      window.crypto.getRandomValues(bytes);
+      return Array.from(bytes, (b) => ('0' + b.toString(16)).slice(-2)).join('');
+    }
+
+    async function callApi(payload) {
+      const controller = new AbortController();
+      const timer = window.setTimeout(() => controller.abort(), 40000);
+      try {
+        // text/plain keeps this a "simple" request, which Apps Script can answer without a preflight.
+        const res = await fetch(API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(payload),
+          signal: controller.signal,
+          credentials: 'omit',
+          referrerPolicy: 'no-referrer',
+          cache: 'no-store'
+        });
+        if (!res.ok) throw new Error('The server answered with status ' + res.status);
+        return await res.json();
+      } finally {
+        window.clearTimeout(timer);
+      }
+    }
+
+    /** Sends the answers. If the server says it is busy it tries again; a retry reuses the key, so it can never save twice. */
+    async function sendSubmission(payload, onBusy) {
+      for (let attempt = 1; attempt <= 4; attempt += 1) {
+        const reply = await callApi(payload);
+        if (reply && reply.code === 'BUSY' && attempt < 4) {
+          onBusy();
+          await delay(3000);
+        } else {
+          return reply;
+        }
+      }
+      return null;
+    }
+
+    /** Reads unfinished answers back from this tab, dropping anything that no longer fits the questionnaire. */
+    function loadProgress() {
+      const fresh = { stage: 'intro', consent: false, answers: {}, current: null, wantsOptional: null, key: null, email: '' };
+      const s = readStore(PROGRESS_KEY);
+      if (!s || s.v !== SPEC.version || s.consent !== true || typeof s.answers !== 'object' || s.answers === null) return fresh;
+      const byId = indexQuestions_(SPEC);
+      const answers = {};
+      Object.keys(s.answers).forEach((id) => {
+        const q = byId[id];
+        if (q && typeof s.answers[id] === 'string' && q.options.some((o) => o.value === s.answers[id])) answers[id] = s.answers[id];
+      });
+      const state = {
+        stage: ['intro', 'main', 'gate', 'optional', 'email'].indexOf(s.stage) !== -1 ? s.stage : 'intro',
+        consent: true,
+        answers: answers,
+        current: typeof s.current === 'string' ? s.current : null,
+        wantsOptional: typeof s.wantsOptional === 'boolean' ? s.wantsOptional : null,
+        key: typeof s.key === 'string' && KEY_FORMAT.test(s.key) ? s.key : null,
+        email: ''
+      };
+      if (state.stage === 'main' || state.stage === 'optional') {
+        const shown = sectionQuestions(SPEC, answers, state.stage);
+        if (shown.indexOf(state.current) === -1) state.current = firstUnansweredId(SPEC, answers, state.stage) || shown[0] || null;
+        if (state.stage === 'optional' && state.wantsOptional !== true) {
+          state.stage = 'gate';
+          state.current = null;
+        }
+      }
+      if (state.stage === 'email' && answersToSend(SPEC, answers, state.wantsOptional === true) === null) {
+        state.stage = 'main';
+        state.current = firstUnansweredId(SPEC, answers, 'main') || sectionQuestions(SPEC, answers, 'main')[0];
+      }
+      return state;
+    }
+
+    function progressBar(position, total, label) {
+      const percent = total > 0 ? Math.round((position / total) * 100) : 0;
+      return h('div', { class: 'progress', role: 'progressbar', 'aria-label': label, 'aria-valuemin': '0', 'aria-valuemax': String(total), 'aria-valuenow': String(position) },
+        h('span', { style: 'width:' + percent + '%' }));
+    }
+
+    function buildQuiz() {
+      const byId = indexQuestions_(SPEC);
+      const state = loadProgress();
+      const stageBox = h('div', { class: 'quiz-stage' });
+      const foot = h('div', { class: 'quiz-foot' });
+      let moving = false;
+      let firstShow = true;
+
+      const persist = () => writeStore(PROGRESS_KEY, {
+        v: SPEC.version, stage: state.stage, consent: state.consent, answers: state.answers,
+        current: state.current, wantsOptional: state.wantsOptional, key: state.key
+      });
+
+      /** Swaps what is on screen, with a short fade, and moves keyboard focus to the new heading. */
+      async function show() {
+        if (moving) return;
+        moving = true;
+        const animate = !firstShow && !prefersReducedMotion();
+        if (animate) {
+          stageBox.classList.add('is-leaving');
+          await delay(150);
+        }
+        stageBox.replaceChildren(viewFor());
+        updateFoot();
+        if (animate) {
+          // Start the new screen faded out, make the browser notice that (reading the height does), then let it fade in.
+          // This does not wait for an animation frame, so a hidden or busy tab can never leave the questionnaire stuck.
+          stageBox.classList.add('is-entering');
+          stageBox.classList.remove('is-leaving');
+          void stageBox.offsetHeight;
+          stageBox.classList.remove('is-entering');
+        } else {
+          stageBox.classList.remove('is-leaving');
+        }
+        if (!firstShow) {
+          // If the sticky header would cover the top of the new screen, scroll it into clear view.
+          const headerBottom = document.querySelector('.site-header').getBoundingClientRect().bottom;
+          if (stageBox.getBoundingClientRect().top < headerBottom + 8) stageBox.scrollIntoView({ block: 'start' });
+          const target = stageBox.querySelector('[data-focus]');
+          if (target) target.focus({ preventScroll: true });
+        }
+        firstShow = false;
+        moving = false;
+      }
+
+      function go(stage, current) {
+        state.stage = stage;
+        state.current = current || null;
+        persist();
+        return show();
+      }
+
+      function viewFor() {
+        if (state.stage === 'main' || state.stage === 'optional') return questionView(state.current);
+        if (state.stage === 'gate') return gateView();
+        if (state.stage === 'email') return emailView();
+        return introView();
+      }
+
+      function lastIn(section) {
+        const list = sectionQuestions(SPEC, state.answers, section);
+        return list[list.length - 1];
+      }
+
+      // ---- the footer: start over ----
+      function updateFoot() {
+        foot.hidden = state.stage === 'intro';
+        foot.replaceChildren(startOverButton());
+      }
+
+      function startOverButton() {
+        const ask = h('button', { type: 'button', class: 'linklike' }, 'Start over');
+        ask.addEventListener('click', () => {
+          const yes = h('button', { type: 'button', class: 'linklike' }, 'Yes, clear my answers');
+          const no = h('button', { type: 'button', class: 'linklike' }, 'Keep my answers');
+          yes.addEventListener('click', () => {
+            clearStore(PROGRESS_KEY);
+            Object.assign(state, { stage: 'intro', consent: false, answers: {}, current: null, wantsOptional: null, key: null, email: '' });
+            show();
+          });
+          no.addEventListener('click', () => {
+            foot.replaceChildren(startOverButton());
+            foot.querySelector('button').focus();
+          });
+          foot.replaceChildren(h('span', { class: 'quiz-foot-text' }, 'This clears every answer in this tab.'), yes, no);
+          yes.focus();
+        });
+        return ask;
+      }
+
+      // ---- the first screen: what to expect, the privacy notice and consent ----
+      function introView() {
+        const consent = h('input', { type: 'checkbox', id: 'consent' });
+        consent.checked = state.consent;
+        const start = h('button', { type: 'button', class: 'btn btn-primary' }, 'Start the questionnaire', icon('arrow'));
+        const hint = h('p', { class: 'q-help consent-hint' }, 'Tick the box to start.');
+        const sync = () => {
+          start.disabled = !consent.checked;
+          hint.hidden = consent.checked;
+        };
+        consent.addEventListener('change', () => {
+          state.consent = consent.checked;
+          persist();
+          sync();
+        });
+        start.addEventListener('click', () => {
+          if (!consent.checked) return;
+          state.consent = true;
+          go('main', firstUnansweredId(SPEC, state.answers, 'main') || sectionQuestions(SPEC, state.answers, 'main')[0]);
+        });
+        sync();
+        return h('section', { class: 'quiz-intro', 'aria-labelledby': 'intro-title' },
+          h('h2', { id: 'intro-title', tabindex: '-1', 'data-focus': '' }, 'Describe how you think'),
+          h('p', { class: 'lead' }, 'About 30 multiple-choice questions on your inner voice, mental imagery, thinking without words, memory and everyday thinking. They adapt to your answers, so you only see what applies to you.'),
+          h('ul', { class: 'quiz-points' },
+            h('li', null, 'There are no right or wrong answers, and no way of thinking is better or worse.'),
+            h('li', null, 'Every question has “Not sure” and “Prefer not to answer”.'),
+            h('li', null, 'You can go back and change an answer before you finish.'),
+            h('li', null, 'At the end you can add an optional part about memories and dreams.'),
+            h('li', null, 'You then enter an email address and receive a PIN, so you can come back to your results.')),
+          h('section', { class: 'notice-card', 'aria-labelledby': 'notice-title' },
+            h('h3', { id: 'notice-title' }, 'Before you start: how your answers are used'),
+            PRIVACY_NOTICE.map((item) => h('p', null, h('strong', null, item[0] + ' '), item[1]))),
+          h('div', { class: 'consent-row' },
+            consent,
+            h('label', { for: 'consent' }, 'I have read this notice and I agree to take part.')),
+          hint,
+          h('div', { class: 'cta-row' }, start, button('Retrieve earlier results', '#/retrieve', 'secondary')));
+      }
+
+      // ---- one question ----
+      function questionView(id) {
+        const q = byId[id];
+        const t = QUESTION_TEXT[id];
+        const optional = q.section === 'optional';
+        const progress = sectionProgress(SPEC, state.answers, id);
+        const name = 'q-' + id;
+        const error = h('p', { class: 'field-error', id: 'error-' + id, role: 'alert' });
+
+        const makeOption = (o) => {
+          const input = h('input', { type: 'radio', name: name, value: o.value, id: name + '-' + o.value });
+          input.checked = state.answers[id] === o.value;
+          input.addEventListener('change', () => {
+            state.answers[id] = o.value;
+            error.textContent = '';
+            persist();
+          });
+          return h('label', { class: 'opt', for: input.id }, input, h('span', { class: 'opt-mark', 'aria-hidden': 'true' }), h('span', { class: 'opt-text' }, answerLabel(id, o.value)));
+        };
+        const mainOptions = q.options.filter((o) => OTHER_ANSWERS[o.value] === undefined).map(makeOption);
+        const otherOptions = q.options.filter((o) => OTHER_ANSWERS[o.value] !== undefined).map(makeOption);
+
+        const back = h('button', { type: 'button', class: 'btn btn-ghost' }, 'Back');
+        const next = h('button', { type: 'submit', class: 'btn btn-primary' }, 'Next', icon('arrow'));
+        const form = h('form', { class: 'q-form', novalidate: true },
+          h('fieldset', { 'aria-describedby': (t.help ? 'help-' + id + ' ' : '') + 'error-' + id },
+            h('legend', { class: 'q-text', tabindex: '-1', 'data-focus': '' }, t.text),
+            t.help ? h('p', { class: 'q-help', id: 'help-' + id }, t.help) : null,
+            h('div', { class: 'opts' }, mainOptions),
+            h('div', { class: 'opts opts-other' }, otherOptions)),
+          error,
+          h('div', { class: 'q-nav' }, back, next));
+
+        // Enter on a choice means "next" (some browsers do this on their own, some do not).
+        form.addEventListener('keydown', (event) => {
+          if (event.key === 'Enter' && event.target.type === 'radio') {
+            event.preventDefault();
+            form.requestSubmit();
+          }
+        });
+        form.addEventListener('submit', (event) => {
+          event.preventDefault();
+          if (state.answers[id] === undefined) {
+            error.textContent = 'Please choose an answer to continue. “Not sure” is always an option.';
+            form.querySelector('input[type=radio]').focus();
+            return;
+          }
+          const nextId = nextQuestionId(SPEC, state.answers, id);
+          if (nextId) go(q.section, nextId);
+          else go(optional ? 'email' : 'gate', null);
+        });
+        back.addEventListener('click', () => {
+          const previousId = previousQuestionId(SPEC, state.answers, id);
+          if (previousId) go(q.section, previousId);
+          else go(optional ? 'gate' : 'intro', null);
+        });
+
+        const label = (optional ? 'Optional question ' : 'Question ') + progress.position + ' of ' + progress.total;
+        return h('section', { class: 'quiz-card', 'aria-label': label },
+          h('div', { class: 'quiz-head' },
+            h('p', { class: 'eyebrow' }, (optional ? 'Optional · ' : '') + t.area),
+            h('p', { class: 'quiz-count' }, label),
+            progressBar(progress.position, progress.total, 'Progress through this part of the questionnaire')),
+          form);
+      }
+
+      // ---- between the main questions and the optional part ----
+      function gateView() {
+        const yes = h('button', { type: 'button', class: 'btn btn-primary' }, 'Continue to the optional questions', icon('arrow'));
+        const no = h('button', { type: 'button', class: 'btn btn-secondary' }, 'Skip this part');
+        const back = h('button', { type: 'button', class: 'btn btn-ghost' }, 'Back');
+        yes.addEventListener('click', () => {
+          state.wantsOptional = true;
+          go('optional', firstUnansweredId(SPEC, state.answers, 'optional') || sectionQuestions(SPEC, state.answers, 'optional')[0]);
+        });
+        no.addEventListener('click', () => {
+          state.wantsOptional = false;
+          go('email', null);
+        });
+        back.addEventListener('click', () => go('main', lastIn('main')));
+        return h('section', { class: 'quiz-card', 'aria-labelledby': 'gate-title' },
+          h('p', { class: 'eyebrow' }, 'Main questions done'),
+          h('h2', { id: 'gate-title', class: 'q-text', tabindex: '-1', 'data-focus': '' }, 'Optional: memories and dreams'),
+          h('p', null, 'If you like, you can answer 16 more questions about how you experience memories and dreams. If you do not remember your dreams, you will see 9. They are saved together with your other answers.'),
+          h('p', { class: 'q-help' }, 'It is all or nothing: you answer every question you are shown, or you skip the whole part. “Prefer not to answer” is available on every question.'),
+          h('div', { class: 'q-nav q-nav-stack' }, back, no, yes));
+      }
+
+      // ---- the last step: email, then save ----
+      function emailView() {
+        const answers = answersToSend(SPEC, state.answers, state.wantsOptional === true);
+        const count = answers === null ? 0 : Object.keys(answers).length;
+        const input = h('input', { type: 'email', id: 'email', class: 'text-input', autocomplete: 'email', inputmode: 'email', spellcheck: 'false', autocapitalize: 'off', maxlength: '254', 'aria-describedby': 'email-help email-error' });
+        input.value = state.email;
+        const fieldError = h('p', { class: 'field-error', id: 'email-error', role: 'alert' });
+        const status = h('p', { class: 'q-help save-status', role: 'status' });
+        const problem = h('div', { class: 'notice notice-problem', role: 'alert', hidden: true });
+        const saveButton = h('button', { type: 'submit', class: 'btn btn-primary' }, 'Save my answers', icon('arrow'));
+        const back = h('button', { type: 'button', class: 'btn btn-ghost' }, 'Back');
+        let sending = false;
+
+        const setBusy = (busy, message) => {
+          sending = busy;
+          input.disabled = busy;
+          saveButton.disabled = busy;
+          back.disabled = busy;
+          status.textContent = busy ? message : '';
+        };
+        const showProblem = (message, ...extras) => {
+          problem.replaceChildren(h('span', null, message), ...extras);
+          problem.hidden = false;
+        };
+
+        input.addEventListener('input', () => {
+          state.email = input.value;
+          fieldError.textContent = '';
+        });
+        back.addEventListener('click', () => {
+          if (state.wantsOptional === true) go('optional', lastIn('optional'));
+          else go('gate', null);
+        });
+
+        const form = h('form', { class: 'q-form', novalidate: true },
+          h('div', { class: 'field' },
+            h('label', { for: 'email', class: 'field-label' }, 'Your email address'),
+            h('p', { class: 'q-help', id: 'email-help' }, 'It is saved with your answers so you can come back to your results with a PIN. It is not shown to anyone else, and we do not send you email.'),
+            input,
+            fieldError),
+          status,
+          problem,
+          h('div', { class: 'q-nav' }, back, saveButton));
+
+        form.addEventListener('submit', async (event) => {
+          event.preventDefault();
+          if (sending) return;
+          problem.hidden = true;
+          const email = normalizeEmail_(input.value);
+          if (!isValidEmail_(email)) {
+            fieldError.textContent = 'Please enter a valid email address.';
+            input.focus();
+            return;
+          }
+          const toSend = answersToSend(SPEC, state.answers, state.wantsOptional === true);
+          if (toSend === null) {
+            showProblem('Some answers are missing. Please go back and check your answers.');
+            return;
+          }
+          if (!state.key) {
+            state.key = newKey();
+            persist();
+          }
+          setBusy(true, 'Saving your answers. This can take a few seconds.');
+          let reply;
+          try {
+            reply = await sendSubmission(
+              { action: 'submit', schemaVersion: SPEC.version, idempotencyKey: state.key, email: email, answers: toSend },
+              () => { status.textContent = 'The server is busy. Trying again.'; });
+          } catch (err) {
+            setBusy(false);
+            showProblem('We could not reach the server. Your answers are still here. Check your connection and try again.');
+            return;
+          }
+          if (reply && reply.ok === true && typeof reply.pin === 'string') {
+            writeStore(SAVED_KEY, {
+              v: SPEC.version, email: email, pin: reply.pin, responseId: reply.responseId, createdAt: reply.createdAt,
+              optionalCompleted: reply.optionalCompleted === true, results: reply.results, answers: toSend
+            });
+            clearStore(PROGRESS_KEY);
+            window.location.hash = '#/results';
+            return;
+          }
+          setBusy(false);
+          const code = reply && reply.code;
+          const message = reply && typeof reply.message === 'string' ? reply.message : 'Something went wrong. Please try again in a moment.';
+          if (code === 'INVALID_EMAIL') {
+            fieldError.textContent = message;
+            input.focus();
+          } else if (code === 'EMAIL_ALREADY_SUBMITTED') {
+            showProblem(message + ' ', h('a', { href: '#/retrieve' }, 'Go to the Retrieve page'));
+          } else if (code === 'SCHEMA_MISMATCH') {
+            const reload = h('button', { type: 'button', class: 'btn btn-secondary' }, 'Refresh the page');
+            reload.addEventListener('click', () => window.location.reload());
+            showProblem(message + ' Your answers are kept in this tab. ', reload);
+          } else {
+            showProblem(message);
+          }
+        });
+
+        return h('section', { class: 'quiz-card', 'aria-labelledby': 'email-title' },
+          h('p', { class: 'eyebrow' }, 'Last step'),
+          h('h2', { id: 'email-title', class: 'q-text', tabindex: '-1', 'data-focus': '' }, 'Save your answers and get your PIN'),
+          h('p', null, 'You answered ' + count + ' questions. When you save, you get a PIN. You need your email address and that PIN to see your results again.'),
+          form);
+      }
+
+      const saved = readStore(SAVED_KEY);
+      const savedNotice = saved && saved.v === SPEC.version && typeof saved.pin === 'string'
+        ? h('div', { class: 'notice quiz-saved' }, h('span', null, 'You have already finished the questionnaire in this tab. ', h('a', { href: '#/results' }, 'See your PIN')))
+        : null;
+
+      show();
+      return h('div', { class: 'page page-quiz' },
+        h('h1', { class: 'quiz-title', tabindex: '-1' }, 'The questionnaire'),
+        savedNotice,
+        stageBox,
+        foot);
+    }
     const buildRetrieve = () => buildPlain({
       eyebrow: 'Retrieve results',
       title: 'Find your saved results',
       lead: 'When you finish the questionnaire you receive a private PIN. Enter your email and that PIN here to see your results again.',
-      note: 'This page switches on when the questionnaire is ready.',
+      note: 'Retrieving results is the next stage of the build, so this page is not switched on yet. Your PIN will keep working.',
       actions: [button('Back to the home page', '#/', 'secondary')]
     });
-    const buildResults = () => buildPlain({
+    function buildNoResults() {
+      return buildPlain({
       eyebrow: 'Your results',
       title: 'No results are open right now',
       lead: 'Complete the questionnaire to get your personal breakdown, or retrieve results you saved earlier with your email and PIN.',
       actions: [button('Start the questionnaire', '#/quiz', 'primary', true), button('Retrieve saved results', '#/retrieve', 'secondary')]
-    });
+      });
+    }
+
+    /** What a visitor sees right after saving: their PIN, also kept in this tab so a refresh cannot hide it. */
+    function buildSavedResults(saved) {
+      const status = h('p', { class: 'q-help', role: 'status' });
+      const copy = h('button', { type: 'button', class: 'btn btn-secondary' }, 'Copy PIN');
+      copy.addEventListener('click', async () => {
+        try {
+          await navigator.clipboard.writeText(saved.pin);
+          status.textContent = 'PIN copied.';
+        } catch (err) {
+          status.textContent = 'Could not copy automatically. Select the PIN and copy it yourself.';
+        }
+      });
+      const remove = h('button', { type: 'button', class: 'btn btn-ghost' }, 'Remove this from my browser tab');
+      remove.addEventListener('click', () => {
+        clearStore(SAVED_KEY);
+        renderRoute(false);
+      });
+      const spelled = saved.pin.split('').map((c) => (c === '-' ? 'dash' : c)).join(', ');
+      return h('div', { class: 'page page-narrow page-saved' },
+        h('header', { class: 'page-head' },
+          h('p', { class: 'eyebrow' }, 'Saved'),
+          h('h1', { tabindex: '-1' }, 'Your answers are saved'),
+          h('p', { class: 'lead' }, 'Thank you. Your PIN is below. Write it down: you need it, with your email address, to see your results again.')),
+        h('section', { class: 'pin-panel', 'aria-labelledby': 'pin-title' },
+          h('h2', { id: 'pin-title' }, 'Your PIN'),
+          h('p', { class: 'pin-value' }, h('span', { 'aria-hidden': 'true' }, saved.pin), h('span', { class: 'sr-only' }, spelled)),
+          h('p', { class: 'pin-for' }, 'For ', h('strong', null, saved.email)),
+          h('div', { class: 'cta-row' }, copy),
+          status),
+        h('p', { class: 'notice' }, h('span', null, h('strong', null, 'Keep it safe. '), 'The site cannot email your PIN to you later. The site administrator can see it, so it was made up for you and is not one you use elsewhere.')),
+        h('p', null, 'So that a refresh cannot hide your PIN, it is also kept in this browser tab until you close the tab or remove it here. On a shared computer, remove it once you have written it down.'),
+        h('p', null, 'Your breakdown page is not ready yet. Your answers are saved, and you will be able to see your results with your email address and your PIN.'),
+        h('div', { class: 'cta-row' }, remove, button('Keep exploring the articles', '#/learn', 'secondary', true)));
+    }
+
+    function buildResults() {
+      const saved = readStore(SAVED_KEY);
+      if (saved && saved.v === SPEC.version && typeof saved.pin === 'string' && typeof saved.email === 'string') return buildSavedResults(saved);
+      return buildNoResults();
+    }
     const buildAdmin = () => buildPlain({
       eyebrow: 'Administrator',
       title: 'This area is for the site administrator',
