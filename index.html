@@ -2681,9 +2681,10 @@ function isValidEmail_(email) {
     const SAVED_KEY = 'iyh:saved';
     const KEY_FORMAT = /^[A-Za-z0-9][A-Za-z0-9_-]{15,63}$/;
 
-    // The wording below is the approved notice. Later decisions changed it in three places so it stays
-    // true: the unfinished answers kept in this tab, Google's version history, and the email address
-    // being asked first and checked with the server before the questions start.
+    // The wording below is the approved notice. Later decisions changed it in four places so it stays
+    // true: the unfinished answers kept in this tab, Google's version history, the email address
+    // being asked first and checked with the server before the questions start, and how students
+    // (whose email addresses cannot write to the administrator) can ask for deletion.
     const PRIVACY_NOTICE = [
       ['What you will do.', 'Answer about 30 multiple-choice questions on how you experience thinking, and optionally some extra questions about memories and dreams. You start by entering your email address. It is sent to the server at that point only to check whether that address has already finished the questionnaire, and the check does not save it. Your answers are not sent to the server or saved there until you finish. If you leave before then, nothing is saved on the server. While you answer, your unfinished answers and your email address are kept in this browser tab only, and they are cleared when you close it.'],
       ['What is saved.', 'Your answers, your email address, a PIN we create for you, and the date and time you finish.'],
@@ -2691,7 +2692,7 @@ function isValidEmail_(email) {
       ['This is not anonymous.', 'Because your email address is saved with your answers, your answers are linked to you. We never publish your email address or your individual answers.'],
       ['Who can see it.', 'Only the site administrator can see your email address, your PIN and your answers. The PIN is stored where the administrator can read it, so it is made up for you and should not be a PIN you use elsewhere. Answers are stored in a private Google Sheet, so your answers are sent to Google when you finish (your email address goes to Google earlier, for the check described above). The site uses no analytics, advertising or tracking.'],
       ['Comparisons.', 'The results page can compare your answers with those of other people who took part. These comparisons are totals only, shown only when enough people have finished, and never show individuals.'],
-      ['Deleting your answers.', 'You can ask for your answers to be deleted at any time. Write to kaleb@theflings.com from the email address you used, and the administrator will delete them. Deleting removes your answers from the live data, but Google’s version history of the private sheet may still hold older copies.'],
+      ['Deleting your answers.', 'You can ask for your answers to be deleted at any time. Write to kaleb@theflings.com from the email address you used, and the administrator will delete them. Student email addresses cannot send messages to that address, so if you used one, write from a personal email address instead and say which email address you used for the questionnaire. Deleting removes your answers from the live data, but Google’s version history of the private sheet may still hold older copies.'],
       ['This is not a medical or psychological test.', 'It is for learning and reflection. It cannot diagnose anything. If you are worried about your thoughts or wellbeing, please talk to a doctor or a licensed mental health professional.']
     ];
 
