@@ -2864,7 +2864,7 @@ function isValidEmail_(email) {
             checkedEmail = email;
             proceed(email);
           } else if (reply && reply.code === 'EMAIL_ALREADY_SUBMITTED') {
-            showProblem(message + ' ', h('a', { href: '#/retrieve' }, 'Go to the Retrieve page'), '. Or enter a different email address above.');
+            showProblem(h('span', null, message + ' ', h('a', { href: '#/retrieve' }, 'Go to the Retrieve page'), '. Or enter a different email address above.'));
             input.focus();
           } else if (reply && reply.code === 'INVALID_EMAIL') {
             fieldError.textContent = message || 'Please enter a valid email address.';
@@ -2967,7 +2967,7 @@ function isValidEmail_(email) {
           if (code === 'INVALID_EMAIL') {
             showProblem(message + ' ', changeEmailButton('Change the email address'));
           } else if (code === 'EMAIL_ALREADY_SUBMITTED') {
-            showProblem(message + ' ', h('a', { href: '#/retrieve' }, 'Go to the Retrieve page'), '. Or ', changeEmailButton('use a different email address'));
+            showProblem(h('span', null, message + ' ', h('a', { href: '#/retrieve' }, 'Go to the Retrieve page'), '.'), changeEmailButton('Use a different email address'));
           } else if (code === 'SCHEMA_MISMATCH') {
             const reload = h('button', { type: 'button', class: 'btn btn-secondary' }, 'Refresh the page');
             reload.addEventListener('click', () => window.location.reload());
