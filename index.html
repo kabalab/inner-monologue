@@ -602,6 +602,53 @@
     .compare-foot { margin: 12px 0 0; color: var(--text-3); font-size: 0.93rem; }
     .lost-pin { margin-top: 28px; }
     .page-results .lead { margin-bottom: 0; }
+
+    /* The admin area. */
+    .page-admin { max-width: 980px; }
+    .admin-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 16px; border: 1px solid var(--line-strong); border-radius: var(--radius-sm); background: rgba(255, 255, 255, 0.04); }
+    .admin-status { margin: 0; font-weight: 700; color: var(--text-2); }
+    .admin-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+    .admin-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0 8px; }
+    .admin-tab { min-height: 44px; padding: 8px 20px; font: inherit; font-weight: 700; color: var(--text-2); background: transparent; border: 1px solid var(--line-strong); border-radius: 999px; cursor: pointer; }
+    .admin-tab:hover { color: var(--text); border-color: var(--text-2); }
+    .admin-tab.is-active { color: var(--bg-0); background: var(--cyan-soft); border-color: var(--cyan-soft); }
+    .admin-tab:focus-visible, .admin-content :focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+    .admin-content { margin-top: 18px; }
+    .admin-h { margin: 0 0 12px; font-size: 1.5rem; }
+    .admin-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 14px; margin: 16px 0 8px; }
+    .admin-stat { padding: 16px 18px; border: 1px solid var(--line); border-radius: var(--radius-sm); background: rgba(255, 255, 255, 0.03); }
+    .admin-stat strong { display: block; font-size: 2rem; line-height: 1.2; color: var(--text); }
+    .admin-stat span { color: var(--text-2); font-size: 0.95rem; }
+    .admin-table { width: 100%; margin-top: 12px; border-collapse: collapse; }
+    .admin-table th, .admin-table td { padding: 10px 12px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); }
+    .admin-table th { color: var(--text-3); font-size: 0.82rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+    .admin-table td { color: var(--text-2); overflow-wrap: anywhere; }
+    .admin-table .num { text-align: right; font-variant-numeric: tabular-nums; }
+    .admin-table code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; color: var(--text); letter-spacing: 0.04em; }
+    .admin-facts th { width: 11em; color: var(--text-2); font-size: 0.95rem; letter-spacing: 0; text-transform: none; }
+    .admin-search { margin-top: 12px; max-width: 460px; }
+    .admin-view { text-align: right; }
+    .admin-view .btn { min-height: 44px; padding: 8px 16px; }
+    .admin-area { margin-top: 12px; padding: 4px 16px 14px; border: 1px solid var(--line); border-radius: var(--radius-sm); }
+    .admin-area summary { min-height: 44px; padding: 10px 0; font-weight: 700; color: var(--text); cursor: pointer; }
+    .admin-q { margin: 18px 0 2px; font-size: 1rem; line-height: 1.45; color: var(--text); }
+    .admin-answers dl { margin: 0; }
+    .admin-answers dt { margin-top: 14px; color: var(--text); font-weight: 600; }
+    .admin-answers dd { margin: 4px 0 0; color: var(--text-2); }
+    .admin-answers dd ul { margin: 0; padding-left: 1.2em; }
+    .admin-confirm { margin-top: 24px; padding: 20px; border: 1px solid var(--bad); border-radius: var(--radius-sm); background: rgba(255, 90, 110, 0.07); }
+    .admin-confirm h3 { margin: 0 0 10px; font-size: 1.15rem; }
+    .btn-danger { color: #fff; background: #a3263f; border: 1px solid #e0607a; }
+    .btn-danger:hover { background: #b92c48; }
+    .btn-danger:disabled { opacity: 0.6; cursor: default; }
+    @media (max-width: 720px) {
+      .admin-table.stack thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+      .admin-table.stack tr { display: block; padding: 10px 0; border-bottom: 1px solid var(--line); }
+      .admin-table.stack td { display: flex; justify-content: space-between; gap: 16px; padding: 4px 0; border: 0; text-align: right; }
+      .admin-table.stack td::before { content: attr(data-label); flex: none; color: var(--text-3); font-weight: 700; text-align: left; }
+      .admin-table.stack td.admin-view { justify-content: flex-end; padding-top: 8px; }
+      .admin-facts th { width: 8em; }
+    }
     @media (max-width: 560px) {
       .q-nav { flex-direction: column-reverse; align-items: stretch; }
       .q-nav .btn { width: 100%; }
@@ -2443,6 +2490,144 @@ function isValidEmail_(email) {
     }
     // END RESULTS LOGIC
 
+    // BEGIN ADMIN LOGIC
+    // The words and the pure functions behind the admin area. The wording was approved as a draft before being built.
+    // These functions use the shared spec and the question wording, and are tested on their own.
+    const ADMIN_TEXT = {
+      eyebrow: 'Administrator',
+      title: 'Administrator',
+      signedIn: 'Signed in',
+      refresh: 'Refresh',
+      signOut: 'Sign out',
+      signedOutNotice: 'You are signed out.',
+      endedNotice: 'Your admin session has ended. Please sign in again.',
+      framedTitle: 'This page cannot be used inside another page',
+      framedLead: 'Open it directly instead.',
+      overview: 'Overview',
+      submissions: 'Submissions',
+      loading: 'Loading…',
+      unreachable: 'We could not reach the server. Check your connection and try again.',
+      finished: 'People who finished',
+      withOptional: 'Answered the optional part',
+      skippedOptional: 'Skipped it',
+      perDay: 'Finished per day',
+      showEveryDay: 'Show every day',
+      splits: 'Two simple splits',
+      byQuestion: 'Answers by question',
+      byQuestionNote: 'Real counts straight from the sheet. Nothing is hidden or rounded here, unlike the public comparison. On the tick-box questions people can choose several answers, so those counts can add up to more than the number of people.',
+      nobody: 'No one has finished the questionnaire yet. Figures will appear here after the first person finishes.',
+      figuresFailed: 'We could not load the figures. Check your connection and press Refresh.',
+      listFailed: 'We could not load the list. Check your connection and press Refresh.',
+      search: 'Search by email or ID',
+      noneYet: 'No one has finished the questionnaire yet.',
+      noMatch: 'No submission matches that search.',
+      showMore: 'Show 50 more',
+      view: 'View',
+      back: 'Back to the list',
+      answered: 'Answered',
+      skipped: 'Skipped',
+      answersTitle: 'Answers',
+      remove: 'Delete this submission',
+      confirmText: 'This removes their answers, email address and PIN from the live data and lets that email address be used again. Google’s version history of the sheet may still hold older copies. It cannot be undone from this page.',
+      confirmYes: 'Yes, delete',
+      confirmNo: 'Keep it',
+      deleted: 'Deleted. The email address can be used again.',
+      gone: 'That submission no longer exists.',
+      busy: 'The server is busy right now. Please wait a few seconds and try again.',
+      oldVersion: 'This submission was saved with an earlier version of the questionnaire, so its answers are shown as stored, without the question wording.',
+      detailFailed: 'We could not load that submission. Check your connection and try again.'
+    };
+
+    // The two simple splits the server counts, in the words shown.
+    const ADMIN_SPLITS = {
+      inner_voice: { title: 'Inner voice', groups: [['regular', 'Words in the head sometimes, often or almost always'], ['little_or_none', 'Never or rarely'], ['other', 'Not sure or preferred not to say']] },
+      visual_imagery: { title: 'Visual imagery', groups: [['some', 'Some picture, even a faint one'], ['none', 'No picture at all'], ['other', 'Not sure or preferred not to say']] }
+    };
+
+    /** True when the "email" typed on the Retrieve page is the word ADMIN, in any capitals. */
+    function isAdminEmail(text) {
+      return typeof text === 'string' && text.trim().toLowerCase() === 'admin';
+    }
+
+    /** The submissions whose email or ID contains the search words, ignoring capitals. An empty search keeps everything. */
+    function submissionsMatching(list, query) {
+      const q = String(query || '').trim().toLowerCase();
+      if (q === '') return list;
+      return list.filter((s) => s.email.toLowerCase().indexOf(q) !== -1 || s.responseId.toLowerCase().indexOf(q) !== -1);
+    }
+
+    /** How many people finished on each day, newest day first. parts(date) gives [year, month, day] in the time zone wanted (the visitor's own by default). */
+    function daysOf(list, parts) {
+      const part = parts || ((d) => [d.getFullYear(), d.getMonth() + 1, d.getDate()]);
+      const counts = {};
+      list.forEach((s) => {
+        const date = new Date(s.createdAt);
+        if (Number.isNaN(date.getTime())) return;
+        const p = part(date);
+        const key = p[0] + '-' + String(p[1]).padStart(2, '0') + '-' + String(p[2]).padStart(2, '0');
+        counts[key] = (counts[key] || 0) + 1;
+      });
+      return Object.keys(counts).sort().reverse().map((key) => ({ key: key, count: counts[key] }));
+    }
+
+    /** The two simple splits as table rows. */
+    function splitRows(stats) {
+      const rows = [];
+      Object.keys(ADMIN_SPLITS).forEach((id) => {
+        const entry = (stats.flags || []).filter((f) => f.id === id)[0];
+        if (!entry) return;
+        ADMIN_SPLITS[id].groups.forEach((g) => {
+          rows.push({ split: ADMIN_SPLITS[id].title, group: g[1], count: g[0] === 'other' ? entry.other : entry.groups[g[0]] });
+        });
+      });
+      return rows;
+    }
+
+    /** Every question with how many people chose each answer, grouped by area in the questionnaire's order. */
+    function questionCounts(spec, stats) {
+      const areas = [];
+      spec.questions.forEach((q) => {
+        const area = QUESTION_TEXT[q.id].area;
+        let group = areas.filter((a) => a.area === area)[0];
+        if (!group) {
+          group = { area: area, items: [] };
+          areas.push(group);
+        }
+        const d = (stats.distributions && stats.distributions[q.id]) || { asked: 0, counts: {} };
+        group.items.push({
+          id: q.id,
+          question: QUESTION_TEXT[q.id].text,
+          asked: d.asked,
+          rows: q.options.map((o) => ({ answer: answerLabel(q.id, o.value), count: d.counts[o.value] || 0 }))
+        });
+      });
+      return areas;
+    }
+
+    /** What one person answered, grouped by area, with the exact question wording. Questions they were not shown are left out. */
+    function answerRows(spec, answers) {
+      const areas = [];
+      spec.questions.forEach((q) => {
+        if (answers[q.id] === undefined) return;
+        const area = QUESTION_TEXT[q.id].area;
+        let group = areas.filter((a) => a.area === area)[0];
+        if (!group) {
+          group = { area: area, items: [] };
+          areas.push(group);
+        }
+        const picks = Array.isArray(answers[q.id]) ? answers[q.id] : [answers[q.id]];
+        group.items.push({ question: QUESTION_TEXT[q.id].text, answers: picks.map((v) => answerLabel(q.id, v)) });
+      });
+      return areas;
+    }
+
+    /** True when a stored submission can be shown with the current question wording. */
+    function wordingFits(spec, submission) {
+      return submission.schemaVersion === spec.version && !!submission.answers && validateAnswers(spec, submission.answers).ok;
+    }
+    // END ADMIN LOGIC
+
+
 
 
     // =====================================================================
@@ -3287,6 +3472,9 @@ function isValidEmail_(email) {
     // Results opened this way are held in memory only, never in the browser tab (that was a decision), so
     // refreshing the page or closing the tab closes them. Nothing here is written to any storage.
     let openedResults = null;
+    // A short message for the Retrieve page, shown once (for example "You are signed out.").
+    let retrieveNotice = null;
+    const RETRIEVE_FAILED_MESSAGE = 'We could not find saved results for that email and PIN. Check both and try again.';
 
     function buildRetrieve() {
       const emailInput = h('input', { type: 'email', id: 'r-email', class: 'text-input', autocomplete: 'email', inputmode: 'email', spellcheck: 'false', autocapitalize: 'off', maxlength: '254', 'aria-describedby': 'r-email-error' });
@@ -3310,8 +3498,48 @@ function isValidEmail_(email) {
         pinError.textContent = '';
         problem.hidden = true;
       };
-      emailInput.addEventListener('input', clearMessages);
+      // While the email says ADMIN, the PIN box takes the admin password: dots instead of letters, and room for a long one.
+      const syncMode = () => {
+        const admin = isAdminEmail(emailInput.value);
+        pinInput.type = admin ? 'password' : 'text';
+        pinInput.autocomplete = admin ? 'current-password' : 'off';
+        pinInput.maxLength = admin ? 200 : 20;
+      };
+      emailInput.addEventListener('input', () => {
+        clearMessages();
+        syncMode();
+      });
       pinInput.addEventListener('input', clearMessages);
+
+      /** Signing in as the administrator. A wrong password reads exactly like a failed retrieval, so this page never hints that an admin sign-in exists. */
+      async function adminSignIn() {
+        const password = pinInput.value; // not trimmed: a password may begin or end with a space
+        if (password === '') {
+          pinError.textContent = 'Please enter your PIN.';
+          pinInput.focus();
+          return;
+        }
+        setBusy(true, 'Looking for your results. This can take a few seconds.');
+        let reply = null;
+        try {
+          reply = await callApi({ action: 'adminLogin', password: password });
+        } catch (err) {
+          pinInput.value = '';
+          setBusy(false);
+          problem.textContent = 'We could not reach the server. Check your connection and try again.';
+          problem.hidden = false;
+          return;
+        }
+        pinInput.value = '';
+        setBusy(false);
+        if (reply && reply.ok === true && typeof reply.token === 'string') {
+          writeStore(ADMIN_KEY, { v: 1, token: reply.token });
+          window.location.hash = '#/admin';
+          return;
+        }
+        problem.textContent = reply && reply.code === 'AUTH_FAILED' ? RETRIEVE_FAILED_MESSAGE : (reply && typeof reply.message === 'string' ? reply.message : 'Something went wrong. Please try again in a moment.');
+        problem.hidden = false;
+      }
 
       const form = h('form', { class: 'q-form', novalidate: true },
         h('div', { class: 'field' },
@@ -3331,6 +3559,10 @@ function isValidEmail_(email) {
         event.preventDefault();
         if (looking) return;
         clearMessages();
+        if (isAdminEmail(emailInput.value)) {
+          await adminSignIn();
+          return;
+        }
         const email = normalizeEmail_(emailInput.value);
         const pin = pinInput.value.trim();
         if (!isValidEmail_(email)) {
@@ -3363,11 +3595,14 @@ function isValidEmail_(email) {
         problem.hidden = false;
       });
 
+      const notice = retrieveNotice === null ? null : h('p', { class: 'notice', role: 'status' }, h('span', null, retrieveNotice));
+      retrieveNotice = null;
       return h('div', { class: 'page page-narrow' },
         h('header', { class: 'page-head' },
           h('p', { class: 'eyebrow' }, 'Retrieve results'),
           h('h1', { tabindex: '-1' }, 'Find your saved results'),
           h('p', { class: 'lead' }, 'When you finish the questionnaire you receive a private PIN. Enter your email and that PIN here to see your results again.')),
+        notice,
         form,
         h('p', { class: 'notice lost-pin' }, h('span', null, h('strong', null, 'Lost your PIN? '),
           'We cannot email it to you. Write to ', h('a', { href: 'mailto:kaleb@theflings.com' }, 'kaleb@theflings.com'),
@@ -3548,13 +3783,351 @@ function isValidEmail_(email) {
       if (saved && saved.v === SPEC.version && typeof saved.pin === 'string' && typeof saved.email === 'string') return buildSavedResults(saved);
       return buildNoResults();
     }
-    const buildAdmin = () => buildPlain({
-      eyebrow: 'Administrator',
-      title: 'This area is for the site administrator',
-      lead: 'Sign-in will appear here.',
-      note: 'It is not available yet.',
-      actions: [button('Back to the home page', '#/', 'secondary')]
-    });
+    // ---- The admin area ----
+    // Reached only by signing in on the Retrieve page: ADMIN as the email and the admin password as the PIN. The sign-in
+    // is kept in this browser tab only (a decision), and the server decides whether it is still open.
+    const ADMIN_KEY = 'iyh:admin';
+
+    function adminToken() {
+      const stored = readStore(ADMIN_KEY);
+      return stored && stored.v === 1 && typeof stored.token === 'string' ? stored.token : null;
+    }
+
+    /** True when this page is shown inside another page. The admin area refuses to run there. */
+    function isFramed() { return window.top !== window.self; }
+
+    function adminRequest(action, token, responseId) {
+      return callApi({ action: action, token: token, responseId: responseId });
+    }
+
+    function endAdminSession(message) {
+      clearStore(ADMIN_KEY);
+      retrieveNotice = message;
+      window.location.hash = '#/retrieve';
+    }
+
+    function formatWhen(iso, long) {
+      const date = new Date(iso);
+      return Number.isNaN(date.getTime()) ? String(iso) : date.toLocaleString(undefined, { dateStyle: long ? 'long' : 'medium', timeStyle: 'short' });
+    }
+
+    function buildAdmin() {
+      if (isFramed()) return buildPlain({ eyebrow: ADMIN_TEXT.eyebrow, title: ADMIN_TEXT.framedTitle, lead: ADMIN_TEXT.framedLead, actions: [] });
+      const token = adminToken();
+      if (token === null) {
+        // Nobody is signed in, so this address shows nothing of its own: it goes to the Retrieve page.
+        window.location.replace('#/retrieve');
+        return h('div', { class: 'page page-narrow' });
+      }
+      return buildAdminDashboard(token);
+    }
+
+    function adminTable(headers, rows, stacked) {
+      return h('table', { class: 'admin-table' + (stacked ? ' stack' : '') },
+        h('thead', null, h('tr', null, headers.map((text) => h('th', { scope: 'col' }, text)))),
+        h('tbody', null, rows));
+    }
+
+    function buildAdminDashboard(token) {
+      const state = { view: 'overview', stats: null, list: null, loaded: false, query: '', shown: 50, allDays: false, notice: '', detail: null, confirming: false, working: false, problem: '' };
+      const content = h('div', { class: 'admin-content' });
+      const refreshButton = h('button', { type: 'button', class: 'btn btn-secondary' }, ADMIN_TEXT.refresh);
+      const signOutButton = h('button', { type: 'button', class: 'btn btn-ghost' }, ADMIN_TEXT.signOut);
+      const overviewTab = h('button', { type: 'button', class: 'admin-tab' }, ADMIN_TEXT.overview);
+      const submissionsTab = h('button', { type: 'button', class: 'admin-tab' }, ADMIN_TEXT.submissions);
+      let focusAfter = null;
+
+      const setTabs = () => {
+        const onSubmissions = state.view === 'submissions' || state.view === 'detail';
+        overviewTab.classList.toggle('is-active', !onSubmissions);
+        submissionsTab.classList.toggle('is-active', onSubmissions);
+        overviewTab.setAttribute('aria-pressed', onSubmissions ? 'false' : 'true');
+        submissionsTab.setAttribute('aria-pressed', onSubmissions ? 'true' : 'false');
+      };
+
+      const heading = (text) => h('h2', { class: 'admin-h', tabindex: '-1', 'data-focus': '' }, text);
+      const problemNote = (text) => h('p', { class: 'notice notice-problem', role: 'alert' }, h('span', null, text));
+      const statCard = (number, label) => h('div', { class: 'admin-stat' }, h('strong', null, String(number)), h('span', null, label));
+
+      function overviewView() {
+        if (state.stats === null) return h('section', null, heading(ADMIN_TEXT.overview), problemNote(ADMIN_TEXT.figuresFailed));
+        const stats = state.stats;
+        if (stats.total === 0) return h('section', null, heading(ADMIN_TEXT.overview), h('p', null, ADMIN_TEXT.nobody));
+        const days = state.list === null ? [] : daysOf(state.list);
+        const shownDays = state.allDays ? days : days.slice(0, 14);
+        const everyDay = h('button', { type: 'button', class: 'btn btn-ghost' }, ADMIN_TEXT.showEveryDay);
+        everyDay.addEventListener('click', () => {
+          state.allDays = true;
+          render(false);
+        });
+        return h('section', null,
+          heading(ADMIN_TEXT.overview),
+          h('div', { class: 'admin-stats' }, statCard(stats.total, ADMIN_TEXT.finished), statCard(stats.optionalCompleted, ADMIN_TEXT.withOptional), statCard(stats.optionalSkipped, ADMIN_TEXT.skippedOptional)),
+          days.length === 0 ? null : h('div', null,
+            h('h3', { class: 'results-sub' }, ADMIN_TEXT.perDay),
+            adminTable(['Date', 'People'], shownDays.map((day) => {
+              const [y, m, d] = day.key.split('-').map(Number);
+              return h('tr', null, h('td', null, new Date(y, m - 1, d).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })), h('td', { class: 'num' }, String(day.count)));
+            })),
+            days.length > shownDays.length ? h('div', { class: 'cta-row' }, everyDay) : null),
+          h('h3', { class: 'results-sub' }, ADMIN_TEXT.splits),
+          adminTable(['Split', 'Group', 'People'], splitRows(stats).map((row) => h('tr', null, h('td', null, row.split), h('td', null, row.group), h('td', { class: 'num' }, String(row.count))))),
+          h('h3', { class: 'results-sub' }, ADMIN_TEXT.byQuestion),
+          h('p', { class: 'q-help' }, ADMIN_TEXT.byQuestionNote),
+          questionCounts(SPEC, stats).map((area) => h('details', { class: 'admin-area' },
+            h('summary', null, area.area + ' (' + area.items.length + (area.items.length === 1 ? ' question)' : ' questions)')),
+            area.items.map((item) => h('div', { class: 'admin-question' },
+              h('h4', { class: 'admin-q' }, item.question),
+              h('p', { class: 'q-help' }, 'Answered by ' + item.asked + (item.asked === 1 ? ' person.' : ' people.')),
+              adminTable(['Answer', 'People'], item.rows.map((row) => h('tr', null, h('td', null, row.answer), h('td', { class: 'num' }, String(row.count))))))))));
+      }
+
+      function submissionsView() {
+        if (state.list === null) return h('section', null, heading(ADMIN_TEXT.submissions), problemNote(ADMIN_TEXT.listFailed));
+        if (state.list.length === 0) return h('section', null, heading(ADMIN_TEXT.submissions), h('p', null, ADMIN_TEXT.noneYet));
+        const input = h('input', { type: 'search', id: 'admin-search', class: 'text-input', autocomplete: 'off', spellcheck: 'false', autocapitalize: 'off' });
+        input.value = state.query;
+        const count = h('p', { class: 'q-help', 'aria-live': 'polite' });
+        const results = h('div', { class: 'admin-results' });
+        const update = () => {
+          const matches = submissionsMatching(state.list, state.query);
+          const shown = matches.slice(0, state.shown);
+          count.textContent = 'Showing ' + shown.length + ' of ' + matches.length;
+          if (matches.length === 0) {
+            results.replaceChildren(h('p', null, ADMIN_TEXT.noMatch));
+            return;
+          }
+          const more = h('button', { type: 'button', class: 'btn btn-ghost' }, ADMIN_TEXT.showMore);
+          more.addEventListener('click', () => {
+            state.shown += 50;
+            update();
+          });
+          results.replaceChildren(
+            adminTable(['Saved', 'Email', 'PIN', 'Optional part', ''], shown.map((s) => {
+              const view = h('button', { type: 'button', class: 'btn btn-secondary', 'aria-label': ADMIN_TEXT.view + ' ' + s.email }, ADMIN_TEXT.view);
+              view.addEventListener('click', () => openDetail(s));
+              return h('tr', null,
+                h('td', { 'data-label': 'Saved' }, formatWhen(s.createdAt)),
+                h('td', { 'data-label': 'Email' }, s.email),
+                h('td', { 'data-label': 'PIN' }, h('code', null, s.pin)),
+                h('td', { 'data-label': 'Optional part' }, s.optionalCompleted ? ADMIN_TEXT.answered : ADMIN_TEXT.skipped),
+                h('td', { class: 'admin-view' }, view));
+            }), true),
+            matches.length > shown.length ? h('div', { class: 'cta-row' }, more) : null);
+        };
+        input.addEventListener('input', () => {
+          state.query = input.value;
+          state.shown = 50;
+          update();
+        });
+        update();
+        return h('section', null,
+          heading(ADMIN_TEXT.submissions),
+          h('div', { class: 'admin-search' }, h('label', { for: 'admin-search', class: 'field-label' }, ADMIN_TEXT.search), input),
+          count,
+          results);
+      }
+
+      function detailView() {
+        const d = state.detail;
+        const back = h('button', { type: 'button', class: 'btn btn-ghost' }, ADMIN_TEXT.back);
+        back.addEventListener('click', () => {
+          state.view = 'submissions';
+          state.detail = null;
+          state.confirming = false;
+          state.problem = '';
+          render(true);
+        });
+        const head = heading(d.email);
+        if (d.loading) return h('section', null, back, head, h('p', { class: 'q-help' }, ADMIN_TEXT.loading));
+        if (d.error) return h('section', null, back, head, problemNote(d.error));
+        const s = d.submission;
+        const fact = (label, value) => h('tr', null, h('th', { scope: 'row' }, label), h('td', null, value));
+        const answers = wordingFits(SPEC, s)
+          ? answerRows(SPEC, s.answers).map((area) => h('div', { class: 'admin-answers' },
+            h('h4', { class: 'results-sub' }, area.area),
+            h('dl', null, area.items.map((item) => [
+              h('dt', null, item.question),
+              h('dd', null, item.answers.length === 1 ? item.answers[0] : h('ul', null, item.answers.map((a) => h('li', null, a))))
+            ]))))
+          : [h('p', { class: 'notice' }, h('span', null, ADMIN_TEXT.oldVersion)),
+            adminTable(['Question', 'Stored answer'], Object.keys(s.answers || {}).map((id) => h('tr', null, h('td', null, id), h('td', null, JSON.stringify(s.answers[id])))))];
+        let controls;
+        if (state.confirming) {
+          const yes = h('button', { type: 'button', class: 'btn btn-danger' }, ADMIN_TEXT.confirmYes);
+          const keep = h('button', { type: 'button', class: 'btn btn-secondary' }, ADMIN_TEXT.confirmNo);
+          focusAfter = keep;
+          keep.addEventListener('click', () => {
+            state.confirming = false;
+            state.problem = '';
+            render(true);
+          });
+          yes.addEventListener('click', async () => {
+            if (state.working) return;
+            state.working = true;
+            yes.disabled = true;
+            keep.disabled = true;
+            let reply = null;
+            try {
+              reply = await adminRequest('adminDelete', token, d.responseId);
+            } catch (err) {
+              reply = null;
+            }
+            state.working = false;
+            if (reply && reply.code === 'UNAUTHORIZED') {
+              endAdminSession(ADMIN_TEXT.endedNotice);
+              return;
+            }
+            if (reply && (reply.ok === true || reply.code === 'NOT_FOUND')) {
+              state.notice = reply.ok === true ? ADMIN_TEXT.deleted : ADMIN_TEXT.gone;
+              state.view = 'submissions';
+              state.detail = null;
+              state.confirming = false;
+              state.problem = '';
+              await load(true);
+              return;
+            }
+            state.problem = reply === null ? ADMIN_TEXT.unreachable : (reply.code === 'BUSY' ? ADMIN_TEXT.busy : (typeof reply.message === 'string' ? reply.message : ADMIN_TEXT.unreachable));
+            render(true);
+          });
+          controls = h('section', { class: 'admin-confirm', 'aria-labelledby': 'confirm-title' },
+            h('h3', { id: 'confirm-title' }, 'Delete the submission from ' + s.email + '?'),
+            h('p', null, ADMIN_TEXT.confirmText),
+            state.problem ? h('p', { class: 'field-error', role: 'alert' }, state.problem) : null,
+            h('div', { class: 'cta-row' }, yes, keep));
+        } else {
+          const remove = h('button', { type: 'button', class: 'btn btn-danger' }, ADMIN_TEXT.remove);
+          remove.addEventListener('click', () => {
+            state.confirming = true;
+            state.problem = '';
+            render(true);
+          });
+          controls = h('div', { class: 'cta-row' }, remove);
+        }
+        return h('section', null,
+          back,
+          head,
+          h('table', { class: 'admin-table admin-facts' }, h('tbody', null,
+            fact('PIN', h('code', null, s.pin)),
+            fact('Saved', formatWhen(s.createdAt, true)),
+            fact('Optional part', s.optionalCompleted ? ADMIN_TEXT.answered : ADMIN_TEXT.skipped),
+            fact('Questionnaire version', String(s.schemaVersion)),
+            fact('ID', h('code', null, s.responseId)))),
+          h('h3', { class: 'results-sub' }, ADMIN_TEXT.answersTitle),
+          answers,
+          controls);
+      }
+
+      function render(moveFocus) {
+        focusAfter = null;
+        setTabs();
+        const parts = [];
+        if (state.notice) parts.push(h('p', { class: 'notice', role: 'status' }, h('span', null, state.notice)));
+        if (!state.loaded) parts.push(h('p', { class: 'q-help' }, ADMIN_TEXT.loading));
+        else if (state.view === 'overview') parts.push(overviewView());
+        else if (state.view === 'submissions') parts.push(submissionsView());
+        else parts.push(detailView());
+        content.replaceChildren(...parts);
+        if (moveFocus) {
+          const target = focusAfter || content.querySelector('[data-focus]');
+          if (target) target.focus({ preventScroll: true });
+        }
+      }
+
+      /** Reads the figures and the list again. A sign-in the server no longer accepts ends the session. */
+      async function load(moveFocus) {
+        refreshButton.disabled = true;
+        let stats = null;
+        let list = null;
+        let ended = false;
+        try {
+          const replies = await Promise.all([adminRequest('adminStats', token), adminRequest('adminList', token)]);
+          ended = replies.some((reply) => reply && reply.code === 'UNAUTHORIZED');
+          stats = replies[0] && replies[0].ok === true ? replies[0] : null;
+          list = replies[1] && replies[1].ok === true && Array.isArray(replies[1].submissions) ? replies[1].submissions : null;
+        } catch (err) {
+          // handled below as figures that could not be loaded
+        }
+        if (ended) {
+          endAdminSession(ADMIN_TEXT.endedNotice);
+          return;
+        }
+        refreshButton.disabled = false;
+        state.stats = stats;
+        state.list = list;
+        state.loaded = true;
+        render(moveFocus === true);
+      }
+
+      async function openDetail(item) {
+        state.view = 'detail';
+        state.detail = { responseId: item.responseId, email: item.email, loading: true };
+        state.confirming = false;
+        state.problem = '';
+        state.notice = '';
+        render(true);
+        let reply = null;
+        try {
+          reply = await adminRequest('adminGet', token, item.responseId);
+        } catch (err) {
+          reply = null;
+        }
+        if (state.view !== 'detail' || !state.detail || state.detail.responseId !== item.responseId) return; // moved on meanwhile
+        if (reply && reply.code === 'UNAUTHORIZED') {
+          endAdminSession(ADMIN_TEXT.endedNotice);
+          return;
+        }
+        if (reply && reply.code === 'NOT_FOUND') {
+          state.notice = ADMIN_TEXT.gone;
+          state.view = 'submissions';
+          state.detail = null;
+          await load(true);
+          return;
+        }
+        state.detail = reply && reply.ok === true && reply.submission
+          ? { responseId: item.responseId, email: item.email, submission: reply.submission }
+          : { responseId: item.responseId, email: item.email, error: ADMIN_TEXT.detailFailed };
+        render(true);
+      }
+
+      overviewTab.addEventListener('click', () => {
+        state.view = 'overview';
+        state.notice = '';
+        render(true);
+      });
+      submissionsTab.addEventListener('click', () => {
+        state.view = 'submissions';
+        state.notice = '';
+        state.detail = null;
+        state.confirming = false;
+        render(true);
+      });
+      refreshButton.addEventListener('click', () => {
+        state.notice = '';
+        load(false);
+      });
+      signOutButton.addEventListener('click', async () => {
+        signOutButton.disabled = true;
+        try {
+          await adminRequest('adminLogout', token);
+        } catch (err) {
+          // signing out here is still right even if the server could not be told
+        }
+        endAdminSession(ADMIN_TEXT.signedOutNotice);
+      });
+
+      render(false);
+      load(false);
+      return h('div', { class: 'page page-admin' },
+        h('header', { class: 'page-head' },
+          h('p', { class: 'eyebrow' }, ADMIN_TEXT.eyebrow),
+          h('h1', { tabindex: '-1' }, ADMIN_TEXT.title)),
+        h('div', { class: 'admin-bar' },
+          h('p', { class: 'admin-status' }, ADMIN_TEXT.signedIn),
+          h('div', { class: 'admin-actions' }, refreshButton, signOutButton)),
+        h('div', { class: 'admin-tabs' }, overviewTab, submissionsTab),
+        content);
+    }
 
     // ---- One article ----
     // Citation numbers, "In this article" entries and "Back to the text" are buttons, because the
