@@ -547,6 +547,14 @@
     .opt-text { color: var(--text); }
     .opts-other .opt { min-height: 46px; }
     .opts-other .opt-text { color: var(--text-2); font-size: 0.97rem; }
+    /* "Choose all that apply": square boxes with a tick, so they look different from the round single-choice buttons. */
+    .opt-check .opt-mark { border-radius: 6px; }
+    .opt-check .opt-mark::after { width: 6px; height: 11px; margin-top: -2px; border: solid var(--cyan); border-width: 0 2.5px 2.5px 0; border-radius: 0; background: none; transform: rotate(45deg) scale(0); }
+    .opt-check input:checked ~ .opt-mark { background: rgba(111, 220, 255, 0.14); }
+    .opt-check input:checked ~ .opt-mark::after { transform: rotate(45deg) scale(1); }
+    .q-multi { color: var(--text-2); font-weight: 600; }
+    .save-email { margin: 18px 0 0; color: var(--text-2); }
+    .save-email strong { color: var(--text); overflow-wrap: anywhere; }
     .field-error { min-height: 1.5em; margin: 14px 0 0; color: var(--bad); font-weight: 600; }
     .q-nav { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-top: 24px; }
     .q-nav-stack { justify-content: flex-start; }
@@ -1668,6 +1676,9 @@
 const NOT_STATED = [{ value: 'unsure' }, { value: 'prefer_not' }];
 // "Which is closest" questions also let people say that none of the choices fits.
 const CHOICE_EXTRAS = [{ value: 'depends' }, { value: 'different' }].concat(NOT_STATED);
+// "Choose all that apply" questions. Not sure and Prefer not to answer cannot go with any other answer;
+// the two extras beside them can.
+const MULTI_EXTRAS = [{ value: 'depends' }, { value: 'different' }, { value: 'unsure', alone: true }, { value: 'prefer_not', alone: true }];
 
 // Scales. level is the score used for bars and comparisons. unsure and prefer_not never get one.
 const FREQUENCY = [
@@ -1712,9 +1723,9 @@ const LITTLE_VOICE = ['never', 'rarely'];
 const HAS_PICTURE = ['very_faint', 'faint', 'clear', 'vivid'];
 const REMEMBERS_DREAMS = ['rarely', 'sometimes', 'often', 'almost_always'];
 
-/** A question answered on a scale. */
-function scaled(id, section, scale, showIf) {
-  const q = { id: id, section: section, options: scale.concat(NOT_STATED) };
+/** A question answered on a scale. extra lists any further answers that sit beside "Not sure". */
+function scaled(id, section, scale, showIf, extra) {
+  const q = { id: id, section: section, options: scale.concat(extra || [], NOT_STATED) };
   if (showIf) q.showIf = showIf;
   return q;
 }
@@ -1730,8 +1741,25 @@ function choice(id, section, values, showIf) {
   return q;
 }
 
+/**
+ * A "choose all that apply" question: one or more of the named options. Any value listed in
+ * aloneValues cannot be combined with another answer (for example "very little in particular").
+ */
+function multi(id, section, values, aloneValues, showIf) {
+  const q = {
+    id: id,
+    section: section,
+    multi: true,
+    options: values.map(function (value) {
+      return aloneValues.indexOf(value) === -1 ? { value: value } : { value: value, alone: true };
+    }).concat(MULTI_EXTRAS)
+  };
+  if (showIf) q.showIf = showIf;
+  return q;
+}
+
 const SPEC = {
-  version: 2,
+  version: 3,
   questions: [
     // A. Inner voice
     scaled('voice_freq', 'main', FREQUENCY),
@@ -1739,7 +1767,7 @@ const SPEC = {
     choice('voice_pattern', 'main', ['constant', 'comes_goes', 'situations'], { id: 'voice_freq', anyOf: REGULAR_VOICE }),
     scaled('voice_control', 'main', EASE, { id: 'voice_freq', anyOf: REGULAR_VOICE }),
     scaled('voice_dialogue', 'main', FREQUENCY, { id: 'voice_freq', anyOf: REGULAR_VOICE }),
-    choice('voice_job', 'main', ['plans', 'comments', 'rehearses', 'evaluates', 'thinks'], { id: 'voice_freq', anyOf: REGULAR_VOICE }),
+    multi('voice_job', 'main', ['plans', 'comments', 'rehearses', 'evaluates', 'thinks'], [], { id: 'voice_freq', anyOf: REGULAR_VOICE }),
     // B. Visual thinking and imagery
     scaled('img_deliberate', 'main', CLARITY),
     scaled('img_detail', 'main', DETAIL, { id: 'img_deliberate', anyOf: HAS_PICTURE }),
@@ -1747,14 +1775,14 @@ const SPEC = {
     scaled('img_knowledge', 'main', EASE),
     scaled('img_sound', 'main', CLARITY),
     scaled('img_touch', 'main', CLARITY),
-    choice('img_future', 'main', ['pictures', 'words', 'idea', 'mix']),
+    multi('img_future', 'main', ['pictures', 'words', 'idea'], []),
     choice('img_space', 'main', ['scene', 'layout', 'words', 'as_i_go']),
     // C. Thinking without words
     scaled('nv_clear', 'main', FREQUENCY),
     scaled('nv_intuit', 'main', FREQUENCY),
     scaled('nv_structure', 'main', FREQUENCY),
     scaled('nv_feeling', 'main', FREQUENCY),
-    scaled('nv_explain', 'main', EASE),
+    scaled('nv_explain', 'main', EASE, null, [{ value: 'depends' }]),
     choice('nv_how', 'main', ['images', 'idea', 'feelings', 'layout', 'silent_words'], { id: 'voice_freq', anyOf: LITTLE_VOICE }),
     // D. Memory
     scaled('mem_scene', 'main', FREQUENCY),
@@ -1765,10 +1793,10 @@ const SPEC = {
     scaled('day_read', 'main', FREQUENCY),
     choice('day_write', 'main', ['say_first', 'picture', 'idea_first', 'as_i_write']),
     choice('day_solve', 'main', ['words', 'pictures', 'structure', 'try_out']),
-    choice('day_decide', 'main', ['talk', 'imagine', 'feel', 'weigh']),
+    multi('day_decide', 'main', ['talk', 'imagine', 'feel', 'weigh'], []),
     choice('day_plan', 'main', ['list', 'picture', 'sense', 'no_plan']),
     choice('day_music', 'main', ['pictures', 'feelings', 'words', 'sound_only', 'body']),
-    choice('day_routine', 'main', ['words', 'pictures', 'feelings', 'sounds', 'ideas', 'little']),
+    multi('day_routine', 'main', ['words', 'pictures', 'feelings', 'sounds', 'ideas', 'little'], ['little']),
     // F. Memories (optional part)
     scaled('om_vivid', 'optional', CLARITY),
     scaled('om_replay', 'optional', FREQUENCY),
@@ -1835,8 +1863,31 @@ function visibleQuestionIds(spec, answers) {
 }
 
 /**
+ * The ticked answers of a "choose all that apply" question, in the order the spec lists them, or
+ * null if the ticks are not valid: not a list, empty, a repeat, an unknown value, or an "alone"
+ * answer (such as Not sure) ticked together with another one.
+ */
+function cleanPicks_(question, value) {
+  if (!Array.isArray(value) || value.length === 0 || value.length > question.options.length) return null;
+  const picked = [];
+  for (let i = 0; i < value.length; i++) {
+    const option = typeof value[i] === 'string'
+      ? question.options.filter(function (o) { return o.value === value[i]; })[0]
+      : undefined;
+    if (option === undefined || picked.indexOf(option.value) !== -1) return null;
+    picked.push(option.value);
+  }
+  const hasAlone = question.options.some(function (o) { return o.alone === true && picked.indexOf(o.value) !== -1; });
+  if (hasAlone && picked.length > 1) return null;
+  return question.options
+    .map(function (o) { return o.value; })
+    .filter(function (v) { return picked.indexOf(v) !== -1; });
+}
+
+/**
  * Checks a set of answers against the spec. Returns:
- *   ok, fields (question ids with a problem), problems (codes only), cleaned (valid answers),
+ *   ok, fields (question ids with a problem), problems (codes only), cleaned (valid answers: a
+ *   text for most questions, a list for "choose all that apply" ones),
  *   optionalCompleted (true only if the whole optional section was answered).
  * The optional section is all-or-nothing: either every visible optional question is answered,
  * or none is.
@@ -1865,10 +1916,19 @@ function validateAnswers(spec, answers) {
   const bad = [];
   keys.forEach(function (id) {
     const value = answers[id];
+    const question = byId[id];
     if (!isVisible[id]) {
       bad.push(id);
       result.problems.push('answered_hidden_question');
-    } else if (typeof value !== 'string' || !byId[id].options.some(function (o) { return o.value === value; })) {
+    } else if (question.multi === true) {
+      const picked = cleanPicks_(question, value);
+      if (picked === null) {
+        bad.push(id);
+        result.problems.push('invalid_value');
+      } else {
+        result.cleaned[id] = picked;
+      }
+    } else if (typeof value !== 'string' || !question.options.some(function (o) { return o.value === value; })) {
       bad.push(id);
       result.problems.push('invalid_value');
     } else {
@@ -1948,6 +2008,9 @@ function isValidEmail_(email) {
       different: 'I experience this differently'
     };
 
+    // Shown under every question that lets people tick more than one answer.
+    const MULTI_HINT = 'Choose all that apply.';
+
     const SCALE_LABELS = {
       frequency: { never: 'Never', rarely: 'Rarely', sometimes: 'Sometimes', often: 'Often', almost_always: 'Almost always' },
       ease: { very_hard: 'Very difficult', hard: 'Somewhat difficult', neutral: 'Neither easy nor difficult', easy: 'Somewhat easy', very_easy: 'Very easy' },
@@ -1977,7 +2040,7 @@ function isValidEmail_(email) {
       img_knowledge: { area: 'Visual thinking and imagery', scale: 'ease', text: 'Without picturing anything, how easily can you describe what familiar places or objects look like?', help: 'For example, the layout of your kitchen or the color of your front door. You might do this by knowing the facts rather than by seeing a picture.' },
       img_sound: { area: 'Visual thinking and imagery', scale: 'clarity_sound', text: 'When you try on purpose to imagine a familiar song or voice, how clear is it?' },
       img_touch: { area: 'Visual thinking and imagery', scale: 'clarity_other', text: 'When you try on purpose to imagine a smell, a taste or how something feels to touch, how clear is it?' },
-      img_future: { area: 'Visual thinking and imagery', text: 'When you imagine something that might happen in the future, such as a trip or a conversation, how do you mostly do it?', labels: { pictures: 'Mostly as pictures', words: 'Mostly in words', idea: 'As an idea or a feeling, without pictures or words', mix: 'A mix of these' } },
+      img_future: { area: 'Visual thinking and imagery', text: 'When you imagine something that might happen in the future, such as a trip or a conversation, how do you do it?', labels: { pictures: 'As pictures', words: 'In words', idea: 'As an idea or a feeling, without pictures or words' } },
       img_space: { area: 'Visual thinking and imagery', text: 'When you work out a route or arrange a room in your head, how do you mostly do it?', labels: { scene: 'I picture it like a scene', layout: 'I sense where things are, without a picture', words: 'I use words or directions', as_i_go: 'I do not work it out in my head; I work it out as I go' } },
 
       // C. Thinking without words
@@ -1985,7 +2048,7 @@ function isValidEmail_(email) {
       nv_intuit: { area: 'Thinking without words', scale: 'frequency', text: 'How often do you know something is true, or know what to do, without being able to say right away why?' },
       nv_structure: { area: 'Thinking without words', scale: 'frequency', text: 'How often do you think by sensing how ideas or things connect, like a structure or a web, rather than with words or pictures?' },
       nv_feeling: { area: 'Thinking without words', scale: 'frequency', text: 'How often do feelings or sensations in your body guide how you think something through?' },
-      nv_explain: { area: 'Thinking without words', scale: 'ease', text: 'When you understand an idea well, how easy is it to put it into words for someone else?' },
+      nv_explain: { area: 'Thinking without words', scale: 'ease', text: 'When you understand an idea well, how easy is it to put it into words for someone else?', otherLabels: { depends: 'It depends on the idea' } },
       nv_how: { area: 'Thinking without words', text: 'When you think something through, such as planning your day, which is closest to how it happens for you?', labels: { images: 'Mostly pictures', idea: 'The idea itself, without words or pictures', feelings: 'Feelings or sensations in my body', layout: 'A sense of how things are arranged or connected', silent_words: 'Words, but with no sound or voice' } },
 
       // D. Memory
@@ -1998,7 +2061,7 @@ function isValidEmail_(email) {
       day_read: { area: 'Everyday thinking', scale: 'frequency', text: 'When you read silently, how often do you “hear” the words in your head?' },
       day_write: { area: 'Everyday thinking', text: 'When you write something, such as a message or an essay, how do you mostly work out what to say?', labels: { say_first: 'I say the words in my head first', picture: 'I picture what I want to say', idea_first: 'I know the idea and the words come as I write', as_i_write: 'I work it out as I write or type' } },
       day_solve: { area: 'Everyday thinking', text: 'When you solve a problem, what do you mostly use?', labels: { words: 'Words in my head', pictures: 'Pictures or diagrams in my mind', structure: 'A sense of how the parts fit together', try_out: 'I try things out on paper or in real life' } },
-      day_decide: { area: 'Everyday thinking', text: 'When you make a decision, which is closest to what happens?', labels: { talk: 'I talk it through in my head', imagine: 'I imagine how each option would turn out', feel: 'I notice how I feel about each option', weigh: 'I weigh up facts or lists' } },
+      day_decide: { area: 'Everyday thinking', text: 'When you make a decision, what happens?', labels: { talk: 'I talk it through in my head', imagine: 'I imagine how each option would turn out', feel: 'I notice how I feel about each option', weigh: 'I weigh up facts or lists' } },
       day_plan: { area: 'Everyday thinking', text: 'When you plan your day, how do you mostly hold the plan in mind?', labels: { list: 'As a list in words', picture: 'As a picture or a map', sense: 'As a sense of what comes next', no_plan: 'I do not plan ahead in my head' } },
       day_music: { area: 'Everyday thinking', text: 'When you listen to music, what is usually going on in your mind?', labels: { pictures: 'Pictures or scenes', feelings: 'Feelings or moods', words: 'Words, such as lyrics or comments to myself', sound_only: 'Mostly just the sound', body: 'Sensations in my body or an urge to move' } },
       day_routine: { area: 'Everyday thinking', text: 'While you do a familiar task, such as walking or washing up, what is usually in your mind?', labels: { words: 'Words', pictures: 'Pictures', feelings: 'Feelings', sounds: 'Music or other sounds', ideas: 'Ideas without words or pictures', little: 'Very little in particular' } },
@@ -2024,10 +2087,11 @@ function isValidEmail_(email) {
       od_daylink: { area: 'Dreams', scale: 'frequency', text: 'How often do your dreams include things from your day or your recent life?' }
     };
 
-    /** The words for one answer value of one question. */
+    /** The words for one answer value of one question. otherLabels gives one question its own wording for a general answer. */
     function answerLabel(questionId, value) {
-      if (OTHER_ANSWERS[value] !== undefined) return OTHER_ANSWERS[value];
       const t = QUESTION_TEXT[questionId];
+      if (t.otherLabels && t.otherLabels[value] !== undefined) return t.otherLabels[value];
+      if (OTHER_ANSWERS[value] !== undefined) return OTHER_ANSWERS[value];
       return t.scale ? SCALE_LABELS[t.scale][value] : t.labels[value];
     }
     // END QUESTION TEXT
@@ -2326,19 +2390,20 @@ function isValidEmail_(email) {
 
     // ---- The questionnaire ----
     // Whatever the visitor types stays in this browser tab (sessionStorage) until they finish.
-    // Nothing is sent anywhere until the final "Save my answers" step.
+    // Nothing is sent anywhere except the email check at the start and the final "Save my answers" step.
     const PROGRESS_KEY = 'iyh:progress';
     const SAVED_KEY = 'iyh:saved';
     const KEY_FORMAT = /^[A-Za-z0-9][A-Za-z0-9_-]{15,63}$/;
 
-    // The wording below is the approved notice. Two sentences were added because of later decisions:
-    // the unfinished answers kept in this tab, and Google's version history (see the plan).
+    // The wording below is the approved notice. Later decisions changed it in three places so it stays
+    // true: the unfinished answers kept in this tab, Google's version history, and the email address
+    // being asked first and checked with the server before the questions start.
     const PRIVACY_NOTICE = [
-      ['What you will do.', 'Answer about 30 multiple-choice questions on how you experience thinking, and optionally some extra questions about memories and dreams. Nothing is sent to the server or saved there until you finish. If you leave before then, nothing is saved on the server. While you answer, your unfinished answers are kept in this browser tab only, and they are cleared when you close it.'],
+      ['What you will do.', 'Answer about 30 multiple-choice questions on how you experience thinking, and optionally some extra questions about memories and dreams. You start by entering your email address. It is sent to the server at that point only to check whether that address has already finished the questionnaire, and the check does not save it. Your answers are not sent to the server or saved there until you finish. If you leave before then, nothing is saved on the server. While you answer, your unfinished answers and your email address are kept in this browser tab only, and they are cleared when you close it.'],
       ['What is saved.', 'Your answers, your email address, a PIN we create for you, and the date and time you finish.'],
       ['Why your email.', 'So you can come back to your results later with your email and PIN, and so one email address can finish the questionnaire only once. We do not send you email.'],
       ['This is not anonymous.', 'Because your email address is saved with your answers, your answers are linked to you. We never publish your email address or your individual answers.'],
-      ['Who can see it.', 'Only the site administrator can see your email address, your PIN and your answers. The PIN is stored where the administrator can read it, so it is made up for you and should not be a PIN you use elsewhere. Answers are stored in a private Google Sheet, so your answers are sent to Google when you finish. The site uses no analytics, advertising or tracking.'],
+      ['Who can see it.', 'Only the site administrator can see your email address, your PIN and your answers. The PIN is stored where the administrator can read it, so it is made up for you and should not be a PIN you use elsewhere. Answers are stored in a private Google Sheet, so your answers are sent to Google when you finish (your email address goes to Google earlier, for the check described above). The site uses no analytics, advertising or tracking.'],
       ['Comparisons.', 'The results page can compare your answers with those of other people who took part. These comparisons are totals only, shown only when enough people have finished, and never show individuals.'],
       ['Deleting your answers.', 'You can ask for your answers to be deleted at any time. Write to kaleb@theflings.com from the email address you used, and the administrator will delete them. Deleting removes your answers from the live data, but Google’s version history of the private sheet may still hold older copies.'],
       ['This is not a medical or psychological test.', 'It is for learning and reflection. It cannot diagnose anything. If you are worried about your thoughts or wellbeing, please talk to a doctor or a licensed mental health professional.']
@@ -2421,17 +2486,31 @@ function isValidEmail_(email) {
       const answers = {};
       Object.keys(s.answers).forEach((id) => {
         const q = byId[id];
-        if (q && typeof s.answers[id] === 'string' && q.options.some((o) => o.value === s.answers[id])) answers[id] = s.answers[id];
+        if (!q) return;
+        const value = s.answers[id];
+        if (q.multi === true) {
+          const picked = cleanPicks_(q, value);
+          if (picked !== null) answers[id] = picked;
+        } else if (typeof value === 'string' && q.options.some((o) => o.value === value)) {
+          answers[id] = value;
+        }
       });
+      const email = typeof s.email === 'string' ? normalizeEmail_(s.email) : '';
       const state = {
-        stage: ['intro', 'main', 'gate', 'optional', 'email'].indexOf(s.stage) !== -1 ? s.stage : 'intro',
+        stage: ['intro', 'email', 'main', 'gate', 'optional', 'save'].indexOf(s.stage) !== -1 ? s.stage : 'intro',
         consent: true,
         answers: answers,
         current: typeof s.current === 'string' ? s.current : null,
         wantsOptional: typeof s.wantsOptional === 'boolean' ? s.wantsOptional : null,
         key: typeof s.key === 'string' && KEY_FORMAT.test(s.key) ? s.key : null,
-        email: ''
+        email: isValidEmail_(email) ? email : ''
       };
+      // Every step after the first needs the email, so if it is missing the questionnaire asks for it first.
+      if (state.stage !== 'intro' && state.email === '') {
+        state.stage = 'email';
+        state.current = null;
+        return state;
+      }
       if (state.stage === 'main' || state.stage === 'optional') {
         const shown = sectionQuestions(SPEC, answers, state.stage);
         if (shown.indexOf(state.current) === -1) state.current = firstUnansweredId(SPEC, answers, state.stage) || shown[0] || null;
@@ -2440,7 +2519,7 @@ function isValidEmail_(email) {
           state.current = null;
         }
       }
-      if (state.stage === 'email' && answersToSend(SPEC, answers, state.wantsOptional === true) === null) {
+      if (state.stage === 'save' && answersToSend(SPEC, answers, state.wantsOptional === true) === null) {
         state.stage = 'main';
         state.current = firstUnansweredId(SPEC, answers, 'main') || sectionQuestions(SPEC, answers, 'main')[0];
       }
@@ -2463,7 +2542,7 @@ function isValidEmail_(email) {
 
       const persist = () => writeStore(PROGRESS_KEY, {
         v: SPEC.version, stage: state.stage, consent: state.consent, answers: state.answers,
-        current: state.current, wantsOptional: state.wantsOptional, key: state.key
+        current: state.current, wantsOptional: state.wantsOptional, key: state.key, email: state.email
       });
 
       /** Swaps what is on screen, with a short fade, and moves keyboard focus to the new heading. */
@@ -2509,6 +2588,7 @@ function isValidEmail_(email) {
         if (state.stage === 'main' || state.stage === 'optional') return questionView(state.current);
         if (state.stage === 'gate') return gateView();
         if (state.stage === 'email') return emailView();
+        if (state.stage === 'save') return saveView();
         return introView();
       }
 
@@ -2561,7 +2641,7 @@ function isValidEmail_(email) {
         start.addEventListener('click', () => {
           if (!consent.checked) return;
           state.consent = true;
-          go('main', firstUnansweredId(SPEC, state.answers, 'main') || sectionQuestions(SPEC, state.answers, 'main')[0]);
+          go('email', null);
         });
         sync();
         return h('section', { class: 'quiz-intro', 'aria-labelledby': 'intro-title' },
@@ -2572,7 +2652,7 @@ function isValidEmail_(email) {
             h('li', null, 'Every question has “Not sure” and “Prefer not to answer”.'),
             h('li', null, 'You can go back and change an answer before you finish.'),
             h('li', null, 'At the end you can add an optional part about memories and dreams.'),
-            h('li', null, 'You then enter an email address and receive a PIN, so you can come back to your results.')),
+            h('li', null, 'You start by entering an email address, and at the end you receive a PIN, so you can come back to your results.')),
           h('section', { class: 'notice-card', 'aria-labelledby': 'notice-title' },
             h('h3', { id: 'notice-title' }, 'Before you start: how your answers are used'),
             PRIVACY_NOTICE.map((item) => h('p', null, h('strong', null, item[0] + ' '), item[1]))),
@@ -2592,15 +2672,43 @@ function isValidEmail_(email) {
         const name = 'q-' + id;
         const error = h('p', { class: 'field-error', id: 'error-' + id, role: 'alert' });
 
+        const multi = q.multi === true;
+        const boxes = []; // the checkboxes of a "choose all that apply" question, in the order the spec lists them
+        const isAlone = (value) => q.options.some((o) => o.value === value && o.alone === true);
+
+        // An answer that cannot go with others (such as "Not sure") clears the others, and ticking any other answer clears it.
+        const onTick = (changed) => {
+          if (changed.checked) {
+            const clash = boxes.filter((b) => b !== changed && b.checked && (isAlone(changed.value) || isAlone(b.value)));
+            clash.forEach((b) => { b.checked = false; });
+            if (clash.length > 0) {
+              announce(isAlone(changed.value)
+                ? '“' + answerLabel(id, changed.value) + '” cannot go with other answers, so your other choices were cleared.'
+                : '“' + answerLabel(id, clash[0].value) + '” cannot go with other answers, so it was cleared.');
+            }
+          }
+          const picked = boxes.filter((b) => b.checked).map((b) => b.value);
+          if (picked.length === 0) delete state.answers[id];
+          else state.answers[id] = picked;
+          error.textContent = '';
+          persist();
+        };
+
         const makeOption = (o) => {
-          const input = h('input', { type: 'radio', name: name, value: o.value, id: name + '-' + o.value });
-          input.checked = state.answers[id] === o.value;
-          input.addEventListener('change', () => {
-            state.answers[id] = o.value;
-            error.textContent = '';
-            persist();
-          });
-          return h('label', { class: 'opt', for: input.id }, input, h('span', { class: 'opt-mark', 'aria-hidden': 'true' }), h('span', { class: 'opt-text' }, answerLabel(id, o.value)));
+          const input = h('input', { type: multi ? 'checkbox' : 'radio', name: name, value: o.value, id: name + '-' + o.value });
+          if (multi) {
+            input.checked = Array.isArray(state.answers[id]) && state.answers[id].indexOf(o.value) !== -1;
+            boxes.push(input);
+            input.addEventListener('change', () => onTick(input));
+          } else {
+            input.checked = state.answers[id] === o.value;
+            input.addEventListener('change', () => {
+              state.answers[id] = o.value;
+              error.textContent = '';
+              persist();
+            });
+          }
+          return h('label', { class: multi ? 'opt opt-check' : 'opt', for: input.id }, input, h('span', { class: 'opt-mark', 'aria-hidden': 'true' }), h('span', { class: 'opt-text' }, answerLabel(id, o.value)));
         };
         const mainOptions = q.options.filter((o) => OTHER_ANSWERS[o.value] === undefined).map(makeOption);
         const otherOptions = q.options.filter((o) => OTHER_ANSWERS[o.value] !== undefined).map(makeOption);
@@ -2608,8 +2716,9 @@ function isValidEmail_(email) {
         const back = h('button', { type: 'button', class: 'btn btn-ghost' }, 'Back');
         const next = h('button', { type: 'submit', class: 'btn btn-primary' }, 'Next', icon('arrow'));
         const form = h('form', { class: 'q-form', novalidate: true },
-          h('fieldset', { 'aria-describedby': (t.help ? 'help-' + id + ' ' : '') + 'error-' + id },
+          h('fieldset', { 'aria-describedby': (multi ? 'multi-' + id + ' ' : '') + (t.help ? 'help-' + id + ' ' : '') + 'error-' + id },
             h('legend', { class: 'q-text', tabindex: '-1', 'data-focus': '' }, t.text),
+            multi ? h('p', { class: 'q-help q-multi', id: 'multi-' + id }, MULTI_HINT) : null,
             t.help ? h('p', { class: 'q-help', id: 'help-' + id }, t.help) : null,
             h('div', { class: 'opts' }, mainOptions),
             h('div', { class: 'opts opts-other' }, otherOptions)),
@@ -2618,7 +2727,7 @@ function isValidEmail_(email) {
 
         // Enter on a choice means "next" (some browsers do this on their own, some do not).
         form.addEventListener('keydown', (event) => {
-          if (event.key === 'Enter' && event.target.type === 'radio') {
+          if (event.key === 'Enter' && (event.target.type === 'radio' || event.target.type === 'checkbox')) {
             event.preventDefault();
             form.requestSubmit();
           }
@@ -2626,18 +2735,18 @@ function isValidEmail_(email) {
         form.addEventListener('submit', (event) => {
           event.preventDefault();
           if (state.answers[id] === undefined) {
-            error.textContent = 'Please choose an answer to continue. “Not sure” is always an option.';
-            form.querySelector('input[type=radio]').focus();
+            error.textContent = (multi ? 'Please choose at least one answer to continue.' : 'Please choose an answer to continue.') + ' “Not sure” is always an option.';
+            form.querySelector('input').focus();
             return;
           }
           const nextId = nextQuestionId(SPEC, state.answers, id);
           if (nextId) go(q.section, nextId);
-          else go(optional ? 'email' : 'gate', null);
+          else go(optional ? 'save' : 'gate', null);
         });
         back.addEventListener('click', () => {
           const previousId = previousQuestionId(SPEC, state.answers, id);
           if (previousId) go(q.section, previousId);
-          else go(optional ? 'gate' : 'intro', null);
+          else go(optional ? 'gate' : 'email', null);
         });
 
         const label = (optional ? 'Optional question ' : 'Question ') + progress.position + ' of ' + progress.total;
@@ -2660,7 +2769,7 @@ function isValidEmail_(email) {
         });
         no.addEventListener('click', () => {
           state.wantsOptional = false;
-          go('email', null);
+          go('save', null);
         });
         back.addEventListener('click', () => go('main', lastIn('main')));
         return h('section', { class: 'quiz-card', 'aria-labelledby': 'gate-title' },
@@ -2671,23 +2780,26 @@ function isValidEmail_(email) {
           h('div', { class: 'q-nav q-nav-stack' }, back, no, yes));
       }
 
-      // ---- the last step: email, then save ----
+      // ---- the second screen: the email address, checked before any question ----
+      // checkedEmail remembers an address the server has already said can be used, so going back and
+      // forward does not ask again.
+      let checkedEmail = '';
+      // Set when the visitor comes here from the last step to change the address, so that Continue takes them back there.
+      let afterEmail = null;
       function emailView() {
-        const answers = answersToSend(SPEC, state.answers, state.wantsOptional === true);
-        const count = answers === null ? 0 : Object.keys(answers).length;
         const input = h('input', { type: 'email', id: 'email', class: 'text-input', autocomplete: 'email', inputmode: 'email', spellcheck: 'false', autocapitalize: 'off', maxlength: '254', 'aria-describedby': 'email-help email-error' });
         input.value = state.email;
         const fieldError = h('p', { class: 'field-error', id: 'email-error', role: 'alert' });
         const status = h('p', { class: 'q-help save-status', role: 'status' });
         const problem = h('div', { class: 'notice notice-problem', role: 'alert', hidden: true });
-        const saveButton = h('button', { type: 'submit', class: 'btn btn-primary' }, 'Save my answers', icon('arrow'));
+        const nextButton = h('button', { type: 'submit', class: 'btn btn-primary' }, 'Continue', icon('arrow'));
         const back = h('button', { type: 'button', class: 'btn btn-ghost' }, 'Back');
-        let sending = false;
+        let checking = false;
 
         const setBusy = (busy, message) => {
-          sending = busy;
+          checking = busy;
           input.disabled = busy;
-          saveButton.disabled = busy;
+          nextButton.disabled = busy;
           back.disabled = busy;
           status.textContent = busy ? message : '';
         };
@@ -2695,14 +2807,24 @@ function isValidEmail_(email) {
           problem.replaceChildren(h('span', null, message), ...extras);
           problem.hidden = false;
         };
+        const proceed = (email) => {
+          state.email = email;
+          if (afterEmail) {
+            const target = afterEmail;
+            afterEmail = null;
+            go(target, null);
+          } else {
+            go('main', firstUnansweredId(SPEC, state.answers, 'main') || sectionQuestions(SPEC, state.answers, 'main')[0]);
+          }
+        };
 
         input.addEventListener('input', () => {
-          state.email = input.value;
           fieldError.textContent = '';
+          problem.hidden = true;
         });
         back.addEventListener('click', () => {
-          if (state.wantsOptional === true) go('optional', lastIn('optional'));
-          else go('gate', null);
+          afterEmail = null;
+          go('intro', null);
         });
 
         const form = h('form', { class: 'q-form', novalidate: true },
@@ -2713,11 +2835,11 @@ function isValidEmail_(email) {
             fieldError),
           status,
           problem,
-          h('div', { class: 'q-nav' }, back, saveButton));
+          h('div', { class: 'q-nav' }, back, nextButton));
 
         form.addEventListener('submit', async (event) => {
           event.preventDefault();
-          if (sending) return;
+          if (checking) return;
           problem.hidden = true;
           const email = normalizeEmail_(input.value);
           if (!isValidEmail_(email)) {
@@ -2725,6 +2847,91 @@ function isValidEmail_(email) {
             input.focus();
             return;
           }
+          if (email === checkedEmail) {
+            proceed(email);
+            return;
+          }
+          setBusy(true, 'Checking your email address…');
+          let reply = null;
+          try {
+            reply = await callApi({ action: 'checkEmail', email: email });
+          } catch (err) {
+            reply = null; // handled below like any other check that could not run
+          }
+          setBusy(false);
+          const message = reply && typeof reply.message === 'string' ? reply.message : '';
+          if (reply && reply.ok === true) {
+            checkedEmail = email;
+            proceed(email);
+          } else if (reply && reply.code === 'EMAIL_ALREADY_SUBMITTED') {
+            showProblem(message + ' ', h('a', { href: '#/retrieve' }, 'Go to the Retrieve page'), '. Or enter a different email address above.');
+            input.focus();
+          } else if (reply && reply.code === 'INVALID_EMAIL') {
+            fieldError.textContent = message || 'Please enter a valid email address.';
+            input.focus();
+          } else {
+            // The check could not run (no connection, server busy, too many checks). The save at the end checks again, so carrying on is safe.
+            const carryOn = h('button', { type: 'button', class: 'btn btn-secondary' }, 'Continue without the check');
+            carryOn.addEventListener('click', () => proceed(email));
+            showProblem('We could not check this email address right now. You can try again, or carry on: it is checked again when you save. ', carryOn);
+          }
+        });
+
+        return h('section', { class: 'quiz-card', 'aria-labelledby': 'email-title' },
+          h('p', { class: 'eyebrow' }, 'Before the questions'),
+          h('h2', { id: 'email-title', class: 'q-text', tabindex: '-1', 'data-focus': '' }, 'Enter your email address'),
+          h('p', null, 'We check now whether this address has already finished the questionnaire, so you do not answer everything first. Nothing from the questionnaire is saved on the server yet.'),
+          form);
+      }
+
+      // ---- the last step: save ----
+      function saveView() {
+        const answers = answersToSend(SPEC, state.answers, state.wantsOptional === true);
+        const count = answers === null ? 0 : Object.keys(answers).length;
+        const status = h('p', { class: 'q-help save-status', role: 'status' });
+        const problem = h('div', { class: 'notice notice-problem', role: 'alert', hidden: true });
+        const saveButton = h('button', { type: 'submit', class: 'btn btn-primary' }, 'Save my answers', icon('arrow'));
+        const back = h('button', { type: 'button', class: 'btn btn-ghost' }, 'Back');
+        const change = h('button', { type: 'button', class: 'linklike' }, 'Use a different email address');
+        let sending = false;
+
+        const setBusy = (busy, message) => {
+          sending = busy;
+          saveButton.disabled = busy;
+          back.disabled = busy;
+          change.disabled = busy;
+          status.textContent = busy ? message : '';
+        };
+        const showProblem = (message, ...extras) => {
+          problem.replaceChildren(h('span', null, message), ...extras);
+          problem.hidden = false;
+        };
+        const changeEmail = () => {
+          afterEmail = 'save';
+          go('email', null);
+        };
+        const changeEmailButton = (label) => {
+          const button = h('button', { type: 'button', class: 'btn btn-secondary' }, label);
+          button.addEventListener('click', changeEmail);
+          return button;
+        };
+
+        back.addEventListener('click', () => {
+          if (state.wantsOptional === true) go('optional', lastIn('optional'));
+          else go('gate', null);
+        });
+        change.addEventListener('click', changeEmail);
+
+        const form = h('form', { class: 'q-form', novalidate: true },
+          h('p', { class: 'save-email' }, 'Your email address: ', h('strong', null, state.email), ' ', change),
+          status,
+          problem,
+          h('div', { class: 'q-nav' }, back, saveButton));
+
+        form.addEventListener('submit', async (event) => {
+          event.preventDefault();
+          if (sending) return;
+          problem.hidden = true;
           const toSend = answersToSend(SPEC, state.answers, state.wantsOptional === true);
           if (toSend === null) {
             showProblem('Some answers are missing. Please go back and check your answers.');
@@ -2738,7 +2945,7 @@ function isValidEmail_(email) {
           let reply;
           try {
             reply = await sendSubmission(
-              { action: 'submit', schemaVersion: SPEC.version, idempotencyKey: state.key, email: email, answers: toSend },
+              { action: 'submit', schemaVersion: SPEC.version, idempotencyKey: state.key, email: state.email, answers: toSend },
               () => { status.textContent = 'The server is busy. Trying again.'; });
           } catch (err) {
             setBusy(false);
@@ -2747,7 +2954,7 @@ function isValidEmail_(email) {
           }
           if (reply && reply.ok === true && typeof reply.pin === 'string') {
             writeStore(SAVED_KEY, {
-              v: SPEC.version, email: email, pin: reply.pin, responseId: reply.responseId, createdAt: reply.createdAt,
+              v: SPEC.version, email: state.email, pin: reply.pin, responseId: reply.responseId, createdAt: reply.createdAt,
               optionalCompleted: reply.optionalCompleted === true, results: reply.results, answers: toSend
             });
             clearStore(PROGRESS_KEY);
@@ -2758,10 +2965,9 @@ function isValidEmail_(email) {
           const code = reply && reply.code;
           const message = reply && typeof reply.message === 'string' ? reply.message : 'Something went wrong. Please try again in a moment.';
           if (code === 'INVALID_EMAIL') {
-            fieldError.textContent = message;
-            input.focus();
+            showProblem(message + ' ', changeEmailButton('Change the email address'));
           } else if (code === 'EMAIL_ALREADY_SUBMITTED') {
-            showProblem(message + ' ', h('a', { href: '#/retrieve' }, 'Go to the Retrieve page'));
+            showProblem(message + ' ', h('a', { href: '#/retrieve' }, 'Go to the Retrieve page'), '. Or ', changeEmailButton('use a different email address'));
           } else if (code === 'SCHEMA_MISMATCH') {
             const reload = h('button', { type: 'button', class: 'btn btn-secondary' }, 'Refresh the page');
             reload.addEventListener('click', () => window.location.reload());
@@ -2771,9 +2977,9 @@ function isValidEmail_(email) {
           }
         });
 
-        return h('section', { class: 'quiz-card', 'aria-labelledby': 'email-title' },
+        return h('section', { class: 'quiz-card', 'aria-labelledby': 'save-title' },
           h('p', { class: 'eyebrow' }, 'Last step'),
-          h('h2', { id: 'email-title', class: 'q-text', tabindex: '-1', 'data-focus': '' }, 'Save your answers and get your PIN'),
+          h('h2', { id: 'save-title', class: 'q-text', tabindex: '-1', 'data-focus': '' }, 'Save your answers and get your PIN'),
           h('p', null, 'You answered ' + count + ' questions. When you save, you get a PIN. You need your email address and that PIN to see your results again.'),
           form);
       }
