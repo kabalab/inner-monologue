@@ -2513,7 +2513,7 @@ function isValidEmail_(email) {
       perDay: 'Finished per day',
       splits: 'Two simple splits',
       byQuestion: 'Answers by question',
-      byQuestionNote: 'Real counts straight from the sheet. Nothing is hidden or rounded here, unlike the public comparison. On the tick-box questions people can choose several answers, so those counts can add up to more than the number of people.',
+      byQuestionNote: 'Real counts and percentages straight from the sheet. Nothing is hidden or rounded here, unlike the public comparison. On the tick-box questions people can choose several answers, so those counts can add up to more than the number of people.',
       nobody: 'No one has finished the questionnaire yet. Figures will appear here after the first person finishes.',
       figuresFailed: 'We could not load the figures. Check your connection and press Refresh.',
       listFailed: 'We could not load the list. Check your connection and press Refresh.',
@@ -2569,14 +2569,24 @@ function isValidEmail_(email) {
       return Object.keys(counts).sort().reverse().map((key) => ({ key: key, count: counts[key] }));
     }
 
+    /** A count with its share of a total, for the admin tables. Zero totals show the count alone. */
+    function formatCount(count, total) {
+      const n = Number(count) || 0;
+      const t = Number(total) || 0;
+      if (t <= 0) return String(n);
+      return n + ' (' + Math.round((100 * n) / t) + '%)';
+    }
+
     /** The two simple splits as table rows. */
     function splitRows(stats) {
       const rows = [];
       Object.keys(ADMIN_SPLITS).forEach((id) => {
         const entry = (stats.flags || []).filter((f) => f.id === id)[0];
         if (!entry) return;
-        ADMIN_SPLITS[id].groups.forEach((g) => {
-          rows.push({ split: ADMIN_SPLITS[id].title, group: g[1], count: g[0] === 'other' ? entry.other : entry.groups[g[0]] });
+        const counts = ADMIN_SPLITS[id].groups.map((g) => (g[0] === 'other' ? entry.other : entry.groups[g[0]]));
+        const total = counts.reduce((sum, n) => sum + (Number(n) || 0), 0);
+        ADMIN_SPLITS[id].groups.forEach((g, i) => {
+          rows.push({ split: ADMIN_SPLITS[id].title, group: g[1], count: counts[i], shown: formatCount(counts[i], total) });
         });
       });
       return rows;
@@ -2597,7 +2607,10 @@ function isValidEmail_(email) {
           id: q.id,
           question: QUESTION_TEXT[q.id].text,
           asked: d.asked,
-          rows: q.options.map((o) => ({ answer: answerLabel(q.id, o.value), count: d.counts[o.value] || 0 }))
+          rows: q.options.map((o) => {
+            const count = d.counts[o.value] || 0;
+            return { answer: answerLabel(q.id, o.value), count: count, shown: formatCount(count, d.asked) };
+          })
         });
       });
       return areas;
@@ -2865,12 +2878,13 @@ function isValidEmail_(email) {
     const SAVED_KEY = 'iyh:saved';
     const KEY_FORMAT = /^[A-Za-z0-9][A-Za-z0-9_-]{15,63}$/;
 
-    // The wording below is the approved notice. Later decisions changed it in four places so it stays
+    // The wording below is the approved notice. Later decisions changed it in five places so it stays
     // true: the unfinished answers kept in this tab, Google's version history, the email address
-    // being asked first and checked with the server before the questions start, and how students
-    // (whose email addresses cannot write to the administrator) can ask for deletion.
+    // being asked first and checked with the server before the questions start, how students
+    // (whose email addresses cannot write to the administrator) can ask for deletion, and the
+    // wording about what the tab keeps (normally cleared when closed; PIN and results after saving).
     const PRIVACY_NOTICE = [
-      ['What you will do.', 'Answer about 30 multiple-choice questions on how you experience thinking, and optionally some extra questions about memories and dreams. You start by entering your email address. It is sent to the server at that point only to check whether that address has already finished the questionnaire, and the check does not save it. Your answers are not sent to the server or saved there until you finish. If you leave before then, nothing is saved on the server. While you answer, your unfinished answers and your email address are kept in this browser tab only, and they are cleared when you close it.'],
+      ['What you will do.', 'Answer about 30 multiple-choice questions on how you experience thinking, and optionally some extra questions about memories and dreams. You start by entering your email address. It is sent to the server at that point only to check whether that address has already finished the questionnaire, and the check does not save it. Your answers are not sent to the server or saved there until you finish. If you leave before then, nothing is saved on the server. While you answer, your unfinished answers and your email address are kept in this browser tab only, and they are normally cleared when you close it. After you finish, your PIN and results are also kept in this tab, so a refresh cannot hide your PIN, until you close the tab or remove them there.'],
       ['What is saved.', 'Your answers, your email address, a PIN we create for you, and the date and time you finish.'],
       ['Why your email.', 'So you can come back to your results later with your email and PIN, and so one email address can finish the questionnaire only once. We do not send you email.'],
       ['This is not anonymous.', 'Because your email address is saved with your answers, your answers are linked to you. We never publish your email address or your individual answers.'],
@@ -3863,7 +3877,7 @@ function isValidEmail_(email) {
               return h('tr', null, h('td', null, new Date(y, m - 1, d).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })), h('td', { class: 'num' }, String(day.count)));
             }))),
           h('h3', { class: 'results-sub' }, ADMIN_TEXT.splits),
-          adminTable(['Split', 'Group', 'People'], splitRows(stats).map((row) => h('tr', null, h('td', null, row.split), h('td', null, row.group), h('td', { class: 'num' }, String(row.count))))),
+          adminTable(['Split', 'Group', 'People'], splitRows(stats).map((row) => h('tr', null, h('td', null, row.split), h('td', null, row.group), h('td', { class: 'num' }, row.shown)))),
           h('h3', { class: 'results-sub' }, ADMIN_TEXT.byQuestion),
           h('p', { class: 'q-help' }, ADMIN_TEXT.byQuestionNote),
           questionCounts(SPEC, stats).map((area) => h('details', { class: 'admin-area' },
@@ -3871,7 +3885,7 @@ function isValidEmail_(email) {
             area.items.map((item) => h('div', { class: 'admin-question' },
               h('h4', { class: 'admin-q' }, item.question),
               h('p', { class: 'q-help' }, 'Answered by ' + item.asked + (item.asked === 1 ? ' person.' : ' people.')),
-              adminTable(['Answer', 'People'], item.rows.map((row) => h('tr', null, h('td', null, row.answer), h('td', { class: 'num' }, String(row.count))))))))));
+              adminTable(['Answer', 'People'], item.rows.map((row) => h('tr', null, h('td', null, row.answer), h('td', { class: 'num' }, row.shown)))))))));
       }
 
       function submissionsView() {
@@ -4098,14 +4112,12 @@ function isValidEmail_(email) {
         state.notice = '';
         load(false);
       });
-      signOutButton.addEventListener('click', async () => {
+      signOutButton.addEventListener('click', () => {
         signOutButton.disabled = true;
-        try {
-          await adminRequest('adminLogout', token);
-        } catch (err) {
-          // signing out here is still right even if the server could not be told
-        }
+        // Clear the tab first so a slow or lost reply cannot leave the dashboard open.
+        const openToken = token;
         endAdminSession(ADMIN_TEXT.signedOutNotice);
+        adminRequest('adminLogout', openToken).catch(() => {});
       });
 
       render(false);
