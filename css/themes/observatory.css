@@ -1,0 +1,75 @@
+/* Observatory — midnight dome and chart gold */
+@import url("https://fonts.googleapis.com/css2?family=Exo+2:wght@500;600;700&family=Source+Sans+3:wght@400;600;700&display=swap");
+
+:root {
+  color-scheme: dark;
+  --bg-0: #0c1020;
+  --surface: #151b30;
+  --surface-2: #1d2540;
+  --line: rgba(212, 184, 100, 0.16);
+  --line-strong: rgba(212, 184, 100, 0.34);
+  --line-input: rgba(212, 184, 100, 0.48);
+  --text: #e8e6f0;
+  --text-2: #b8b6c8;
+  --text-3: #8886a0;
+  --violet: #d4b864;
+  --violet-soft: #e4cc84;
+  --cyan: #6a8cbc;
+  --cyan-soft: #8aa6d0;
+  --focus: #e4cc84;
+  --ok: #6fbf8a;
+  --warn: #d4b864;
+  --bad: #e07878;
+  --radius: 4px;
+  --radius-sm: 3px;
+  --shadow: 0 16px 36px -24px rgba(0, 0, 0, 0.85);
+  --glow: none;
+  --font: "Source Sans 3", "Segoe UI", sans-serif;
+  --font-display: "Exo 2", "Segoe UI", sans-serif;
+  --header-bg: rgba(12, 16, 32, 0.94);
+  --header-bg-solid: #0c1020;
+  --footer-bg: rgba(6, 8, 18, 0.75);
+  --skip-fg: #0c1020;
+  --btn-radius: 4px;
+  --nav-radius: 4px;
+  --control-radius: 4px;
+  --btn-primary-fg: #0c1020;
+  --btn-primary-bg: #d4b864;
+  --btn-primary-shadow: none;
+  --btn-primary-hover-shadow: 0 0 0 1px #e4cc84;
+  --card-face: #151b30;
+  --mind-card-face: #1d2540;
+  --surface-face: #151b30;
+  --icon-face: rgba(212, 184, 100, 0.12);
+  --notice-face: rgba(106, 140, 188, 0.12);
+  --takeaway-face: rgba(212, 184, 100, 0.1);
+  --pin-face: rgba(212, 184, 100, 0.12);
+  --opt-checked-face: rgba(212, 184, 100, 0.14);
+  --progress-face: rgba(232, 230, 240, 0.1);
+  --meter-face: rgba(232, 230, 240, 0.07);
+  --grad-from: #e4cc84;
+  --grad-to: #8aa6d0;
+  --accent-bar: #d4b864;
+  --fill-bar: #d4b864;
+  --bg-art:
+    radial-gradient(1px 1px at 12% 18%, rgba(232, 230, 240, 0.55), transparent),
+    radial-gradient(1px 1px at 48% 32%, rgba(232, 230, 240, 0.35), transparent),
+    radial-gradient(1px 1px at 78% 14%, rgba(232, 230, 240, 0.45), transparent),
+    radial-gradient(1px 1px at 64% 68%, rgba(232, 230, 240, 0.3), transparent),
+    radial-gradient(700px 480px at 100% 0%, rgba(106, 140, 188, 0.12), transparent 55%),
+    #0c1020;
+  --orb-display: none;
+  --brand-mark-bg: #070a14;
+  --heading-track: -0.03em;
+  --eyebrow-track: 0.18em;
+}
+
+.grad { background: none; -webkit-background-clip: unset; background-clip: unset; color: #e4cc84; }
+.card { border: 1px solid rgba(212, 184, 100, 0.22); }
+.card-link:hover { transform: none; border-color: rgba(212, 184, 100, 0.55); }
+.btn { letter-spacing: 0.04em; text-transform: uppercase; font-size: 0.9rem; }
+.btn-primary:hover { transform: none; }
+.admin-tab.is-active { color: #0c1020; background: #d4b864; border-color: #d4b864; }
+.tag-yours { color: #0c1020; background: #8aa6d0; }
+.site-nav a[aria-current] { box-shadow: inset 0 -2px 0 #d4b864; background: transparent; }
+.theme-pick, .admin-tab, .progress, .meter-track, .meter-fill { border-radius: 3px; }

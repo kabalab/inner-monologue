@@ -1,0 +1,68 @@
+/* Desert Mesa — adobe plaster and sunbaked clay */
+@import url("https://fonts.googleapis.com/css2?family=Commissioner:wght@400;600;700&family=Alike&display=swap");
+
+:root {
+  color-scheme: light;
+  --bg-0: #e8d5c0;
+  --surface: #f4e6d6;
+  --surface-2: #eddcc8;
+  --line: rgba(92, 58, 36, 0.16);
+  --line-strong: rgba(92, 58, 36, 0.32);
+  --line-input: rgba(92, 58, 36, 0.45);
+  --text: #3a2416;
+  --text-2: #614833;
+  --text-3: #8a6b52;
+  --violet: #9a4e2e;
+  --violet-soft: #b56440;
+  --cyan: #4f6f5a;
+  --cyan-soft: #688a72;
+  --focus: #9a4e2e;
+  --ok: #4f6f5a;
+  --warn: #b8873a;
+  --bad: #b33b2e;
+  --radius: 8px;
+  --radius-sm: 5px;
+  --shadow: 0 10px 26px -18px rgba(58, 36, 22, 0.4);
+  --glow: none;
+  --font: "Commissioner", "Segoe UI", sans-serif;
+  --font-display: "Alike", Georgia, serif;
+  --header-bg: rgba(244, 230, 214, 0.92);
+  --header-bg-solid: #f4e6d6;
+  --footer-bg: rgba(214, 188, 160, 0.55);
+  --skip-fg: #ffffff;
+  --btn-radius: 6px;
+  --nav-radius: 6px;
+  --control-radius: 6px;
+  --btn-primary-fg: #f4e6d6;
+  --btn-primary-bg: #9a4e2e;
+  --btn-primary-shadow: none;
+  --btn-primary-hover-shadow: 0 8px 18px -12px rgba(154, 78, 46, 0.5);
+  --card-face: #f4e6d6;
+  --mind-card-face: #faf0e4;
+  --surface-face: #f4e6d6;
+  --icon-face: rgba(154, 78, 46, 0.12);
+  --notice-face: rgba(79, 111, 90, 0.1);
+  --takeaway-face: rgba(154, 78, 46, 0.08);
+  --pin-face: rgba(154, 78, 46, 0.1);
+  --opt-checked-face: rgba(154, 78, 46, 0.12);
+  --progress-face: rgba(58, 36, 22, 0.1);
+  --meter-face: rgba(58, 36, 22, 0.07);
+  --grad-from: #b56440;
+  --grad-to: #688a72;
+  --accent-bar: #9a4e2e;
+  --fill-bar: #9a4e2e;
+  --bg-art:
+    radial-gradient(900px 500px at 10% -10%, rgba(181, 100, 64, 0.14), transparent 55%),
+    linear-gradient(180deg, #eddcc8, #e8d5c0);
+  --orb-display: none;
+  --brand-mark-bg: #3a2416;
+  --heading-track: -0.015em;
+  --eyebrow-track: 0.14em;
+}
+
+.grad { background: none; -webkit-background-clip: unset; background-clip: unset; color: #9a4e2e; }
+.card { border-top: 3px solid #9a4e2e; }
+.card-link:hover { transform: translateY(-3px); }
+.admin-tab.is-active { color: #f4e6d6; background: #9a4e2e; border-color: #9a4e2e; }
+.tag-yours { color: #f4e6d6; background: #4f6f5a; }
+.site-nav a[aria-current] { background: rgba(154, 78, 46, 0.12); }

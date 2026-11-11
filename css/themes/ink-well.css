@@ -1,0 +1,75 @@
+/* Ink Well — stark black and white print shop */
+@import url("https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;600;700&family=Oswald:wght@500;600;700&display=swap");
+
+:root {
+  color-scheme: light;
+  --bg-0: #f2f2f0;
+  --surface: #ffffff;
+  --surface-2: #ecece8;
+  --line: rgba(10, 10, 10, 0.14);
+  --line-strong: rgba(10, 10, 10, 0.3);
+  --line-input: rgba(10, 10, 10, 0.45);
+  --text: #0a0a0a;
+  --text-2: #333333;
+  --text-3: #666666;
+  --violet: #0a0a0a;
+  --violet-soft: #222222;
+  --cyan: #c41230;
+  --cyan-soft: #e02440;
+  --focus: #c41230;
+  --ok: #1f7a45;
+  --warn: #a87416;
+  --bad: #c41230;
+  --radius: 0;
+  --radius-sm: 0;
+  --shadow: none;
+  --glow: none;
+  --font: "Inter Tight", "Segoe UI", sans-serif;
+  --font-display: "Oswald", "Arial Narrow", sans-serif;
+  --header-bg: rgba(255, 255, 255, 0.94);
+  --header-bg-solid: #ffffff;
+  --footer-bg: rgba(226, 226, 222, 0.8);
+  --skip-fg: #ffffff;
+  --btn-radius: 0;
+  --nav-radius: 0;
+  --control-radius: 0;
+  --btn-primary-fg: #ffffff;
+  --btn-primary-bg: #0a0a0a;
+  --btn-primary-shadow: none;
+  --btn-primary-hover-shadow: none;
+  --card-face: #ffffff;
+  --mind-card-face: #ffffff;
+  --surface-face: #ffffff;
+  --icon-face: rgba(10, 10, 10, 0.06);
+  --notice-face: rgba(196, 18, 48, 0.08);
+  --takeaway-face: rgba(10, 10, 10, 0.04);
+  --pin-face: rgba(10, 10, 10, 0.05);
+  --opt-checked-face: rgba(10, 10, 10, 0.06);
+  --progress-face: rgba(10, 10, 10, 0.1);
+  --meter-face: rgba(10, 10, 10, 0.08);
+  --grad-from: #0a0a0a;
+  --grad-to: #c41230;
+  --accent-bar: #c41230;
+  --fill-bar: #0a0a0a;
+  --bg-art: #f2f2f0;
+  --orb-display: none;
+  --brand-mark-bg: #0a0a0a;
+  --heading-track: -0.02em;
+  --eyebrow-track: 0.2em;
+}
+
+.site-header { border-bottom: 2px solid #0a0a0a; backdrop-filter: none; -webkit-backdrop-filter: none; }
+.card, .quiz-card, .points li, .takeaways, .pin-panel, .notice-card {
+  border: 2px solid #0a0a0a;
+  box-shadow: 4px 4px 0 #0a0a0a;
+}
+.card-link:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 #0a0a0a; }
+.btn { text-transform: uppercase; letter-spacing: 0.08em; font-family: var(--font-display); }
+.btn-primary:hover { transform: none; background: #c41230; }
+.btn-secondary { border-width: 2px; border-color: #0a0a0a; }
+.grad { background: none; -webkit-background-clip: unset; background-clip: unset; color: #c41230; }
+.admin-tab, .theme-pick, .progress, .meter-track, .meter-fill, .tag-yours { border-radius: 0; }
+.admin-tab.is-active { color: #ffffff; background: #0a0a0a; border-color: #0a0a0a; }
+.tag-yours { color: #ffffff; background: #c41230; }
+.site-nav a { text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.84rem; font-family: var(--font-display); }
+.site-nav a[aria-current] { box-shadow: inset 0 -3px 0 #c41230; background: transparent; }

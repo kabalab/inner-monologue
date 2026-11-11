@@ -1,0 +1,69 @@
+/* Glacier — alpine ice, pale blue and slate */
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,600;9..40,700&family=Instrument+Serif:ital@0;1&display=swap");
+
+:root {
+  color-scheme: light;
+  --bg-0: #e7eef4;
+  --surface: #f7fafc;
+  --surface-2: #eef4f8;
+  --line: rgba(45, 74, 96, 0.14);
+  --line-strong: rgba(45, 74, 96, 0.28);
+  --line-input: rgba(45, 74, 96, 0.4);
+  --text: #1d3344;
+  --text-2: #456074;
+  --text-3: #6f8798;
+  --violet: #3d6f8c;
+  --violet-soft: #4f86a5;
+  --cyan: #7a5c3e;
+  --cyan-soft: #94735a;
+  --focus: #3d6f8c;
+  --ok: #3f8f6b;
+  --warn: #b8873a;
+  --bad: #c25555;
+  --radius: 8px;
+  --radius-sm: 6px;
+  --shadow: 0 10px 28px -20px rgba(29, 51, 68, 0.35);
+  --glow: none;
+  --font: "DM Sans", "Segoe UI", sans-serif;
+  --font-display: "Instrument Serif", Georgia, serif;
+  --header-bg: rgba(231, 238, 244, 0.92);
+  --header-bg-solid: #e7eef4;
+  --footer-bg: rgba(206, 220, 230, 0.6);
+  --skip-fg: #ffffff;
+  --btn-radius: 8px;
+  --nav-radius: 8px;
+  --control-radius: 8px;
+  --btn-primary-fg: #ffffff;
+  --btn-primary-bg: #3d6f8c;
+  --btn-primary-shadow: none;
+  --btn-primary-hover-shadow: 0 8px 20px -12px rgba(61, 111, 140, 0.55);
+  --card-face: #f7fafc;
+  --mind-card-face: #ffffff;
+  --surface-face: #f7fafc;
+  --icon-face: rgba(61, 111, 140, 0.1);
+  --notice-face: rgba(122, 92, 62, 0.08);
+  --takeaway-face: rgba(61, 111, 140, 0.08);
+  --pin-face: rgba(61, 111, 140, 0.1);
+  --opt-checked-face: rgba(61, 111, 140, 0.12);
+  --progress-face: rgba(29, 51, 68, 0.08);
+  --meter-face: rgba(29, 51, 68, 0.06);
+  --grad-from: #4f86a5;
+  --grad-to: #94735a;
+  --accent-bar: #3d6f8c;
+  --fill-bar: #3d6f8c;
+  --bg-art:
+    linear-gradient(160deg, #f2f7fb 0%, #dde8f0 48%, #d2e0ea 100%);
+  --orb-a: radial-gradient(circle, rgba(61, 111, 140, 0.12), transparent 62%);
+  --orb-b: radial-gradient(circle, rgba(122, 92, 62, 0.08), transparent 62%);
+  --orb-c: radial-gradient(circle, rgba(61, 111, 140, 0.08), transparent 62%);
+  --orb-display: block;
+  --brand-mark-bg: #1d3344;
+  --heading-track: -0.02em;
+  --eyebrow-track: 0.14em;
+}
+
+.grad { background: none; -webkit-background-clip: unset; background-clip: unset; color: #3d6f8c; font-style: italic; }
+.card-link:hover { transform: translateY(-3px); }
+.admin-tab.is-active { color: #ffffff; background: #3d6f8c; border-color: #3d6f8c; }
+.tag-yours { color: #ffffff; background: #7a5c3e; }
+.site-nav a[aria-current] { background: rgba(61, 111, 140, 0.1); }

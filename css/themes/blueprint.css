@@ -1,0 +1,72 @@
+/* Blueprint — cyanotype drawing board */
+@import url("https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Sans:wght@400;600;700&display=swap");
+
+:root {
+  color-scheme: dark;
+  --bg-0: #0a3a74;
+  --surface: #0d4588;
+  --surface-2: #12529c;
+  --line: rgba(180, 220, 255, 0.22);
+  --line-strong: rgba(180, 220, 255, 0.4);
+  --line-input: rgba(180, 220, 255, 0.55);
+  --text: #e8f3ff;
+  --text-2: #b9d4ef;
+  --text-3: #84acd0;
+  --violet: #9fd0ff;
+  --violet-soft: #c2e1ff;
+  --cyan: #ffd27a;
+  --cyan-soft: #ffe1a3;
+  --focus: #ffd27a;
+  --ok: #7ddea0;
+  --warn: #ffd27a;
+  --bad: #ff8f9a;
+  --radius: 0;
+  --radius-sm: 0;
+  --shadow: none;
+  --glow: none;
+  --font: "IBM Plex Sans", "Segoe UI", sans-serif;
+  --font-display: "Archivo", "Segoe UI", sans-serif;
+  --header-bg: rgba(10, 58, 116, 0.94);
+  --header-bg-solid: #0a3a74;
+  --footer-bg: rgba(6, 40, 82, 0.7);
+  --skip-fg: #0a3a74;
+  --btn-radius: 0;
+  --nav-radius: 0;
+  --control-radius: 0;
+  --btn-primary-fg: #0a3a74;
+  --btn-primary-bg: #e8f3ff;
+  --btn-primary-shadow: none;
+  --btn-primary-hover-shadow: none;
+  --card-face: #0d4588;
+  --mind-card-face: #12529c;
+  --surface-face: #0d4588;
+  --icon-face: rgba(159, 208, 255, 0.14);
+  --notice-face: rgba(255, 210, 122, 0.12);
+  --takeaway-face: rgba(159, 208, 255, 0.1);
+  --pin-face: rgba(159, 208, 255, 0.12);
+  --opt-checked-face: rgba(159, 208, 255, 0.14);
+  --progress-face: rgba(232, 243, 255, 0.14);
+  --meter-face: rgba(232, 243, 255, 0.1);
+  --grad-from: #c2e1ff;
+  --grad-to: #ffd27a;
+  --accent-bar: #9fd0ff;
+  --fill-bar: #9fd0ff;
+  --bg-art:
+    linear-gradient(rgba(159, 208, 255, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(159, 208, 255, 0.08) 1px, transparent 1px),
+    #0a3a74;
+  --orb-display: none;
+  --brand-mark-bg: #062852;
+  --heading-track: -0.03em;
+  --eyebrow-track: 0.18em;
+}
+
+.bg { background-size: 28px 28px, 28px 28px, auto; }
+.site-header, .theme-pick, .admin-tab, .progress, .meter-track, .meter-fill, .tag-yours { border-radius: 0; }
+.card, .quiz-card, .points li { border: 1px solid rgba(180, 220, 255, 0.35); box-shadow: none; }
+.card-link:hover { transform: none; outline: 1px solid #c2e1ff; }
+.btn { text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.9rem; }
+.btn-primary:hover { transform: none; background: #c2e1ff; }
+.grad { background: none; -webkit-background-clip: unset; background-clip: unset; color: #c2e1ff; }
+.admin-tab.is-active { color: #0a3a74; background: #e8f3ff; border-color: #e8f3ff; }
+.tag-yours { color: #0a3a74; background: #ffd27a; }

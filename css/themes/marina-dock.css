@@ -1,0 +1,72 @@
+/* Marina Dock — navy hull paint and weathered rope teal */
+@import url("https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Libre+Baskerville:wght@700&display=swap");
+
+:root {
+  color-scheme: dark;
+  --bg-0: #122033;
+  --surface: #1a2c44;
+  --surface-2: #223754;
+  --line: rgba(140, 190, 200, 0.18);
+  --line-strong: rgba(140, 190, 200, 0.34);
+  --line-input: rgba(140, 190, 200, 0.48);
+  --text: #e8f0f4;
+  --text-2: #b7c8d4;
+  --text-3: #8499aa;
+  --violet: #5fa8b5;
+  --violet-soft: #7fc0cb;
+  --cyan: #d4a15c;
+  --cyan-soft: #e2b878;
+  --focus: #e2b878;
+  --ok: #6fbf8a;
+  --warn: #d4a15c;
+  --bad: #e07878;
+  --radius: 6px;
+  --radius-sm: 4px;
+  --shadow: 0 14px 32px -22px rgba(0, 0, 0, 0.7);
+  --glow: none;
+  --font: "Sora", "Segoe UI", sans-serif;
+  --font-display: "Libre Baskerville", Georgia, serif;
+  --header-bg: rgba(18, 32, 51, 0.94);
+  --header-bg-solid: #122033;
+  --footer-bg: rgba(10, 18, 30, 0.75);
+  --skip-fg: #122033;
+  --btn-radius: 6px;
+  --nav-radius: 6px;
+  --control-radius: 6px;
+  --btn-primary-fg: #122033;
+  --btn-primary-bg: #7fc0cb;
+  --btn-primary-shadow: none;
+  --btn-primary-hover-shadow: 0 10px 22px -14px rgba(127, 192, 203, 0.4);
+  --card-face: #1a2c44;
+  --mind-card-face: #223754;
+  --surface-face: #1a2c44;
+  --icon-face: rgba(95, 168, 181, 0.14);
+  --notice-face: rgba(212, 161, 92, 0.12);
+  --takeaway-face: rgba(95, 168, 181, 0.1);
+  --pin-face: rgba(95, 168, 181, 0.12);
+  --opt-checked-face: rgba(95, 168, 181, 0.14);
+  --progress-face: rgba(232, 240, 244, 0.1);
+  --meter-face: rgba(232, 240, 244, 0.07);
+  --grad-from: #7fc0cb;
+  --grad-to: #e2b878;
+  --accent-bar: #5fa8b5;
+  --fill-bar: #5fa8b5;
+  --bg-art:
+    linear-gradient(180deg, rgba(95, 168, 181, 0.08), transparent 35%),
+    repeating-linear-gradient(90deg, transparent, transparent 80px, rgba(95, 168, 181, 0.05) 81px),
+    #122033;
+  --orb-a: radial-gradient(circle, rgba(95, 168, 181, 0.14), transparent 62%);
+  --orb-b: radial-gradient(circle, rgba(212, 161, 92, 0.1), transparent 62%);
+  --orb-c: radial-gradient(circle, rgba(95, 168, 181, 0.08), transparent 62%);
+  --orb-display: block;
+  --brand-mark-bg: #0b1522;
+  --heading-track: -0.015em;
+  --eyebrow-track: 0.14em;
+}
+
+.grad { background: none; -webkit-background-clip: unset; background-clip: unset; color: #7fc0cb; }
+.card { border-bottom: 3px solid #5fa8b5; }
+.card-link:hover { transform: translateY(-3px); }
+.admin-tab.is-active { color: #122033; background: #7fc0cb; border-color: #7fc0cb; }
+.tag-yours { color: #122033; background: #d4a15c; }
+.site-nav a[aria-current] { background: rgba(95, 168, 181, 0.14); }

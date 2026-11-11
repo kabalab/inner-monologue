@@ -1,0 +1,74 @@
+/* Vinyl Lounge — mid-century booth, rust and teal */
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&display=swap");
+
+:root {
+  color-scheme: dark;
+  --bg-0: #1b1714;
+  --surface: #27211c;
+  --surface-2: #332b24;
+  --line: rgba(224, 122, 70, 0.2);
+  --line-strong: rgba(224, 122, 70, 0.38);
+  --line-input: rgba(224, 122, 70, 0.5);
+  --text: #f4ebe2;
+  --text-2: #d2c2b4;
+  --text-3: #a39080;
+  --violet: #e07a46;
+  --violet-soft: #ef9364;
+  --cyan: #3f8f8a;
+  --cyan-soft: #5aaba5;
+  --focus: #ef9364;
+  --ok: #6fbf8a;
+  --warn: #e0b06a;
+  --bad: #e07070;
+  --radius: 14px;
+  --radius-sm: 10px;
+  --shadow: 0 16px 36px -22px rgba(0, 0, 0, 0.75);
+  --glow: none;
+  --font: "Outfit", "Segoe UI", sans-serif;
+  --font-display: "Bricolage Grotesque", "Segoe UI", sans-serif;
+  --header-bg: rgba(27, 23, 20, 0.94);
+  --header-bg-solid: #1b1714;
+  --footer-bg: rgba(14, 12, 10, 0.75);
+  --skip-fg: #1b1714;
+  --btn-radius: 999px;
+  --nav-radius: 999px;
+  --control-radius: 12px;
+  --btn-primary-fg: #1b1714;
+  --btn-primary-bg: #e07a46;
+  --btn-primary-shadow: none;
+  --btn-primary-hover-shadow: 0 10px 24px -14px rgba(224, 122, 70, 0.45);
+  --card-face: #27211c;
+  --mind-card-face: #332b24;
+  --surface-face: #27211c;
+  --icon-face: rgba(63, 143, 138, 0.16);
+  --notice-face: rgba(63, 143, 138, 0.12);
+  --takeaway-face: rgba(224, 122, 70, 0.1);
+  --pin-face: rgba(224, 122, 70, 0.12);
+  --opt-checked-face: rgba(224, 122, 70, 0.14);
+  --progress-face: rgba(244, 235, 226, 0.1);
+  --meter-face: rgba(244, 235, 226, 0.07);
+  --grad-from: #ef9364;
+  --grad-to: #5aaba5;
+  --accent-bar: linear-gradient(90deg, #e07a46, #3f8f8a);
+  --fill-bar: linear-gradient(90deg, #e07a46, #3f8f8a);
+  --bg-art:
+    radial-gradient(600px 420px at 100% 0%, rgba(63, 143, 138, 0.14), transparent 55%),
+    radial-gradient(500px 360px at 0% 100%, rgba(224, 122, 70, 0.12), transparent 55%),
+    #1b1714;
+  --orb-a: radial-gradient(circle, rgba(224, 122, 70, 0.14), transparent 62%);
+  --orb-b: radial-gradient(circle, rgba(63, 143, 138, 0.12), transparent 62%);
+  --orb-c: radial-gradient(circle, rgba(224, 122, 70, 0.08), transparent 62%);
+  --orb-display: block;
+  --brand-mark-bg: #100e0c;
+  --heading-track: -0.03em;
+  --eyebrow-track: 0.16em;
+}
+
+.grad { background: none; -webkit-background-clip: unset; background-clip: unset; color: #ef9364; }
+.card-link:hover { transform: translateY(-4px) rotate(-0.4deg); }
+.admin-tab { border-radius: 999px; }
+.admin-tab.is-active { color: #1b1714; background: #e07a46; border-color: #e07a46; }
+.tag-yours { color: #1b1714; background: #5aaba5; border-radius: 999px; }
+.theme-pick { border-radius: 999px; }
+.btn-secondary { border-radius: 999px; }
+.site-nav a[aria-current] { background: rgba(224, 122, 70, 0.14); }

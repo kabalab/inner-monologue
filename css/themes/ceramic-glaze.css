@@ -1,0 +1,71 @@
+/* Ceramic Glaze — pottery studio, cool clay and cobalt */
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Young+Serif&display=swap");
+
+:root {
+  color-scheme: light;
+  --bg-0: #e4e2dc;
+  --surface: #f4f2ec;
+  --surface-2: #ebe8e1;
+  --line: rgba(50, 58, 72, 0.14);
+  --line-strong: rgba(50, 58, 72, 0.28);
+  --line-input: rgba(50, 58, 72, 0.4);
+  --text: #242a34;
+  --text-2: #4a5362;
+  --text-3: #747c8a;
+  --violet: #2f4f8a;
+  --violet-soft: #3d63a8;
+  --cyan: #b85c3a;
+  --cyan-soft: #cc7554;
+  --focus: #2f4f8a;
+  --ok: #3f8a5c;
+  --warn: #b8873a;
+  --bad: #c24b4b;
+  --radius: 20px;
+  --radius-sm: 14px;
+  --shadow: 0 8px 22px -16px rgba(36, 42, 52, 0.35);
+  --glow: none;
+  --font: "Manrope", "Segoe UI", sans-serif;
+  --font-display: "Young Serif", Georgia, serif;
+  --header-bg: rgba(244, 242, 236, 0.92);
+  --header-bg-solid: #f4f2ec;
+  --footer-bg: rgba(214, 211, 202, 0.65);
+  --skip-fg: #ffffff;
+  --btn-radius: 999px;
+  --nav-radius: 999px;
+  --control-radius: 14px;
+  --btn-primary-fg: #ffffff;
+  --btn-primary-bg: #2f4f8a;
+  --btn-primary-shadow: none;
+  --btn-primary-hover-shadow: 0 10px 22px -14px rgba(47, 79, 138, 0.45);
+  --card-face: #f4f2ec;
+  --mind-card-face: #faf8f3;
+  --surface-face: #f4f2ec;
+  --icon-face: rgba(47, 79, 138, 0.1);
+  --notice-face: rgba(184, 92, 58, 0.08);
+  --takeaway-face: rgba(47, 79, 138, 0.08);
+  --pin-face: rgba(47, 79, 138, 0.1);
+  --opt-checked-face: rgba(47, 79, 138, 0.12);
+  --progress-face: rgba(36, 42, 52, 0.08);
+  --meter-face: rgba(36, 42, 52, 0.06);
+  --grad-from: #3d63a8;
+  --grad-to: #cc7554;
+  --accent-bar: #2f4f8a;
+  --fill-bar: #2f4f8a;
+  --bg-art:
+    radial-gradient(800px 500px at 0% 0%, rgba(47, 79, 138, 0.08), transparent 55%),
+    linear-gradient(180deg, #ebe8e1, #e4e2dc);
+  --orb-display: none;
+  --brand-mark-bg: #242a34;
+  --heading-track: -0.02em;
+  --eyebrow-track: 0.12em;
+}
+
+.card { border-radius: 28px 18px 24px 20px; }
+.card-icon { border-radius: 50%; }
+.grad { background: none; -webkit-background-clip: unset; background-clip: unset; color: #2f4f8a; }
+.card-link:hover { transform: translateY(-3px); }
+.admin-tab { border-radius: 999px; }
+.admin-tab.is-active { color: #ffffff; background: #2f4f8a; border-color: #2f4f8a; }
+.tag-yours { color: #ffffff; background: #b85c3a; border-radius: 999px; }
+.theme-pick { border-radius: 999px; }
+.site-nav a[aria-current] { background: rgba(47, 79, 138, 0.1); }

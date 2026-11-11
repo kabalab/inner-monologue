@@ -1,0 +1,73 @@
+/* Chalkboard — school slate and chalk dust */
+@import url("https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Source+Sans+3:wght@400;600;700&display=swap");
+
+:root {
+  color-scheme: dark;
+  --bg-0: #243528;
+  --surface: #2c4032;
+  --surface-2: #35503c;
+  --line: rgba(236, 232, 214, 0.18);
+  --line-strong: rgba(236, 232, 214, 0.34);
+  --line-input: rgba(236, 232, 214, 0.48);
+  --text: #f2eee0;
+  --text-2: #d5d0bc;
+  --text-3: #a8a38f;
+  --violet: #f0ead2;
+  --violet-soft: #fff8e0;
+  --cyan: #f0c26b;
+  --cyan-soft: #f6d48f;
+  --focus: #f0c26b;
+  --ok: #9fd39a;
+  --warn: #f0c26b;
+  --bad: #ef9a8f;
+  --radius: 6px;
+  --radius-sm: 4px;
+  --shadow: inset 0 0 0 1px rgba(242, 238, 224, 0.08);
+  --glow: none;
+  --font: "Source Sans 3", "Segoe UI", sans-serif;
+  --font-display: "Patrick Hand", "Segoe Print", cursive;
+  --header-bg: rgba(36, 53, 40, 0.94);
+  --header-bg-solid: #243528;
+  --footer-bg: rgba(24, 36, 28, 0.75);
+  --skip-fg: #243528;
+  --btn-radius: 4px;
+  --nav-radius: 4px;
+  --control-radius: 4px;
+  --btn-primary-fg: #243528;
+  --btn-primary-bg: #f2eee0;
+  --btn-primary-shadow: none;
+  --btn-primary-hover-shadow: none;
+  --card-face: #2c4032;
+  --mind-card-face: #35503c;
+  --surface-face: #2c4032;
+  --icon-face: rgba(242, 238, 224, 0.1);
+  --notice-face: rgba(240, 194, 107, 0.12);
+  --takeaway-face: rgba(242, 238, 224, 0.08);
+  --pin-face: rgba(242, 238, 224, 0.1);
+  --opt-checked-face: rgba(242, 238, 224, 0.12);
+  --progress-face: rgba(242, 238, 224, 0.12);
+  --meter-face: rgba(242, 238, 224, 0.08);
+  --grad-from: #fff8e0;
+  --grad-to: #f6d48f;
+  --accent-bar: #f2eee0;
+  --fill-bar: #f0c26b;
+  --bg-art:
+    radial-gradient(circle at 18% 22%, rgba(242, 238, 224, 0.05) 0 1px, transparent 2px),
+    radial-gradient(circle at 72% 64%, rgba(242, 238, 224, 0.04) 0 1px, transparent 2px),
+    #243528;
+  --orb-display: none;
+  --brand-mark-bg: #1a271d;
+  --heading-track: 0;
+  --eyebrow-track: 0.12em;
+  --body-leading: 1.7;
+}
+
+.bg { background-size: 120px 120px, 160px 160px, auto; }
+h1, h2, h3, .brand, .q-text { font-weight: 400; }
+.card, .quiz-card { border-style: dashed; }
+.card-link:hover { transform: none; border-color: rgba(242, 238, 224, 0.55); }
+.btn-primary:hover { transform: none; background: #fff8e0; }
+.grad { background: none; -webkit-background-clip: unset; background-clip: unset; color: #fff8e0; }
+.admin-tab.is-active { color: #243528; background: #f2eee0; border-color: #f2eee0; }
+.tag-yours { color: #243528; background: #f0c26b; }
+.site-nav a[aria-current] { box-shadow: inset 0 -2px 0 #f2eee0; background: transparent; }

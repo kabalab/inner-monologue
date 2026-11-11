@@ -1,0 +1,101 @@
+/* Moss Study — deep botanical reading room */
+@import url("https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,600;7..72,700&family=Atkinson+Hyperlegible:wght@400;700&display=swap");
+
+:root {
+  color-scheme: dark;
+  --bg-0: #101814;
+  --surface: #18241c;
+  --surface-2: #203028;
+  --line: rgba(164, 196, 158, 0.14);
+  --line-strong: rgba(164, 196, 158, 0.3);
+  --line-input: rgba(164, 196, 158, 0.42);
+  --text: #e7f0e4;
+  --text-2: #c2d3bc;
+  --text-3: #93a88d;
+  --violet: #8fbf7a;
+  --violet-soft: #aed8a0;
+  --cyan: #d4a35c;
+  --cyan-soft: #e2ba7d;
+  --focus: #e2ba7d;
+  --ok: #7ec98a;
+  --warn: #d4a35c;
+  --bad: #e08a7a;
+  --radius: 22px;
+  --radius-sm: 14px;
+  --shadow: 0 16px 40px -24px rgba(0, 0, 0, 0.7);
+  --glow: none;
+  --font: "Atkinson Hyperlegible", "Segoe UI", sans-serif;
+  --font-display: "Literata", Georgia, serif;
+  --header-bg: rgba(16, 24, 20, 0.9);
+  --header-bg-solid: #101814;
+  --footer-bg: rgba(10, 16, 13, 0.72);
+  --skip-fg: #101814;
+  --btn-radius: 999px;
+  --nav-radius: 999px;
+  --control-radius: 14px;
+  --btn-primary-fg: #101814;
+  --btn-primary-bg: #aed8a0;
+  --btn-primary-shadow: none;
+  --btn-primary-hover-shadow: 0 12px 28px -16px rgba(174, 216, 160, 0.45);
+  --card-face: #18241c;
+  --mind-card-face: #1d2b22;
+  --surface-face: #18241c;
+  --icon-face: rgba(143, 191, 122, 0.14);
+  --notice-face: rgba(212, 163, 92, 0.1);
+  --takeaway-face: rgba(143, 191, 122, 0.1);
+  --pin-face: rgba(143, 191, 122, 0.12);
+  --opt-checked-face: rgba(143, 191, 122, 0.12);
+  --progress-face: rgba(231, 240, 228, 0.1);
+  --meter-face: rgba(231, 240, 228, 0.07);
+  --grad-from: #aed8a0;
+  --grad-to: #e2ba7d;
+  --accent-bar: linear-gradient(90deg, #8fbf7a, #d4a35c);
+  --fill-bar: linear-gradient(90deg, #8fbf7a, #d4a35c);
+  --bg-art:
+    radial-gradient(700px 480px at 12% -5%, rgba(143, 191, 122, 0.16), transparent 58%),
+    radial-gradient(620px 420px at 95% 8%, rgba(212, 163, 92, 0.1), transparent 55%),
+    radial-gradient(500px 360px at 70% 100%, rgba(90, 130, 100, 0.18), transparent 60%),
+    #101814;
+  --orb-a: radial-gradient(circle, rgba(143, 191, 122, 0.16), transparent 62%);
+  --orb-b: radial-gradient(circle, rgba(212, 163, 92, 0.1), transparent 62%);
+  --orb-c: radial-gradient(circle, rgba(120, 160, 130, 0.12), transparent 62%);
+  --orb-display: block;
+  --brand-mark-bg: #0c130f;
+  --heading-track: -0.018em;
+  --eyebrow-track: 0.14em;
+  --body-leading: 1.7;
+}
+
+.site-header {
+  border-bottom-color: rgba(164, 196, 158, 0.14);
+}
+.card {
+  border-radius: 22px 18px 24px 16px;
+}
+.quiz-card {
+  border-radius: 20px 26px 18px 22px;
+}
+.card-icon {
+  border-radius: 40% 60% 55% 45%;
+}
+.card-link:hover {
+  transform: translateY(-4px) rotate(-0.3deg);
+  box-shadow: var(--shadow);
+}
+.grad {
+  background: none;
+  -webkit-background-clip: unset;
+  background-clip: unset;
+  color: #aed8a0;
+}
+.site-nav a[aria-current] {
+  background: rgba(143, 191, 122, 0.14);
+}
+.mind::before {
+  background: radial-gradient(circle, rgba(143, 191, 122, 0.28), rgba(212, 163, 92, 0.08) 48%, transparent 68%);
+}
+.tag-yours { color: #101814; background: #d4a35c; border-radius: 999px; }
+.admin-tab { border-radius: 999px; }
+.admin-tab.is-active { color: #101814; background: #aed8a0; border-color: #aed8a0; }
+.btn-secondary { border-radius: 999px; }
+.theme-pick { border-radius: 999px; padding-left: 14px; }

@@ -1,0 +1,70 @@
+/* Matcha Desk — soft tea-green workspace */
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&family=Cormorant+Garamond:wght@600;700&display=swap");
+
+:root {
+  color-scheme: light;
+  --bg-0: #e7eee4;
+  --surface: #f5f8f2;
+  --surface-2: #ebf1e7;
+  --line: rgba(52, 74, 52, 0.14);
+  --line-strong: rgba(52, 74, 52, 0.28);
+  --line-input: rgba(52, 74, 52, 0.4);
+  --text: #243124;
+  --text-2: #4a5c4a;
+  --text-3: #718271;
+  --violet: #4f7a52;
+  --violet-soft: #659868;
+  --cyan: #8b5a3c;
+  --cyan-soft: #a47252;
+  --focus: #4f7a52;
+  --ok: #3f8a5c;
+  --warn: #b8873a;
+  --bad: #c24b4b;
+  --radius: 14px;
+  --radius-sm: 10px;
+  --shadow: 0 12px 28px -20px rgba(36, 49, 36, 0.28);
+  --glow: none;
+  --font: "Plus Jakarta Sans", "Segoe UI", sans-serif;
+  --font-display: "Cormorant Garamond", Georgia, serif;
+  --header-bg: rgba(245, 248, 242, 0.92);
+  --header-bg-solid: #f5f8f2;
+  --footer-bg: rgba(214, 226, 210, 0.6);
+  --skip-fg: #ffffff;
+  --btn-radius: 12px;
+  --nav-radius: 12px;
+  --control-radius: 12px;
+  --btn-primary-fg: #ffffff;
+  --btn-primary-bg: #4f7a52;
+  --btn-primary-shadow: none;
+  --btn-primary-hover-shadow: 0 10px 22px -14px rgba(79, 122, 82, 0.45);
+  --card-face: #f5f8f2;
+  --mind-card-face: #ffffff;
+  --surface-face: #f5f8f2;
+  --icon-face: rgba(79, 122, 82, 0.12);
+  --notice-face: rgba(139, 90, 60, 0.08);
+  --takeaway-face: rgba(79, 122, 82, 0.08);
+  --pin-face: rgba(79, 122, 82, 0.1);
+  --opt-checked-face: rgba(79, 122, 82, 0.12);
+  --progress-face: rgba(36, 49, 36, 0.08);
+  --meter-face: rgba(36, 49, 36, 0.06);
+  --grad-from: #659868;
+  --grad-to: #a47252;
+  --accent-bar: #4f7a52;
+  --fill-bar: #4f7a52;
+  --bg-art:
+    radial-gradient(800px 480px at 100% 0%, rgba(79, 122, 82, 0.1), transparent 55%),
+    linear-gradient(180deg, #f0f4ec, #e7eee4);
+  --orb-a: radial-gradient(circle, rgba(79, 122, 82, 0.1), transparent 62%);
+  --orb-b: radial-gradient(circle, rgba(139, 90, 60, 0.08), transparent 62%);
+  --orb-c: radial-gradient(circle, rgba(79, 122, 82, 0.07), transparent 62%);
+  --orb-display: block;
+  --brand-mark-bg: #243124;
+  --heading-track: -0.02em;
+  --eyebrow-track: 0.12em;
+}
+
+.grad { background: none; -webkit-background-clip: unset; background-clip: unset; color: #4f7a52; }
+.card-link:hover { transform: translateY(-3px); }
+.admin-tab.is-active { color: #ffffff; background: #4f7a52; border-color: #4f7a52; }
+.tag-yours { color: #ffffff; background: #8b5a3c; }
+.site-nav a[aria-current] { background: rgba(79, 122, 82, 0.12); }

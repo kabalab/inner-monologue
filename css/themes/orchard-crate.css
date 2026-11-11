@@ -1,0 +1,72 @@
+/* Orchard Crate — fruit-crate wood and stamp green */
+@import url("https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700&family=Roboto+Slab:wght@600;700&display=swap");
+
+:root {
+  color-scheme: light;
+  --bg-0: #d8c4a0;
+  --surface: #efe0c4;
+  --surface-2: #e6d4b4;
+  --line: rgba(74, 52, 28, 0.18);
+  --line-strong: rgba(74, 52, 28, 0.34);
+  --line-input: rgba(74, 52, 28, 0.48);
+  --text: #2c1f12;
+  --text-2: #53402a;
+  --text-3: #7a6348;
+  --violet: #3f6b3a;
+  --violet-soft: #50874a;
+  --cyan: #b33b2e;
+  --cyan-soft: #c95445;
+  --focus: #b33b2e;
+  --ok: #3f6b3a;
+  --warn: #a87820;
+  --bad: #b33b2e;
+  --radius: 4px;
+  --radius-sm: 3px;
+  --shadow: 0 2px 0 rgba(74, 52, 28, 0.12);
+  --glow: none;
+  --font: "Public Sans", "Segoe UI", sans-serif;
+  --font-display: "Roboto Slab", Georgia, serif;
+  --header-bg: rgba(239, 224, 196, 0.94);
+  --header-bg-solid: #efe0c4;
+  --footer-bg: rgba(196, 172, 132, 0.55);
+  --skip-fg: #ffffff;
+  --btn-radius: 3px;
+  --nav-radius: 3px;
+  --control-radius: 3px;
+  --btn-primary-fg: #efe0c4;
+  --btn-primary-bg: #3f6b3a;
+  --btn-primary-shadow: none;
+  --btn-primary-hover-shadow: none;
+  --card-face: #efe0c4;
+  --mind-card-face: #f6ebd4;
+  --surface-face: #efe0c4;
+  --icon-face: rgba(63, 107, 58, 0.12);
+  --notice-face: rgba(179, 59, 46, 0.1);
+  --takeaway-face: rgba(63, 107, 58, 0.1);
+  --pin-face: rgba(63, 107, 58, 0.12);
+  --opt-checked-face: rgba(63, 107, 58, 0.14);
+  --progress-face: rgba(44, 31, 18, 0.12);
+  --meter-face: rgba(44, 31, 18, 0.08);
+  --grad-from: #50874a;
+  --grad-to: #c95445;
+  --accent-bar: #3f6b3a;
+  --fill-bar: #3f6b3a;
+  --bg-art:
+    repeating-linear-gradient(90deg, rgba(74, 52, 28, 0.07) 0 2px, transparent 2px 18px),
+    linear-gradient(180deg, #e0cba8, #d8c4a0);
+  --orb-display: none;
+  --brand-mark-bg: #2c1f12;
+  --heading-track: -0.015em;
+  --eyebrow-track: 0.16em;
+}
+
+.site-header { border-bottom: 3px double rgba(74, 52, 28, 0.35); backdrop-filter: none; -webkit-backdrop-filter: none; }
+.card, .quiz-card { border: 2px solid rgba(74, 52, 28, 0.3); box-shadow: inset 0 0 0 3px rgba(239, 224, 196, 0.8), 0 2px 0 rgba(74, 52, 28, 0.15); }
+.card-link:hover { transform: none; border-color: #3f6b3a; }
+.btn { text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.9rem; }
+.btn-primary:hover { transform: none; background: #50874a; }
+.grad { background: none; -webkit-background-clip: unset; background-clip: unset; color: #3f6b3a; }
+.admin-tab.is-active { color: #efe0c4; background: #3f6b3a; border-color: #3f6b3a; }
+.tag-yours { color: #efe0c4; background: #b33b2e; }
+.theme-pick, .admin-tab, .progress, .meter-track, .meter-fill { border-radius: 3px; }
+.site-nav a[aria-current] { box-shadow: inset 0 -2px 0 #3f6b3a; background: transparent; }

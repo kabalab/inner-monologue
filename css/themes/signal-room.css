@@ -1,0 +1,107 @@
+/* Signal Room — cool steel console, phosphor green, hard edges */
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=IBM+Plex+Sans:wght@400;600;700&display=swap");
+
+:root {
+  color-scheme: dark;
+  --bg-0: #0b1218;
+  --surface: #121c24;
+  --surface-2: #18242e;
+  --line: rgba(120, 190, 170, 0.16);
+  --line-strong: rgba(120, 190, 170, 0.34);
+  --line-input: rgba(120, 190, 170, 0.48);
+  --text: #d7e6df;
+  --text-2: #a7bfb5;
+  --text-3: #7d958b;
+  --violet: #3fd6a2;
+  --violet-soft: #6fe3bb;
+  --cyan: #4ea0c8;
+  --cyan-soft: #79b9d6;
+  --focus: #f0d36a;
+  --ok: #3fd6a2;
+  --warn: #d6b24a;
+  --bad: #e07070;
+  --radius: 2px;
+  --radius-sm: 2px;
+  --shadow: 0 0 0 1px rgba(63, 214, 162, 0.08);
+  --glow: none;
+  --font: "IBM Plex Sans", "Segoe UI", sans-serif;
+  --font-display: "IBM Plex Mono", ui-monospace, monospace;
+  --header-bg: rgba(11, 18, 24, 0.94);
+  --header-bg-solid: #0b1218;
+  --footer-bg: rgba(8, 13, 18, 0.8);
+  --skip-fg: #0b1218;
+  --btn-radius: 2px;
+  --nav-radius: 2px;
+  --control-radius: 2px;
+  --btn-primary-fg: #0b1218;
+  --btn-primary-bg: #3fd6a2;
+  --btn-primary-shadow: none;
+  --btn-primary-hover-shadow: 0 0 0 1px #6fe3bb;
+  --card-face: #121c24;
+  --mind-card-face: #152029;
+  --surface-face: #121c24;
+  --icon-face: rgba(63, 214, 162, 0.1);
+  --notice-face: rgba(78, 160, 200, 0.1);
+  --takeaway-face: rgba(63, 214, 162, 0.08);
+  --pin-face: rgba(63, 214, 162, 0.1);
+  --opt-checked-face: rgba(63, 214, 162, 0.12);
+  --progress-face: rgba(215, 230, 223, 0.1);
+  --meter-face: rgba(215, 230, 223, 0.07);
+  --grad-from: #6fe3bb;
+  --grad-to: #79b9d6;
+  --accent-bar: #3fd6a2;
+  --fill-bar: #3fd6a2;
+  --bg-art:
+    linear-gradient(rgba(63, 214, 162, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(63, 214, 162, 0.035) 1px, transparent 1px),
+    radial-gradient(800px 500px at 100% 0%, rgba(78, 160, 200, 0.12), transparent 55%),
+    #0b1218;
+  --orb-display: none;
+  --brand-mark-bg: #071015;
+  --heading-track: -0.04em;
+  --eyebrow-track: 0.2em;
+  --body-leading: 1.62;
+}
+
+.bg { background-size: 36px 36px, 36px 36px, auto, auto; }
+.site-header {
+  border-bottom: 1px solid rgba(63, 214, 162, 0.28);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+.brand, h1, h2, h3, .q-text, .pin-value {
+  font-family: var(--font-display);
+}
+.site-nav a {
+  font-family: var(--font-display);
+  font-size: 0.86rem;
+  letter-spacing: 0.04em;
+}
+.site-nav a[aria-current] {
+  background: rgba(63, 214, 162, 0.1);
+  box-shadow: inset 0 0 0 1px rgba(63, 214, 162, 0.45);
+}
+.card, .quiz-card, .points li, .takeaways, .pin-panel, .notice-card {
+  box-shadow: inset 0 0 0 1px rgba(63, 214, 162, 0.08);
+}
+.card-link:hover {
+  transform: none;
+  border-color: rgba(63, 214, 162, 0.55);
+  box-shadow: 0 0 0 1px rgba(63, 214, 162, 0.35);
+}
+.btn { font-family: var(--font-display); letter-spacing: 0.03em; }
+.btn-primary:hover { transform: none; }
+.grad {
+  background: none;
+  -webkit-background-clip: unset;
+  background-clip: unset;
+  color: #6fe3bb;
+}
+.progress, .meter-track, .meter-fill, .tag-yours { border-radius: 2px; }
+.tag-yours { color: #0b1218; background: #3fd6a2; }
+.admin-tab { border-radius: 2px; font-family: var(--font-display); }
+.admin-tab.is-active { color: #0b1218; background: #3fd6a2; border-color: #3fd6a2; }
+.theme-pick { border-radius: 2px; font-family: var(--font-display); }
+.eyebrow, .quiz-title, .toc-title, .pager-dir {
+  font-family: var(--font-display);
+}
